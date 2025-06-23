@@ -1,0 +1,782 @@
+[
+  {
+    "Paises": "Afganistán",
+    "Código tel": "+93"
+  },
+  {
+    "Paises": "Albania",
+    "Código tel": "+355"
+  },
+  {
+    "Paises": "Alemania",
+    "Código tel": "+49"
+  },
+  {
+    "Paises": "Andorra",
+    "Código tel": "+376"
+  },
+  {
+    "Paises": "Angola",
+    "Código tel": "+244"
+  },
+  {
+    "Paises": "Antigua y Barbuda",
+    "Código tel": "+-267"
+  },
+  {
+    "Paises": "Arabia Saudita",
+    "Código tel": "+966"
+  },
+  {
+    "Paises": "Argelia",
+    "Código tel": "+213"
+  },
+  {
+    "Paises": "Argentina",
+    "Código tel": "+54"
+  },
+  {
+    "Paises": "Armenia",
+    "Código tel": "+374"
+  },
+  {
+    "Paises": "Australia",
+    "Código tel": "+61"
+  },
+  {
+    "Paises": "Austria",
+    "Código tel": "+43"
+  },
+  {
+    "Paises": "Azerbaiyán",
+    "Código tel": "+994"
+  },
+  {
+    "Paises": "Bahamas",
+    "Código tel": "+-241"
+  },
+  {
+    "Paises": "Bahréin",
+    "Código tel": "+973"
+  },
+  {
+    "Paises": "Bangladesh",
+    "Código tel": "+880"
+  },
+  {
+    "Paises": "Barbados",
+    "Código tel": "+-245"
+  },
+  {
+    "Paises": "Bélgica",
+    "Código tel": "+32"
+  },
+  {
+    "Paises": "Belice",
+    "Código tel": "+501"
+  },
+  {
+    "Paises": "Benín",
+    "Código tel": "+229"
+  },
+  {
+    "Paises": "Bhután",
+    "Código tel": "+975"
+  },
+  {
+    "Paises": "Bielorrusia",
+    "Código tel": "+375"
+  },
+  {
+    "Paises": "Bolivia",
+    "Código tel": "+591"
+  },
+  {
+    "Paises": "Bosnia y Herzegovina",
+    "Código tel": "+387"
+  },
+  {
+    "Paises": "Botsuana",
+    "Código tel": "+267"
+  },
+  {
+    "Paises": "Brasil",
+    "Código tel": "+55"
+  },
+  {
+    "Paises": "Brunéi",
+    "Código tel": "+673"
+  },
+  {
+    "Paises": "Bulgaria",
+    "Código tel": "+359"
+  },
+  {
+    "Paises": "Burkina Faso",
+    "Código tel": "+226"
+  },
+  {
+    "Paises": "Burundi",
+    "Código tel": "+257"
+  },
+  {
+    "Paises": "Cabo Verde",
+    "Código tel": "+238"
+  },
+  {
+    "Paises": "Camboya",
+    "Código tel": "+855"
+  },
+  {
+    "Paises": "Camerún",
+    "Código tel": "+237"
+  },
+  {
+    "Paises": "Canadá",
+    "Código tel": "+1"
+  },
+  {
+    "Paises": "Catar",
+    "Código tel": "+974"
+  },
+  {
+    "Paises": "Chad",
+    "Código tel": "+235"
+  },
+  {
+    "Paises": "Chile",
+    "Código tel": "+56"
+  },
+  {
+    "Paises": "China",
+    "Código tel": "+86"
+  },
+  {
+    "Paises": "Chipre",
+    "Código tel": "+357"
+  },
+  {
+    "Paises": "Ciudad del Vaticano",
+    "Código tel": "+379"
+  },
+  {
+    "Paises": "Colombia",
+    "Código tel": "+57"
+  },
+  {
+    "Paises": "Comoras",
+    "Código tel": "+269"
+  },
+  {
+    "Paises": "Corea del Norte",
+    "Código tel": "+850"
+  },
+  {
+    "Paises": "Corea del Sur",
+    "Código tel": "+82"
+  },
+  {
+    "Paises": "Costa de Marfil",
+    "Código tel": "+225"
+  },
+  {
+    "Paises": "Costa Rica",
+    "Código tel": "+506"
+  },
+  {
+    "Paises": "Croacia",
+    "Código tel": "+385"
+  },
+  {
+    "Paises": "Cuba",
+    "Código tel": "+53"
+  },
+  {
+    "Paises": "Dinamarca",
+    "Código tel": "+45"
+  },
+  {
+    "Paises": "Dominica",
+    "Código tel": "+-766"
+  },
+  {
+    "Paises": "Ecuador",
+    "Código tel": "+593"
+  },
+  {
+    "Paises": "Egipto",
+    "Código tel": "+20"
+  },
+  {
+    "Paises": "El Salvador",
+    "Código tel": "+503"
+  },
+  {
+    "Paises": "Emiratos Árabes Unidos",
+    "Código tel": "+971"
+  },
+  {
+    "Paises": "Eritrea",
+    "Código tel": "+291"
+  },
+  {
+    "Paises": "Eslovaquia",
+    "Código tel": "+421"
+  },
+  {
+    "Paises": "Eslovenia",
+    "Código tel": "+386"
+  },
+  {
+    "Paises": "España",
+    "Código tel": "+34"
+  },
+  {
+    "Paises": "Estados Unidos",
+    "Código tel": "+1"
+  },
+  {
+    "Paises": "Estonia",
+    "Código tel": "+372"
+  },
+  {
+    "Paises": "Esuatini",
+    "Código tel": "+268"
+  },
+  {
+    "Paises": "Etiopía",
+    "Código tel": "+251"
+  },
+  {
+    "Paises": "Filipinas",
+    "Código tel": "+63"
+  },
+  {
+    "Paises": "Finlandia",
+    "Código tel": "+358"
+  },
+  {
+    "Paises": "Fiyi",
+    "Código tel": "+679"
+  },
+  {
+    "Paises": "Francia",
+    "Código tel": "+33"
+  },
+  {
+    "Paises": "Gabón",
+    "Código tel": "+241"
+  },
+  {
+    "Paises": "Gambia",
+    "Código tel": "+220"
+  },
+  {
+    "Paises": "Georgia",
+    "Código tel": "+995"
+  },
+  {
+    "Paises": "Ghana",
+    "Código tel": "+233"
+  },
+  {
+    "Paises": "Granada",
+    "Código tel": "+-472"
+  },
+  {
+    "Paises": "Grecia",
+    "Código tel": "+30"
+  },
+  {
+    "Paises": "Guatemala",
+    "Código tel": "+502"
+  },
+  {
+    "Paises": "Guinea",
+    "Código tel": "+224"
+  },
+  {
+    "Paises": "Guinea Ecuatorial",
+    "Código tel": "+240"
+  },
+  {
+    "Paises": "Guinea-Bisáu",
+    "Código tel": "+245"
+  },
+  {
+    "Paises": "Guyana",
+    "Código tel": "+592"
+  },
+  {
+    "Paises": "Haití",
+    "Código tel": "+509"
+  },
+  {
+    "Paises": "Honduras",
+    "Código tel": "+504"
+  },
+  {
+    "Paises": "Hungría",
+    "Código tel": "+36"
+  },
+  {
+    "Paises": "India",
+    "Código tel": "+91"
+  },
+  {
+    "Paises": "Indonesia",
+    "Código tel": "+62"
+  },
+  {
+    "Paises": "Irak",
+    "Código tel": "+964"
+  },
+  {
+    "Paises": "Irán",
+    "Código tel": "+98"
+  },
+  {
+    "Paises": "Irlanda",
+    "Código tel": "+353"
+  },
+  {
+    "Paises": "Islandia",
+    "Código tel": "+354"
+  },
+  {
+    "Paises": "Islas Marshall",
+    "Código tel": "+692"
+  },
+  {
+    "Paises": "Islas Salomón",
+    "Código tel": "+677"
+  },
+  {
+    "Paises": "Israel",
+    "Código tel": "+972"
+  },
+  {
+    "Paises": "Italia",
+    "Código tel": "+39"
+  },
+  {
+    "Paises": "Jamaica",
+    "Código tel": "+-875"
+  },
+  {
+    "Paises": "Japón",
+    "Código tel": "+81"
+  },
+  {
+    "Paises": "Jordania",
+    "Código tel": "+962"
+  },
+  {
+    "Paises": "Kazajistán",
+    "Código tel": "+7"
+  },
+  {
+    "Paises": "Kenia",
+    "Código tel": "+254"
+  },
+  {
+    "Paises": "Kirguistán",
+    "Código tel": "+996"
+  },
+  {
+    "Paises": "Kiribati",
+    "Código tel": "+686"
+  },
+  {
+    "Paises": "Kuwait",
+    "Código tel": "+965"
+  },
+  {
+    "Paises": "Laos",
+    "Código tel": "+856"
+  },
+  {
+    "Paises": "Lesoto",
+    "Código tel": "+266"
+  },
+  {
+    "Paises": "Letonia",
+    "Código tel": "+371"
+  },
+  {
+    "Paises": "Líbano",
+    "Código tel": "+961"
+  },
+  {
+    "Paises": "Liberia",
+    "Código tel": "+231"
+  },
+  {
+    "Paises": "Libia",
+    "Código tel": "+218"
+  },
+  {
+    "Paises": "Liechtenstein",
+    "Código tel": "+423"
+  },
+  {
+    "Paises": "Lituania",
+    "Código tel": "+370"
+  },
+  {
+    "Paises": "Luxemburgo",
+    "Código tel": "+352"
+  },
+  {
+    "Paises": "Macedonia del Norte",
+    "Código tel": "+389"
+  },
+  {
+    "Paises": "Madagascar",
+    "Código tel": "+261"
+  },
+  {
+    "Paises": "Malasia",
+    "Código tel": "+60"
+  },
+  {
+    "Paises": "Malaui",
+    "Código tel": "+265"
+  },
+  {
+    "Paises": "Maldivas",
+    "Código tel": "+960"
+  },
+  {
+    "Paises": "Malí",
+    "Código tel": "+223"
+  },
+  {
+    "Paises": "Malta",
+    "Código tel": "+356"
+  },
+  {
+    "Paises": "Marruecos",
+    "Código tel": "+212"
+  },
+  {
+    "Paises": "Mauricio",
+    "Código tel": "+230"
+  },
+  {
+    "Paises": "Mauritania",
+    "Código tel": "+222"
+  },
+  {
+    "Paises": "México",
+    "Código tel": "+52"
+  },
+  {
+    "Paises": "Micronesia",
+    "Código tel": "+691"
+  },
+  {
+    "Paises": "Moldavia",
+    "Código tel": "+373"
+  },
+  {
+    "Paises": "Mónaco",
+    "Código tel": "+377"
+  },
+  {
+    "Paises": "Mongolia",
+    "Código tel": "+976"
+  },
+  {
+    "Paises": "Montenegro",
+    "Código tel": "+382"
+  },
+  {
+    "Paises": "Mozambique",
+    "Código tel": "+258"
+  },
+  {
+    "Paises": "Myanmar",
+    "Código tel": "+95"
+  },
+  {
+    "Paises": "Namibia",
+    "Código tel": "+264"
+  },
+  {
+    "Paises": "Nauru",
+    "Código tel": "+674"
+  },
+  {
+    "Paises": "Nepal",
+    "Código tel": "+977"
+  },
+  {
+    "Paises": "Nicaragua",
+    "Código tel": "+505"
+  },
+  {
+    "Paises": "Níger",
+    "Código tel": "+227"
+  },
+  {
+    "Paises": "Nigeria",
+    "Código tel": "+234"
+  },
+  {
+    "Paises": "Noruega",
+    "Código tel": "+47"
+  },
+  {
+    "Paises": "Nueva Zelanda",
+    "Código tel": "+64"
+  },
+  {
+    "Paises": "Omán",
+    "Código tel": "+968"
+  },
+  {
+    "Paises": "Países Bajos",
+    "Código tel": "+31"
+  },
+  {
+    "Paises": "Pakistán",
+    "Código tel": "+92"
+  },
+  {
+    "Paises": "Palaos",
+    "Código tel": "+680"
+  },
+  {
+    "Paises": "Panamá",
+    "Código tel": "+507"
+  },
+  {
+    "Paises": "Papúa Nueva Guinea",
+    "Código tel": "+675"
+  },
+  {
+    "Paises": "Paraguay",
+    "Código tel": "+595"
+  },
+  {
+    "Paises": "Perú",
+    "Código tel": "+51"
+  },
+  {
+    "Paises": "Polonia",
+    "Código tel": "+48"
+  },
+  {
+    "Paises": "Portugal",
+    "Código tel": "+351"
+  },
+  {
+    "Paises": "Reino Unido",
+    "Código tel": "+44"
+  },
+  {
+    "Paises": "República Centroafricana",
+    "Código tel": "+236"
+  },
+  {
+    "Paises": "República Checa",
+    "Código tel": "+420"
+  },
+  {
+    "Paises": "República del Congo",
+    "Código tel": "+242"
+  },
+  {
+    "Paises": "República Democrática del Congo",
+    "Código tel": "+243"
+  },
+  {
+    "Paises": "República Dominicana",
+    "Código tel": "+-808"
+  },
+  {
+    "Paises": "Ruanda",
+    "Código tel": "+250"
+  },
+  {
+    "Paises": "Rumania",
+    "Código tel": "+40"
+  },
+  {
+    "Paises": "Rusia",
+    "Código tel": "+7"
+  },
+  {
+    "Paises": "Samoa",
+    "Código tel": "+685"
+  },
+  {
+    "Paises": "San Cristóbal y Nieves",
+    "Código tel": "+-868"
+  },
+  {
+    "Paises": "San Marino",
+    "Código tel": "+378"
+  },
+  {
+    "Paises": "San Vicente y las Granadinas",
+    "Código tel": "+-783"
+  },
+  {
+    "Paises": "Santa Lucía",
+    "Código tel": "+-757"
+  },
+  {
+    "Paises": "Santo Tomé y Príncipe",
+    "Código tel": "+239"
+  },
+  {
+    "Paises": "Senegal",
+    "Código tel": "+221"
+  },
+  {
+    "Paises": "Serbia",
+    "Código tel": "+381"
+  },
+  {
+    "Paises": "Seychelles",
+    "Código tel": "+248"
+  },
+  {
+    "Paises": "Sierra Leona",
+    "Código tel": "+232"
+  },
+  {
+    "Paises": "Singapur",
+    "Código tel": "+65"
+  },
+  {
+    "Paises": "Siria",
+    "Código tel": "+963"
+  },
+  {
+    "Paises": "Somalia",
+    "Código tel": "+252"
+  },
+  {
+    "Paises": "Sri Lanka",
+    "Código tel": "+94"
+  },
+  {
+    "Paises": "Sudáfrica",
+    "Código tel": "+27"
+  },
+  {
+    "Paises": "Sudán",
+    "Código tel": "+249"
+  },
+  {
+    "Paises": "Sudán del Sur",
+    "Código tel": "+211"
+  },
+  {
+    "Paises": "Suecia",
+    "Código tel": "+46"
+  },
+  {
+    "Paises": "Suiza",
+    "Código tel": "+41"
+  },
+  {
+    "Paises": "Surinam",
+    "Código tel": "+597"
+  },
+  {
+    "Paises": "Tailandia",
+    "Código tel": "+66"
+  },
+  {
+    "Paises": "Taiwán",
+    "Código tel": "+886"
+  },
+  {
+    "Paises": "Tanzania",
+    "Código tel": "+255"
+  },
+  {
+    "Paises": "Tayikistán",
+    "Código tel": "+992"
+  },
+  {
+    "Paises": "Timor Oriental",
+    "Código tel": "+670"
+  },
+  {
+    "Paises": "Togo",
+    "Código tel": "+228"
+  },
+  {
+    "Paises": "Tonga",
+    "Código tel": "+676"
+  },
+  {
+    "Paises": "Trinidad y Tobago",
+    "Código tel": "+-867"
+  },
+  {
+    "Paises": "Túnez",
+    "Código tel": "+216"
+  },
+  {
+    "Paises": "Turkmenistán",
+    "Código tel": "+993"
+  },
+  {
+    "Paises": "Turquía",
+    "Código tel": "+90"
+  },
+  {
+    "Paises": "Tuvalu",
+    "Código tel": "+688"
+  },
+  {
+    "Paises": "Ucrania",
+    "Código tel": "+380"
+  },
+  {
+    "Paises": "Uganda",
+    "Código tel": "+256"
+  },
+  {
+    "Paises": "Uruguay",
+    "Código tel": "+598"
+  },
+  {
+    "Paises": "Uzbekistán",
+    "Código tel": "+998"
+  },
+  {
+    "Paises": "Vanuatu",
+    "Código tel": "+678"
+  },
+  {
+    "Paises": "Venezuela",
+    "Código tel": "+58"
+  },
+  {
+    "Paises": "Vietnam",
+    "Código tel": "+84"
+  },
+  {
+    "Paises": "Yemen",
+    "Código tel": "+967"
+  },
+  {
+    "Paises": "Yibuti",
+    "Código tel": "+253"
+  },
+  {
+    "Paises": "Zambia",
+    "Código tel": "+260"
+  },
+  {
+    "Paises": "Zimbabue",
+    "Código tel": "+263"
+  }
+]
