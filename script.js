@@ -270,8 +270,44 @@ function configurarVisibilidadCondicional() {
 // Variable para el índice actual del carrusel
 let currentIndex = 0;
 
-// Esperar a que el DOM esté completamente cargado
+// Objeto para rastrear archivos subidos
+const documentosSubidos = {
+    identidad: null,
+    sucesion: null, // Cambiado para un solo archivo
+    apoderado: null,
+    firmados: {
+        solicitud: null,
+        mandato: null
+    },
+    
+    // Verificar si todos los documentos requeridos están completos
+    estaCompleto: function() {
+        // Verificar documento de identidad
+        if (!this.identidad) return false;
+        
+        // Verificar documentos de sucesión (si aplica)
+        const tieneSucesion = document.getElementById('tieneSucesion')?.checked;
+        if (tieneSucesion && this.sucesion.length === 0) return false;
+        
+        // Verificar documentos de apoderado (si aplica)
+        const tieneApoderado = document.getElementById('tieneApoderado')?.checked;
+        if (tieneApoderado && !this.apoderado) return false;
+        
+        // Verificar documentos firmados
+        if (!this.firmados.solicitud || !this.firmados.mandato) return false;
+        
+        return true;
+    }
+};
+
+// Inicialización de la aplicación cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', async function() {
+    // Inicializar el resumen de documentos cuando se muestre la sección
+    document.addEventListener('showSection', function(event) {
+        if (event.detail.sectionId === 'documentosSubidos') {
+            actualizarResumenDocumentos();
+        }
+    });
     // Variables globales para el formulario
     const fileNameElement = document.querySelector('.file-name');
     
@@ -491,46 +527,96 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (uploadButton && uploadButton.classList.contains('documento-upload-button')) {
                 uploadButton.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation(); // Detener la propagación para evitar el doble clic
                     newInput.click();
                 });
             }
         });
         
         // Configurar botones de eliminar
-        const deleteButtons = document.querySelectorAll('.btn-eliminar-doc');
-        console.log('Botones de eliminar encontrados:', deleteButtons.length);
-        
-        deleteButtons.forEach(btn => {
-            const targetId = btn.getAttribute('data-target');
-            console.log('Configurando botón eliminar para:', targetId);
+        function configurarBotonesEliminar() {
+            const deleteButtons = document.querySelectorAll('.btn-eliminar-doc');
+            console.log('Configurando botones de eliminar. Encontrados:', deleteButtons.length);
             
-            // Crear un nuevo botón para limpiar cualquier event listener existente
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-            
-            // Agregar el event listener al nuevo botón
-            newBtn.addEventListener('click', function() {
-                const targetInput = document.getElementById(targetId);
-                if (targetInput) {
-                    targetInput.value = '';
-                    const infoDiv = document.getElementById(`info${targetId.charAt(0).toUpperCase() + targetId.slice(1)}`);
-                    if (infoDiv) {
-                        infoDiv.querySelector('.documento-nombre').textContent = 'Ningún archivo seleccionado';
-                        this.style.display = 'none';
-                    }
+            deleteButtons.forEach(btn => {
+                // Si el botón ya tiene un manejador de eventos, saltar
+                if (btn.hasAttribute('data-initialized')) {
+                    return;
                 }
+                
+                const targetId = btn.getAttribute('data-target');
+                if (!targetId) {
+                    console.error('Botón de eliminar sin data-target:', btn);
+                    return;
+                }
+                
+                console.log('Configurando botón eliminar para:', targetId);
+                
+                // Marcar como inicializado
+                btn.setAttribute('data-initialized', 'true');
+                
+                // Agregar el event listener al botón
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    console.log('Eliminando archivo para input:', targetId);
+                    
+                    // Limpiar el input de archivo
+                    const targetInput = document.getElementById(targetId);
+                    if (targetInput) {
+                        targetInput.value = '';
+                        console.log('Input limpiado:', targetId);
+                    }
+                    
+                    // Encontrar el contenedor padre que tiene tanto el nombre como el botón
+                    const infoDiv = btn.closest('.documento-info');
+                    if (infoDiv) {
+                        const nombreElemento = infoDiv.querySelector('.documento-nombre');
+                        if (nombreElemento) {
+                            nombreElemento.textContent = 'Ningún archivo seleccionado';
+                            console.log('Texto actualizado a "Ningún archivo seleccionado"');
+                        }
+                        
+                        // Ocultar el botón de eliminar
+                        btn.style.display = 'none';
+                        console.log('Botón de eliminar ocultado');
+                    } else {
+                        console.error('No se encontró el contenedor de información para:', targetId);
+                    }
+                    
+                    // Actualizar el estado en el objeto de seguimiento
+                    if (targetId === 'solicitudFirmada') {
+                        documentosSubidos.firmados.solicitud = null;
+                    } else if (targetId === 'mandatoFirmado') {
+                        documentosSubidos.firmados.mandato = null;
+                    }
+                    
+                    // Actualizar el resumen de documentos
+                    actualizarResumenDocumentos();
+                    
+                    console.log('Estado actualizado en documentosSubidos:', documentosSubidos);
+                    
+                    // Actualizar la validación
+                    validarDocumentosFirmar();
+                });
             });
-        });
-    }
-    
-    // Función para manejar la subida de archivos
-    function manejarSubidaArchivo(input) {
-        console.log('Archivo seleccionado:', input.files);
-        if (input.files && input.files[0]) {
+        }
+        
+        // Configurar los botones de eliminar inicialmente
+        configurarBotonesEliminar();
+        
+        // Función para manejar la subida de archivos
+        function manejarSubidaArchivo(input) {
+            if (!input.files || !input.files[0]) return;
+            
             const file = input.files[0];
             const fileName = file.name;
-            const fileSize = (file.size / 1024 / 1024).toFixed(2); // Tamaño en MB
+            const fileSize = (file.size / (1024 * 1024)).toFixed(2); // Tamaño en MB
             const fileType = file.type;
+            const inputId = input.id;
+            
+            console.log('Procesando archivo:', fileName, 'en input:', inputId);
             console.log('Procesando archivo:', fileName, 'Tipo:', fileType, 'Tamaño:', fileSize, 'MB');
             
             // Validar tipo de archivo
@@ -547,9 +633,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                 return;
             }
             
+            // Limpiar cualquier mensaje de error
+            const errorElement = document.getElementById(`error${input.id}`);
+            if (errorElement) {
+                errorElement.textContent = '';
+            }
+            
             // Construir el ID del contenedor de información
-            // Para 'solicitudFirmada' -> 'infoSolicitud'
-            // Para 'mandatoFirmado' -> 'infoMandato'
             const infoDivId = 'info' + input.id.replace('Firmada', '').replace('Firmado', '');
             console.log('Buscando infoDiv con ID:', infoDivId);
             
@@ -572,38 +662,63 @@ document.addEventListener('DOMContentLoaded', async function() {
                     fileNameElement.textContent = `${fileName} (${fileSize} MB)`;
                     console.log('Texto actualizado en:', fileNameElement);
                 } else {
-                    console.error('No se encontró el elemento .documento-nombre en:', infoDiv);
+                    console.error('No se encontró el elemento .documento-nombre');
+                    return;
                 }
                 
                 // Mostrar el botón de eliminar
-                const deleteBtn = infoDiv.querySelector('.btn-eliminar-doc');
-                if (deleteBtn) {
-                    deleteBtn.style.display = 'inline-block';
+                const deleteButton = infoDiv.querySelector('.btn-eliminar-doc');
+                if (deleteButton) {
+                    deleteButton.style.display = 'inline-flex';
+                    deleteButton.style.visibility = 'visible';
                     console.log('Botón de eliminar mostrado');
-                    
-                    // Asegurarse de que el botón tenga el manejador de eventos
-                    deleteBtn.onclick = function() {
-                        input.value = '';
-                        fileNameElement.textContent = 'Ningún archivo seleccionado';
-                        this.style.display = 'none';
-                        
-                        // Limpiar mensajes de error
-                        const errorElement = document.getElementById(`error${input.id}`);
-                        if (errorElement) {
-                            errorElement.textContent = '';
-                        }
-                    };
-                } else {
-                    console.error('No se encontró el botón de eliminar en:', infoDiv);
                 }
+                
+                // Actualizar el objeto de seguimiento
+                const fileInfo = {
+                    nombre: file.name,
+                    tamano: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
+                    tipo: inputId === 'solicitudFirmada' ? 'Solicitud de Incorporación' : 'Mandato Especial',
+                    archivo: file,
+                    fechaSubida: new Date().toLocaleString()
+                };
+                
+                if (inputId === 'solicitudFirmada') {
+                    documentosSubidos.firmados.solicitud = fileInfo;
+                    console.log('Solicitud de incorporación subida:', fileInfo);
+                } else if (inputId === 'mandatoFirmado') {
+                    documentosSubidos.firmados.mandato = fileInfo;
+                    console.log('Mandato especial subido:', fileInfo);
+                }
+                
+                // Actualizar la interfaz de usuario (usando el infoDiv ya encontrado)
+                if (infoDiv) {
+                    const nombreElemento = infoDiv.querySelector('.documento-nombre');
+                    if (nombreElemento) {
+                        nombreElemento.textContent = `${file.name} (${fileInfo.tamano})`;
+                    }
+                    
+                    const deleteBtn = infoDiv.querySelector('.btn-eliminar-doc');
+                    if (deleteBtn) {
+                        deleteBtn.style.display = 'inline-flex';
+                    }
+                }
+                
+                // Actualizar el resumen de documentos
+                actualizarResumenDocumentos();
+                
+                // Actualizar la validación
+                validarDocumentosFirmar();
+                
+                console.log('Documento subido actualizado en documentosSubidos:', documentosSubidos);
+                
+                // Actualizar la validación
+                validarDocumentosFirmar();
+                
+                // Asegurarse de que el botón tenga el manejador de eventos
+                configurarBotonesEliminar();
             } else {
-                console.error('No se encontró el contenedor de información con ID:', infoDivId);
-            }
-            
-            // Limpiar mensaje de error si existe
-            const errorElement = document.getElementById(`error${input.id}`);
-            if (errorElement) {
-                errorElement.textContent = '';
+                console.error('No se encontró el contenedor de información para el archivo');
             }
         }
     }
@@ -852,7 +967,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         // Limpiar mensaje de error previo si existe el elemento
         if (errorElement) {
-            errorElement.textContent = '';
+        errorElement.textContent = '';
         }
         campo.classList.remove('is-invalid');
         
@@ -860,7 +975,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (esRequerido && !valor) {
             campo.classList.add('is-invalid');
             if (errorElement) {
-                errorElement.textContent = 'Este campo es obligatorio';
+            errorElement.textContent = 'Este campo es obligatorio';
             }
             return false;
         }
@@ -873,7 +988,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     if (!emailRegex.test(valor)) {
                         campo.classList.add('is-invalid');
                         if (errorElement) {
-                            errorElement.textContent = 'Ingrese un correo electrónico válido';
+                        errorElement.textContent = 'Ingrese un correo electrónico válido';
                         }
                         return false;
                     }
@@ -884,7 +999,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     if (!telefonoRegex.test(valor)) {
                         campo.classList.add('is-invalid');
                         if (errorElement) {
-                            errorElement.textContent = 'Ingrese un número de teléfono válido';
+                        errorElement.textContent = 'Ingrese un número de teléfono válido';
                         }
                         return false;
                     }
@@ -894,14 +1009,14 @@ document.addEventListener('DOMContentLoaded', async function() {
                     if (campo.min && parseFloat(valor) < parseFloat(campo.min)) {
                         campo.classList.add('is-invalid');
                         if (errorElement) {
-                            errorElement.textContent = `El valor mínimo permitido es ${campo.min}`;
+                        errorElement.textContent = `El valor mínimo permitido es ${campo.min}`;
                         }
                         return false;
                     }
                     if (campo.max && parseFloat(valor) > parseFloat(campo.max)) {
                         campo.classList.add('is-invalid');
                         if (errorElement) {
-                            errorElement.textContent = `El valor máximo permitido es ${campo.max}`;
+                        errorElement.textContent = `El valor máximo permitido es ${campo.max}`;
                         }
                         return false;
                     }
@@ -915,7 +1030,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         if (!extensionesPermitidas.test(archivo.name)) {
                             campo.classList.add('is-invalid');
                             if (errorElement) {
-                                errorElement.textContent = 'Solo se permiten archivos PDF o imágenes (JPG, JPEG, PNG)';
+                            errorElement.textContent = 'Solo se permiten archivos PDF o imágenes (JPG, JPEG, PNG)';
                             }
                             return false;
                         }
@@ -925,7 +1040,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         if (archivo.size > maxSize) {
                             campo.classList.add('is-invalid');
                             if (errorElement) {
-                                errorElement.textContent = 'El archivo no debe superar los 5MB';
+                            errorElement.textContent = 'El archivo no debe superar los 5MB';
                             }
                             return false;
                         }
@@ -937,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (nombre === 'run' && !validarRUN(valor)) {
                 campo.classList.add('is-invalid');
                 if (errorElement) {
-                    errorElement.textContent = 'Ingrese un RUN válido (ej: 12.345.678-9)';
+                errorElement.textContent = 'Ingrese un RUN válido (ej: 12.345.678-9)';
                 }
                 return false;
             }
@@ -984,8 +1099,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
             
             setTimeout(() => {
-                seccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            seccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 50);
+
+            // Inicializar los grupos dinámicos solo una vez cuando se muestre la sección
+            if (idSeccion === 'datosGenerales' && !datosGeneralesInicializados) {
+                inicializarGruposDinamicos();
+                datosGeneralesInicializados = true;
+                console.log('Grupos dinámicos de Datos Generales inicializados.');
+            }
         }
     }
     
@@ -1137,14 +1259,176 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (nextBtn) nextBtn.disabled = window.currentIndex >= maxIndex;
     }
     
-    // Manejador de eventos para el campo de carga de archivos
-    const fotocopiaDocumento = document.getElementById('fotocopiaDocumento');
+    // Manejador de eventos para el campo de carga de archivos de identidad
+    document.addEventListener('DOMContentLoaded', function() {
+        const fotocopiaDocumento = document.getElementById('fotocopiaDocumento');
+        const fotocopiaDocumentoFileName = document.querySelector('#fotocopiaDocumento + .file-name');
+        
+        if (fotocopiaDocumento) {
+            // Actualizar el estado inicial
+            if (fotocopiaDocumento.files.length > 0) {
+                const file = fotocopiaDocumento.files[0];
+                const fileName = file.name;
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                
+                documentosSubidos.identidad = {
+                    nombre: fileName,
+                    tamano: fileSize + ' MB',
+                    tipo: 'Identificación',
+                    archivo: file
+                };
+                
+                if (fotocopiaDocumentoFileName) {
+                    fotocopiaDocumentoFileName.textContent = `${fileName} (${fileSize} MB)`;
+                }
+            }
+            
+            // Configurar el manejador de cambios
+            fotocopiaDocumento.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const file = this.files[0];
+                    const fileName = file.name;
+                    const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                    
+                    // Actualizar el nombre del archivo
+                    if (fotocopiaDocumentoFileName) {
+                        fotocopiaDocumentoFileName.textContent = `${fileName} (${fileSize} MB)`;
+                        fotocopiaDocumentoFileName.style.display = 'block';
+            }
+                    
+                    // Actualizar el objeto de seguimiento
+                    documentosSubidos.identidad = {
+                        nombre: fileName,
+                        tamano: fileSize + ' MB',
+                        tipo: 'Identificación',
+                        archivo: file
+                    };
+                    
+                    console.log('Documento de identidad subido:', documentosSubidos.identidad);
+                } else {
+                    if (fotocopiaDocumentoFileName) {
+                        fotocopiaDocumentoFileName.textContent = 'Ningún archivo seleccionado';
+                        fotocopiaDocumentoFileName.style.display = 'none';
+                    }
+                    documentosSubidos.identidad = null;
+                }
+                
+                // Actualizar el resumen de documentos
+                actualizarResumenDocumentos();
+                validarCampo(this);
+        });
+    }
+    });
     
-    if (fotocopiaDocumento && fileNameElement) {
-        fotocopiaDocumento.addEventListener('change', function() {
-            const fileName = this.files.length > 0 ? this.files[0].name : 'Seleccionar archivo';
-            fileNameElement.textContent = fileName;
-            validarCampo(this);
+    // Función para actualizar el resumen de documentos
+    function actualizarResumenDocumentos() {
+        const crearHtmlDocumento = (doc, nombrePorDefecto = 'Documento') => {
+            if (!doc || !doc.archivo) { // Verificamos que exista el objeto archivo
+                return `
+                <div class="sin-documento">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>No se ha cargado ${nombrePorDefecto.toLowerCase()}</span>
+                </div>
+            `;
+            }
+            
+            const urlArchivo = URL.createObjectURL(doc.archivo);
+
+            return `
+                <div class="documento-item">
+                    <div class="documento-info">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="documento-detalle">
+                            <div class="documento-nombre">${doc.nombre}</div>
+                            <div class="documento-tamano">${doc.tamano}</div>
+                        </div>
+                    </div>
+                    <div class="documento-acciones">
+                        <a href="${urlArchivo}" target="_blank" class="btn btn-documento btn-ver" title="Ver documento">
+                            <i class="fas fa-eye"></i> Ver
+                        </a>
+                    </div>
+                </div>
+            `;
+        };
+
+        // Documento de Identidad
+        const identidadContainer = document.getElementById('resumenDocumentoIdentidad');
+        if (identidadContainer) {
+            identidadContainer.innerHTML = crearHtmlDocumento(documentosSubidos.identidad, 'ningún documento de identidad');
+        }
+        
+        // Documento de Apoderado
+        const apoderadoContainer = document.getElementById('resumenDocumentosApoderado');
+        if (apoderadoContainer) {
+            apoderadoContainer.innerHTML = crearHtmlDocumento(documentosSubidos.apoderado, 'ningún documento de apoderado');
+        }
+
+        // Documento de Sucesión
+        const sucesionContainer = document.getElementById('resumenDocumentosSucesion');
+        if (sucesionContainer) {
+            sucesionContainer.innerHTML = crearHtmlDocumento(documentosSubidos.sucesion, 'ningún documento de sucesión');
+        }
+
+        // Documentos Firmados
+        const firmadosContainer = document.getElementById('resumenDocumentosFirmados');
+        if (firmadosContainer) {
+            const docsFirmados = [
+                { nombre: 'Solicitud de Incorporación', doc: documentosSubidos.firmados.solicitud },
+                { nombre: 'Mandato Especial', doc: documentosSubidos.firmados.mandato }
+            ].filter(d => d.doc && d.doc.archivo);
+
+            if (docsFirmados.length > 0) {
+                firmadosContainer.innerHTML = docsFirmados.map(({ nombre, doc }) => {
+                    const urlArchivoFirmado = URL.createObjectURL(doc.archivo);
+                    return `
+                    <div class="documento-item">
+                        <div class="documento-info">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="documento-detalle">
+                                <div class="documento-nombre">${nombre}</div>
+                                <div class="documento-subinfo">
+                                    <span class="documento-nombre">${doc.nombre}</span>
+                                    <span class="documento-tamano">${doc.tamano}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="documento-acciones">
+                            <a href="${urlArchivoFirmado}" target="_blank" class="btn btn-documento btn-ver" title="Ver documento firmado">
+                                <i class="fas fa-eye"></i> Ver
+                            </a>
+                        </div>
+                    </div>
+                `}).join('');
+            } else {
+                firmadosContainer.innerHTML = `
+                    <div class="sin-documento">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Faltan documentos firmados por cargar</span>
+                    </div>
+                `;
+            }
+        }
+
+        // Actualizar estado de validación general
+        const validacionContainer = document.getElementById('resumenValidacion');
+        if (validacionContainer) {
+            // ... (la lógica de validación general se puede mejorar aquí si es necesario) ...
+        }
+    }
+    
+    // Actualizar el resumen de documentos cuando se muestre la sección
+    const documentosSubidosSection = document.getElementById('documentosSubidos');
+    if (documentosSubidosSection) {
+        const observer = new MutationObserver(function(mutations) {
+            if (documentosSubidosSection.classList.contains('active')) {
+                actualizarResumenDocumentos();
+            }
+        });
+        
+        observer.observe(documentosSubidosSection, {
+            attributes: true,
+            attributeFilter: ['class']
         });
     }
     
@@ -1239,7 +1523,125 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Inicializar la funcionalidad de obras dinámicas
     inicializarObrasDinamicas();
+    
+    inicializarManejadorDeArchivos();
+    actualizarResumenDocumentos(); // Para inicializar el resumen al cargar la página
+    inicializarObrasDinamicas();
+    // inicializarGruposDinamicos(); // Esta línea debe ser eliminada
 });
+
+function inicializarManejadorDeArchivos() {
+    const fileInputs = [
+        { id: 'fotocopiaDocumento', tipo: 'identidad' },
+        { id: 'apoderadoDocumento', tipo: 'apoderado' },
+        { id: 'sucesionDocumento', tipo: 'sucesion' }
+    ];
+
+    fileInputs.forEach(({ id, tipo }) => {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        const formGroup = input.closest('.form-group.file-upload');
+        if (!formGroup) return;
+        
+        const fileInfo = formGroup.querySelector('.file-info');
+        const fileNameSpan = formGroup.querySelector('.file-name');
+        const defaultIcon = fileInfo.querySelector('i.fa-upload');
+        const errorElement = formGroup.querySelector('.error-message');
+        const defaultText = fileNameSpan ? fileNameSpan.textContent : 'Seleccionar archivo';
+
+        const resetUI = () => {
+            if (fileNameSpan) fileNameSpan.textContent = defaultText;
+            if (errorElement) errorElement.textContent = '';
+            
+            const existingPreview = fileInfo.querySelector('.file-preview, .file-icon, .btn-remove-file-preview');
+            if (existingPreview) existingPreview.parentElement.removeChild(existingPreview);
+            
+            if (defaultIcon && !fileInfo.contains(defaultIcon)) {
+                fileInfo.prepend(defaultIcon);
+            }
+        };
+
+        input.addEventListener('change', function(event) {
+            resetUI();
+            const file = event.target.files[0];
+
+            if (!file) {
+                documentosSubidos[tipo] = null;
+                actualizarResumenDocumentos();
+                return;
+            }
+            
+            // --- Validación ---
+            const validImageTypes = ['image/jpeg', 'image/png'];
+            const validFileTypes = ['application/pdf'];
+            const allValidTypes = [...validImageTypes, ...validFileTypes];
+
+            if (!allValidTypes.includes(file.type)) {
+                errorElement.textContent = 'Solo se admiten archivos PDF, JPG o PNG.';
+                input.value = '';
+                documentosSubidos[tipo] = null;
+                actualizarResumenDocumentos();
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) { // 5 MB
+                errorElement.textContent = 'El archivo no debe superar los 5MB.';
+                input.value = '';
+                documentosSubidos[tipo] = null;
+                actualizarResumenDocumentos();
+                return;
+            }
+
+            // --- Actualizar UI y Objeto de Datos ---
+            errorElement.textContent = '';
+            const fileInfoForObject = {
+                nombre: file.name,
+                tamano: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
+                tipo: `Documento de ${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+                archivo: file,
+                fechaSubida: new Date().toLocaleString()
+            };
+
+            documentosSubidos[tipo] = fileInfoForObject;
+
+            if (fileNameSpan) fileNameSpan.textContent = `${file.name} (${fileInfoForObject.tamano})`;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn-remove-file-preview';
+            removeBtn.title = 'Eliminar archivo';
+            removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            removeBtn.style.position = 'relative';
+            removeBtn.style.zIndex = '2';
+
+            if (defaultIcon) defaultIcon.remove();
+
+            if (validImageTypes.includes(file.type)) {
+                const previewImg = document.createElement('img');
+                previewImg.className = 'file-preview';
+                previewImg.src = URL.createObjectURL(file);
+                fileInfo.prepend(previewImg);
+            } else {
+                const pdfIcon = document.createElement('i');
+                pdfIcon.className = 'fas fa-file-pdf file-icon';
+                fileInfo.prepend(pdfIcon);
+            }
+            
+            fileInfo.appendChild(removeBtn);
+
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                input.value = '';
+                documentosSubidos[tipo] = null;
+                resetUI();
+                actualizarResumenDocumentos();
+            });
+
+            actualizarResumenDocumentos();
+        });
+    });
+}
 
 // Función para inicializar la lógica de la sección de Datos Técnicos
 function inicializarDatosTecnicos() {
@@ -1490,7 +1892,7 @@ function inicializarDatosTecnicos() {
                 
                 // Agregar las sociedades encontradas
                 if (sociedadesFiltradas.length > 0) {
-                    sociedadesFiltradas.forEach(sociedad => {
+                sociedadesFiltradas.forEach(sociedad => {
                         $selectSociedad.append(new Option(sociedad.Sociedad, sociedad.Sociedad));
                     });
                 } else {
@@ -1691,69 +2093,86 @@ function formatPaisSeleccionado(pais) {
 
 // Función para inicializar los grupos de entrada dinámica
 function inicializarGruposDinamicos() {
-    // Manejador para agregar nuevos campos
-    document.querySelectorAll('.btn-add-input').forEach(button => {
+    console.log("Intentando inicializar grupos dinámicos...");
+
+    // Función helper para añadir el listener de eliminación
+    function addRemoveListener(button, container, counter) {
         button.addEventListener('click', function() {
+            removeInput(container, this.closest('.input-with-actions'), counter);
+        });
+    }
+
+    // Manejador para agregar nuevos campos
+    // Seleccionamos solo los botones que NO han sido inicializados
+    document.querySelectorAll('.btn-add-input:not([data-initialized])').forEach(button => {
+        console.log("Inicializando botón de AGREGAR:", button.getAttribute('data-target'));
+        button.addEventListener('click', function() {
+            // ... (código interno del click sin cambios)
             const targetId = this.getAttribute('data-target');
             const container = document.getElementById(targetId);
-            const inputs = container.querySelectorAll('input[type="text"]');
+            const inputs = container.querySelectorAll('.input-with-actions');
             const counter = this.nextElementSibling;
             
-            // Verificar el límite máximo (5)
-            if (inputs.length >= 5) {
-                return; // No permitir más de 5 ítems
-            }
+            if (inputs.length >= 5) return;
+
+            const template = inputs[0];
+            const newInput = template.cloneNode(true);
+            const inputField = newInput.querySelector('input[type="text"]');
+            inputField.value = '';
             
-            // Mostrar el botón de eliminar
+            newInput.classList.remove('dynamic-input-exit');
+            newInput.classList.add('dynamic-input-enter');
+            
             const removeBtn = newInput.querySelector('.btn-remove-input');
             removeBtn.style.display = 'flex';
             
-            // Agregar el nuevo input al contenedor
+            addRemoveListener(removeBtn, container, counter);
+
             container.appendChild(newInput);
-            
-            // Actualizar el contador
             updateCounter(counter, container);
-            
-            // Enfocar el nuevo campo
             inputField.focus();
-            
-            // Agregar animación
-            newInput.classList.add('dynamic-input-enter');
-            
-            // Agregar evento de eliminación al nuevo botón
-            removeBtn.addEventListener('click', function() {
-                removeInput(container, this.closest('.input-with-actions'), counter);
-            });
         });
+        // Marcamos el botón como inicializado
+        button.setAttribute('data-initialized', 'true');
     });
     
-    // Función para actualizar el contador
+    // Función para actualizar el contador (código restaurado)
     function updateCounter(counter, container) {
-        const currentCount = container.querySelectorAll('input[type="text"]').length;
-        counter.querySelector('.current-count').textContent = currentCount;
+        const currentCount = container.querySelectorAll('.input-with-actions').length;
+        if(counter) counter.querySelector('.current-count').textContent = currentCount;
     }
     
-    // Función para eliminar un campo
+    // Función para eliminar un campo (código restaurado)
     function removeInput(container, inputToRemove, counter) {
         const inputs = container.querySelectorAll('.input-with-actions');
+        if (inputs.length <= 1) return;
         
-        // No permitir eliminar el último input
-        if (inputs.length <= 1) {
-            return;
-        }
+        inputToRemove.classList.remove('dynamic-input-enter');
+        inputToRemove.classList.add('dynamic-input-exit');
         
-        // Agregar animación de salida
-        inputToRemove.style.opacity = '0';
-        inputToRemove.style.transform = 'translateX(-10px)';
-        
-        // Eliminar después de la animación
         setTimeout(() => {
             container.removeChild(inputToRemove);
             updateCounter(counter, container);
         }, 300);
     }
     
-    // Inicializar contadores
+    // Inicializar listeners de eliminación para los campos existentes que no lo tengan
+    document.querySelectorAll('.dynamic-input-container').forEach(container => {
+        const removeButtons = container.querySelectorAll('.btn-remove-input:not([data-initialized])');
+        const counter = container.closest('.dynamic-input-group').querySelector('.input-counter');
+        
+        removeButtons.forEach(btn => {
+            const currentInput = btn.closest('.input-with-actions');
+            const isFirst = currentInput === container.querySelector('.input-with-actions');
+            if (!isFirst) {
+                 console.log("Inicializando botón de ELIMINAR existente.");
+                 addRemoveListener(btn, container, counter);
+            }
+            btn.setAttribute('data-initialized', 'true');
+        });
+    });
+
+    // Inicializar contadores al cargar (código restaurado)
     document.querySelectorAll('.dynamic-input-group').forEach(group => {
         const container = group.querySelector('.dynamic-input-container');
         const counter = group.querySelector('.input-counter');
@@ -1960,3 +2379,6 @@ function inicializarObrasDinamicas() {
     
     console.log('Funcionalidad de obras dinámicas inicializada');
 }
+
+const totalSecciones = document.querySelectorAll('.form-section').length;
+let datosGeneralesInicializados = false;
