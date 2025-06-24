@@ -709,7 +709,7 @@
                 </div>
             </section>
 
-            <!-- Sección 8: Derechos a administrar -->
+<!-- Sección 8: Derechos a administrar -->
             <section id="derechosAdministrar" class="form-section" data-section="8">
                 <div class="section-header">
                     <h2><i class="fas fa-balance-scale"></i> Derechos a administrar</h2>
@@ -896,10 +896,66 @@
             <!-- Sección 10: Documentos subidos -->
             <section id="documentosSubidos" class="form-section" data-section="10">
                 <div class="section-header">
-                    <h2><i class="fas fa-file-upload"></i> Documentos subidos</h2>
-                    <p class="section-description">Gestión de documentos adjuntos.</p>
+                    <h2><i class="fas fa-file-upload"></i> Resumen de Documentos</h2>
+                    <p class="section-description">Revise todos los documentos cargados en su postulación.</p>
                 </div>
-                <!-- Contenido pendiente -->
+                
+                <div class="documentos-resumen">
+                    <!-- Documento de Identidad -->
+                    <div class="documento-categoria">
+                        <h3><i class="fas fa-id-card"></i> Documento de Identidad</h3>
+                        <div id="resumenDocumentoIdentidad" class="documento-lista">
+                            <div class="sin-documento">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>No se ha cargado ningún documento de identidad</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Documentos de Sucesión (condicional) -->
+                    <div class="documento-categoria" id="contenedorSucesion">
+                        <h3><i class="fas fa-scroll"></i> Documentos de Sucesión</h3>
+                        <div id="resumenDocumentosSucesion" class="documento-lista">
+                            <div class="sin-documento">
+                                <i class="fas fa-info-circle"></i>
+                                <span>No aplica o no se han cargado documentos de sucesión</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Documentos de Apoderado (condicional) -->
+                    <div class="documento-categoria" id="contenedorApoderado">
+                        <h3><i class="fas fa-user-tie"></i> Documentos de Apoderado/Representante</h3>
+                        <div id="resumenDocumentosApoderado" class="documento-lista">
+                            <div class="sin-documento">
+                                <i class="fas fa-info-circle"></i>
+                                <span>No aplica o no se han cargado documentos de apoderado</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Documentos Firmados -->
+                    <div class="documento-categoria">
+                        <h3><i class="fas fa-file-signature"></i> Documentos Firmados</h3>
+                        <div id="resumenDocumentosFirmados" class="documento-lista">
+                            <div class="sin-documento">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Faltan documentos por cargar</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Resumen de Validación -->
+                    <div class="documento-validacion" id="resumenValidacion">
+                        <div class="validacion-icono">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="validacion-contenido">
+                            <h4>Revisión de Documentos Pendiente</h4>
+                            <p>Por favor, asegúrese de haber cargado todos los documentos requeridos antes de enviar su postulación.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <div class="form-navigation">
