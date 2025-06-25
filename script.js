@@ -422,7 +422,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Validar antes de enviar el formulario
     const formElement = document.querySelector('form');
     if (formElement) {
-        formElement.addEventListener('submit', function(e) {
+        formElement.addEventListener('submit', async function(e) {
+            if (formularioEnviado) return;
+            formularioEnviado = true;
             const currentSection = document.querySelector('.form-section.active');
             
             // Validar sección de derechos
@@ -441,6 +443,126 @@ document.addEventListener('DOMContentLoaded', async function() {
                         behavior: 'smooth', 
                         block: 'center' 
                     });
+                }
+            }
+            
+            // === ENVÍO DE FORMULARIO A WEBHOOK (Power Automate) ===
+            // Este bloque se ubica justo antes del cierre del eventListener 'submit' del formulario principal
+            const webhookUrl = "https://default0c13096209bc40fc8db89d043ff625.1a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95768cafc46c445081fca1472c94358a/triggers/manual/paths/invoke/?api-version=1&tenantId=tId&environmentName=Default-0c130962-09bc-40fc-8db8-9d043ff6251a&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dpXhd5GjJypNhprFHE1nGChVyPcxqM6xYvpNhwOOkm8"; // <-- Webhook real
+
+            if (currentSection && currentSection.id === 'documentosSubidos') {
+                e.preventDefault();
+                // === EXTRACCIÓN DE TODOS LOS CAMPOS ===
+                // Datos personales
+                const nombres = document.getElementById('nombres')?.value.trim() || '';
+                const apellidoPaterno = document.getElementById('apellidoPaterno')?.value.trim() || '';
+                const apellidoMaterno = document.getElementById('apellidoMaterno')?.value.trim() || '';
+                const nacionalidad = document.getElementById('nacionalidad')?.value || '';
+                const tipoDocumento = document.getElementById('tipoDocumento')?.value || '';
+                const run = document.getElementById('run')?.value.trim() || '';
+                const idOrigen = document.getElementById('idOrigen')?.value.trim() || '';
+                const fechaNacimiento = document.getElementById('fechaNacimiento')?.value || '';
+                const fechaDefuncion = document.getElementById('fechaDefuncion')?.value || '';
+                const genero = document.getElementById('genero')?.value || '';
+                const seudonimo = document.getElementById('seudonimo')?.value.trim() || '';
+
+                // Contacto
+                const paisResidencia = document.getElementById('paisResidencia')?.value || '';
+                const region = document.getElementById('region')?.value || '';
+                const comuna = document.getElementById('comuna')?.value || '';
+                const direccion = document.getElementById('direccion')?.value.trim() || '';
+                const detalleDireccion = document.getElementById('detalleDireccion')?.value.trim() || '';
+                const email = document.getElementById('email')?.value.trim() || '';
+                const codigoPais = document.getElementById('codigoPais')?.value || '';
+                const telefono = document.getElementById('telefono')?.value.trim() || '';
+
+                // Apoderado
+                const apoderadoNombres = document.getElementById('apoderadoNombres')?.value.trim() || '';
+                const apoderadoApellidoPaterno = document.getElementById('apoderadoApellidoPaterno')?.value.trim() || '';
+                const apoderadoApellidoMaterno = document.getElementById('apoderadoApellidoMaterno')?.value.trim() || '';
+                const apoderadoEmail = document.getElementById('apoderadoEmail')?.value.trim() || '';
+                const apoderadoCodigoPais = document.getElementById('apoderadoCodigoPais')?.value || '';
+                const apoderadoTelefono = document.getElementById('apoderadoTelefono')?.value.trim() || '';
+
+                // Sucesión
+                const sucesionNombres = document.getElementById('sucesionNombres')?.value.trim() || '';
+                const sucesionApellidoPaterno = document.getElementById('sucesionApellidoPaterno')?.value.trim() || '';
+                const sucesionApellidoMaterno = document.getElementById('sucesionApellidoMaterno')?.value.trim() || '';
+                const sucesionEmail = document.getElementById('sucesionEmail')?.value.trim() || '';
+                const sucesionCodigoPais = document.getElementById('sucesionCodigoPais')?.value || '';
+                const sucesionTelefono = document.getElementById('sucesionTelefono')?.value.trim() || '';
+
+                // Ámbito (array de ámbitos activos)
+                const ambitos = [];
+                const ambitoAudiovisual = document.getElementById('ambitoAudiovisual')?.value;
+                const ambitoDramatico = document.getElementById('ambitoDramatico')?.value;
+                if (ambitoAudiovisual) ambitos.push(ambitoAudiovisual);
+                if (ambitoDramatico) ambitos.push(ambitoDramatico);
+
+                // Clase (array de checkboxes seleccionados)
+                const clases = Array.from(document.querySelectorAll('input[name="clase[]"]:checked')).map(cb => cb.value);
+
+                // Sociedad
+                const perteneceSociedad = document.querySelector('input[name="perteneceSociedad"]:checked')?.value || '';
+                const sociedadPais = document.getElementById('sociedadPais')?.value || '';
+                const sociedadNombre = document.getElementById('sociedadNombre')?.value || '';
+
+                // Construir el objeto de datos
+                const data = {
+                    nombres,
+                    apellidoPaterno,
+                    apellidoMaterno,
+                    nacionalidad,
+                    tipoDocumento,
+                    run,
+                    idOrigen,
+                    fechaNacimiento,
+                    fechaDefuncion,
+                    genero,
+                    seudonimo,
+                    paisResidencia,
+                    region,
+                    comuna,
+                    direccion,
+                    detalleDireccion,
+                    email,
+                    codigoPais,
+                    telefono,
+                    apoderadoNombres,
+                    apoderadoApellidoPaterno,
+                    apoderadoApellidoMaterno,
+                    apoderadoEmail,
+                    apoderadoCodigoPais,
+                    apoderadoTelefono,
+                    sucesionNombres,
+                    sucesionApellidoPaterno,
+                    sucesionApellidoMaterno,
+                    sucesionEmail,
+                    sucesionCodigoPais,
+                    sucesionTelefono,
+                    ambito: ambitos.join(', '),
+                    clase: clases.join(', '),
+                    perteneceSociedad,
+                    sociedadPais,
+                    sociedadNombre
+                };
+
+                try {
+                    const response = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        mostrarNotificacion('¡Formulario enviado con éxito!', 'success');
+                    } else {
+                        mostrarNotificacion('Error al enviar el formulario. Intente nuevamente.', 'error');
+                    }
+                } catch (error) {
+                    mostrarNotificacion('Error de conexión. Intente más tarde.', 'error');
                 }
             }
         });
@@ -485,7 +607,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Agregar el event listener al nuevo elemento
             newSolicitud.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = 'https://atncl.odoo.com/sign/document/mail/4/595beb67-bc24-41da-9d5f-eb7f62e706ae';
+                const url = 'https://atncl.odoo.com/sign/document/mail/13/e3fa90c8-05aa-4a72-a7fc-d8402910cc60';
                 window.open(url, '_blank');
             });
         }
@@ -498,7 +620,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Agregar el event listener al nuevo elemento
             newMandato.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = 'https://atncl.odoo.com/sign/document/mail/5/e11a446d-38f0-4d04-987f-ee4d4be61c93';
+                const url = 'https://atncl.odoo.com/sign/document/mail/12/e7bd1633-e98b-4557-b1a0-07ee09f69064';
                 window.open(url, '_blank');
             });
         }
@@ -1107,6 +1229,15 @@ document.addEventListener('DOMContentLoaded', async function() {
                 inicializarGruposDinamicos();
                 datosGeneralesInicializados = true;
                 console.log('Grupos dinámicos de Datos Generales inicializados.');
+            }
+        }
+        // Mostrar/ocultar el botón de enviar según la sección
+        const btnEnviar = document.getElementById('btnEnviar');
+        if (btnEnviar) {
+            if (idSeccion === 'documentosSubidos') {
+                btnEnviar.style.display = 'inline-block'; // o 'block' según tu preferencia visual
+            } else {
+                btnEnviar.style.display = 'none';
             }
         }
     }
@@ -2382,3 +2513,113 @@ function inicializarObrasDinamicas() {
 
 const totalSecciones = document.querySelectorAll('.form-section').length;
 let datosGeneralesInicializados = false;
+
+// Función para mostrar notificaciones visuales
+function mostrarNotificacion(mensaje, tipo = 'success') {
+    // Elimina notificaciones previas
+    const notiExistente = document.getElementById('noti-formulario');
+    if (notiExistente) notiExistente.remove();
+    // Crea el contenedor
+    const noti = document.createElement('div');
+    noti.id = 'noti-formulario';
+    noti.textContent = mensaje;
+    noti.style.position = 'fixed';
+    noti.style.top = '30px';
+    noti.style.left = '50%';
+    noti.style.transform = 'translateX(-50%)';
+    noti.style.padding = '16px 32px';
+    noti.style.borderRadius = '8px';
+    noti.style.zIndex = '9999';
+    noti.style.fontSize = '1.1rem';
+    noti.style.color = '#fff';
+    noti.style.background = tipo === 'success' ? '#097137' : '#a0202d';
+    noti.style.boxShadow = '0 2px 12px rgba(0,0,0,0.12)';
+    document.body.appendChild(noti);
+    setTimeout(() => {
+        noti.remove();
+    }, 4000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Eliminar cualquier atributo 'required' residual en el DOM
+  document.querySelectorAll('[required]').forEach(el => el.removeAttribute('required'));
+});
+
+function autocompletarFormularioPrueba() {
+    // Esperar a que los selects estén poblados (por si hay carga asíncrona)
+    setTimeout(() => {
+        // Datos personales
+        document.getElementById('nombres').value = 'Juan';
+        document.getElementById('apellidoPaterno').value = 'Pérez';
+        document.getElementById('apellidoMaterno').value = 'González';
+        document.getElementById('nacionalidad').value = 'Chilena';
+        $('#nacionalidad').trigger('change');
+        document.getElementById('tipoDocumento').value = 'run-chileno';
+        $('#tipoDocumento').trigger('change');
+        document.getElementById('run').value = '12.345.678-9';
+        document.getElementById('idOrigen').value = '';
+        document.getElementById('fechaNacimiento').value = '1980-05-15';
+        document.getElementById('fechaDefuncion').value = '';
+        document.getElementById('genero').value = 'masculino';
+        $('#genero').trigger('change');
+        document.getElementById('seudonimo').value = 'El Dramaturgo';
+
+        // Contacto
+        document.getElementById('paisResidencia').value = 'Chile';
+        $('#paisResidencia').trigger('change');
+        setTimeout(() => {
+            document.getElementById('region').value = 'Región Metropolitana';
+            $('#region').trigger('change');
+            setTimeout(() => {
+                document.getElementById('comuna').value = 'Santiago';
+                $('#comuna').trigger('change');
+            }, 300);
+        }, 300);
+        document.getElementById('direccion').value = 'Av. Libertador 1234';
+        document.getElementById('detalleDireccion').value = 'Depto 45B';
+        document.getElementById('email').value = 'juan.perez@email.com';
+        document.getElementById('codigoPais').value = '+56';
+        document.getElementById('telefono').value = '912345678';
+
+        // Apoderado
+        document.getElementById('apoderadoNombres').value = 'María';
+        document.getElementById('apoderadoApellidoPaterno').value = 'López';
+        document.getElementById('apoderadoApellidoMaterno').value = 'Ramírez';
+        document.getElementById('apoderadoEmail').value = 'maria.lopez@email.com';
+        document.getElementById('apoderadoCodigoPais').value = '+56';
+        document.getElementById('apoderadoTelefono').value = '987654321';
+
+        // Sucesión
+        document.getElementById('sucesionNombres').value = 'Carlos';
+        document.getElementById('sucesionApellidoPaterno').value = 'Soto';
+        document.getElementById('sucesionApellidoMaterno').value = 'Mena';
+        document.getElementById('sucesionEmail').value = 'carlos.soto@email.com';
+        document.getElementById('sucesionCodigoPais').value = '+56';
+        document.getElementById('sucesionTelefono').value = '998877665';
+
+        // Ámbito (activar ambos)
+        document.getElementById('ambitoAudiovisual').value = 'Audiovisual';
+        document.getElementById('ambitoDramatico').value = 'Dramático';
+
+        // Clases (marcar algunos checkboxes)
+        ['claseDirector', 'claseGuionista', 'claseDramaturgo'].forEach(id => {
+            const cb = document.getElementById(id);
+            if (cb) cb.checked = true;
+        });
+
+        // Sociedad
+        const radioSi = document.querySelector('input[name="perteneceSociedad"][value="si"]');
+        if (radioSi) radioSi.checked = true;
+        document.getElementById('sociedadPais').disabled = false;
+        document.getElementById('sociedadNombre').disabled = false;
+        document.getElementById('sociedadPais').value = 'Argentina';
+        $('#sociedadPais').trigger('change');
+        setTimeout(() => {
+            document.getElementById('sociedadNombre').value = 'ARGENTORES';
+            $('#sociedadNombre').trigger('change');
+        }, 300);
+    }, 800); // Espera para asegurar que los selects estén listos
+}
+document.addEventListener('DOMContentLoaded', autocompletarFormularioPrueba);
+
+let formularioEnviado = false;
