@@ -72,7 +72,7 @@
         </div>
         </header>
 
-        <form id="socioForm" class="form-container">
+        <form id="socioForm" class="form-container" novalidate>
             <!-- Sección 1: Datos de Autor -->
             <section id="datosAutor" class="form-section active" data-section="1">
                 <div class="section-header">
@@ -88,7 +88,7 @@
                     <!-- Fila 1: Nombres -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <input type="text" id="nombres" name="nombres" class="form-control" required>
+                            <input type="text" id="nombres" name="nombres" class="form-control">
                             <label for="nombres">Nombres <span class="required">*</span></label>
                             <div class="error-message"></div>
                         </div>
@@ -97,7 +97,7 @@
                     <!-- Fila 1: Apellido Paterno -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <input type="text" id="apellidoPaterno" name="apellidoPaterno" class="form-control" required>
+                            <input type="text" id="apellidoPaterno" name="apellidoPaterno" class="form-control">
                             <label for="apellidoPaterno">Apellido Paterno <span class="required">*</span></label>
                             <div class="error-message"></div>
                         </div>
@@ -115,7 +115,7 @@
                     <!-- Fila 2: Nacionalidad -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <select id="nacionalidad" name="nacionalidad" class="form-control select2" required>
+                            <select id="nacionalidad" name="nacionalidad" class="form-control select2">
                                 <option value="">Seleccione una nacionalidad</option>
                                 <!-- Las opciones se cargarán dinámicamente desde el archivo JSON -->
                             </select>
@@ -127,7 +127,7 @@
                     <!-- Fila 2: Tipo de Documento -->
                     <div class="form-group conditional-field" id="tipoDocumentoContainer" style="display: none;">
                         <div class="floating-label">
-                            <select id="tipoDocumento" name="tipoDocumento" class="form-control select2" required>
+                            <select id="tipoDocumento" name="tipoDocumento" class="form-control select2">
                                 <option value="">Seleccione un tipo de documento</option>
                                 <option value="pasaporte">Pasaporte</option>
                                 <option value="dni">DNI</option>
@@ -141,7 +141,7 @@
                     <!-- Fila 2: N° ID Origen -->
                     <div class="form-group conditional-field" id="idOrigenContainer" style="display: none;">
                         <div class="floating-label">
-                            <input type="text" id="idOrigen" name="idOrigen" class="form-control" required>
+                            <input type="text" id="idOrigen" name="idOrigen" class="form-control">
                             <label for="idOrigen">N° ID Origen <span class="required">*</span></label>
                             <div class="error-message"></div>
                         </div>
@@ -150,14 +150,14 @@
                     <!-- Fila 3: RUN -->
                     <div class="form-group conditional-field" id="runContainer" style="display: none;">
                         <label for="run" class="form-label">RUN <span class="required">*</span></label>
-                        <input type="text" id="run" name="run" class="form-control" placeholder="12.345.678-9" required>
+                        <input type="text" id="run" name="run" class="form-control" placeholder="12.345.678-9">
                         <div class="error-message"></div>
                     </div>
 
                     <!-- Fila 3: Fecha de Nacimiento -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control" required>
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control">
                             <label for="fechaNacimiento">Fecha de Nacimiento <span class="required">*</span></label>
                             <div class="error-message"></div>
                         </div>
@@ -188,7 +188,7 @@
                     <!-- Fila 4: Género -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <select id="genero" name="genero" class="form-control select2" required>
+                            <select id="genero" name="genero" class="form-control select2">
                                 <option value=""></option>
                                 <option value="masculino">Masculino</option>
                                 <option value="femenino">Femenino</option>
@@ -222,7 +222,7 @@
                     <!-- Fila 1: País de Residencia -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <select id="paisResidencia" name="paisResidencia" class="form-control select2" required>
+                            <select id="paisResidencia" name="paisResidencia" class="form-control select2">
                                 <option value="">Seleccione un país</option>
                                 <!-- Las opciones se cargarán dinámicamente desde el JSON -->
                             </select>
@@ -234,7 +234,7 @@
                     <!-- Fila 1: Región -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <select id="region" name="region" class="form-control select2" required disabled>
+                            <select id="region" name="region" class="form-control select2" disabled>
                                 <option value="">Seleccione una región</option>
                                 <!-- Las opciones se cargarán dinámicamente -->
                             </select>
@@ -246,7 +246,7 @@
                     <!-- Fila 1: Comuna -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <select id="comuna" name="comuna" class="form-control select2" required disabled>
+                            <select id="comuna" name="comuna" class="form-control select2" disabled>
                                 <option value="">Seleccione una comuna</option>
                                 <!-- Las opciones se cargarán dinámicamente -->
                             </select>
@@ -258,7 +258,7 @@
                     <!-- Fila 2: Dirección -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <input type="text" id="direccion" name="direccion" class="form-control" required>
+                            <input type="text" id="direccion" name="direccion" class="form-control">
                             <label for="direccion">Dirección <span class="required">*</span></label>
                             <div class="error-message"></div>
                         </div>
@@ -276,7 +276,7 @@
                     <!-- Fila 3: Email -->
                     <div class="form-group">
                         <div class="floating-label">
-                            <input type="email" id="email" name="email" class="form-control" required>
+                            <input type="email" id="email" name="email" class="form-control">
                             <label for="email">Correo Electrónico <span class="required">*</span></label>
                             <div class="error-message"></div>
                         </div>
@@ -286,13 +286,13 @@
                     <div class="form-group">
                         <div class="phone-input-container">
                             <div class="phone-code-selector">
-                                <select id="codigoPais" name="codigoPais" class="form-control" required>
+                                <select id="codigoPais" name="codigoPais" class="form-control">
                                     <option value="">Seleccione</option>
                                     <!-- Las opciones se cargarán dinámicamente -->
                                 </select>
                             </div>
                             <div class="floating-label phone-number-input">
-                                <input type="tel" id="telefono" name="telefono" class="form-control" pattern="[0-9]+" required>
+                                <input type="tel" id="telefono" name="telefono" class="form-control" pattern="[0-9]+">
                                 <label for="telefono">Teléfono <span class="required">*</span></label>
                                 <div class="error-message"></div>
                             </div>
@@ -679,12 +679,12 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label for="tituloObra1" class="form-label">Título <span class="required">*</span></label>
-                                    <input type="text" id="tituloObra1" name="tituloObra[]" class="form-control" placeholder="Ej: La obra de mi vida" required>
+                                    <input type="text" id="tituloObra1" name="tituloObra[]" class="form-control" placeholder="Ej: La obra de mi vida">
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-group">
                                     <div class="floating-label">
-                                        <select id="ambitoObra1" name="ambitoObra[]" class="form-control select2" required>
+                                        <select id="ambitoObra1" name="ambitoObra[]" class="form-control select2">
                                             <option value="">Seleccione un ámbito</option>
                                             <option value="Audiovisual">Audiovisual</option>
                                             <option value="Dramatico">Dramático</option>
@@ -724,7 +724,7 @@
                         </div>
                         <div class="derecho-content">
                             <div class="form-check">
-                                <input type="checkbox" id="confirmacionObras" name="confirmacionObras" class="form-check-input" required>
+                                <input type="checkbox" id="confirmacionObras" name="confirmacionObras" class="form-check-input">
                                 <label for="confirmacionObras" class="form-check-label">
                                     <span class="derecho-title">Confirmación de Obras</span>
                                     <p class="derecho-text">Confirmo tener obras que han sido exhibidas o serán estrenadas en los próximos 6 meses</p>
@@ -740,7 +740,7 @@
                         </div>
                         <div class="derecho-content">
                             <div class="form-check">
-                                <input type="checkbox" id="derechosComunicacion" name="derechosComunicacion" class="form-check-input" required>
+                                <input type="checkbox" id="derechosComunicacion" name="derechosComunicacion" class="form-check-input">
                                 <label for="derechosComunicacion" class="form-check-label">
                                     <span class="derecho-title">Derechos de Comunicación Pública</span>
                                     <p class="derecho-text">Se refiere a la administración del derecho de comunicación pública y adaptación de obras dramáticas, como también la administración del Derecho de Remuneración Audiovisual, consagrado por la ley N° 20.959 "Ricardo Larraín" y que comprende la comunicación al público, puesta a disposición, arrendamiento y utilización directa de soportes audiovisuales de cualquier naturaleza en los que se encuentren fijadas sus obras audiovisuales.</p>
@@ -852,7 +852,7 @@
                         <label class="documento-upload-label">
                             <i class="fas fa-file-signature"></i>
                             <span>Solicitud de incorporación firmada <span class="required">*</span></span>
-                            <input type="file" id="solicitudFirmada" name="solicitudFirmada" accept=".pdf" class="documento-upload-input" required>
+                            <input type="file" id="solicitudFirmada" name="solicitudFirmada" accept=".pdf" class="documento-upload-input">
                             <span class="documento-upload-button">
                                 <i class="fas fa-cloud-upload-alt"></i> Seleccionar archivo
                             </span>
@@ -871,7 +871,7 @@
                         <label class="documento-upload-label">
                             <i class="fas fa-file-contract"></i>
                             <span>Mandato especial firmado <span class="required">*</span></span>
-                            <input type="file" id="mandatoFirmado" name="mandatoFirmado" accept=".pdf" class="documento-upload-input" required>
+                            <input type="file" id="mandatoFirmado" name="mandatoFirmado" accept=".pdf" class="documento-upload-input">
                             <span class="documento-upload-button">
                                 <i class="fas fa-cloud-upload-alt"></i> Seleccionar archivo
                             </span>
