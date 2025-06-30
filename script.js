@@ -474,7 +474,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const detalleDireccion = document.getElementById('detalleDireccion')?.value.trim() || '';
                 const email = document.getElementById('email')?.value.trim() || '';
                 const codigoPais = document.getElementById('codigoPais')?.value || '';
-                const telefono = document.getElementById('telefono')?.value.trim() || '';
+                const telefonoSolo = document.getElementById('telefono')?.value.trim() || '';
+                const telefono = (codigoPais && telefonoSolo) ? (codigoPais + ' ' + telefonoSolo) : (telefonoSolo || codigoPais);
 
                 // Apoderado
                 const apoderadoNombres = document.getElementById('apoderadoNombres')?.value.trim() || '';
@@ -482,7 +483,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const apoderadoApellidoMaterno = document.getElementById('apoderadoApellidoMaterno')?.value.trim() || '';
                 const apoderadoEmail = document.getElementById('apoderadoEmail')?.value.trim() || '';
                 const apoderadoCodigoPais = document.getElementById('apoderadoCodigoPais')?.value || '';
-                const apoderadoTelefono = document.getElementById('apoderadoTelefono')?.value.trim() || '';
+                const apoderadoTelefonoSolo = document.getElementById('apoderadoTelefono')?.value.trim() || '';
+                const apoderadoTelefono = (apoderadoCodigoPais && apoderadoTelefonoSolo) ? (apoderadoCodigoPais + ' ' + apoderadoTelefonoSolo) : (apoderadoTelefonoSolo || apoderadoCodigoPais);
 
                 // Sucesión
                 const sucesionNombres = document.getElementById('sucesionNombres')?.value.trim() || '';
@@ -490,14 +492,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const sucesionApellidoMaterno = document.getElementById('sucesionApellidoMaterno')?.value.trim() || '';
                 const sucesionEmail = document.getElementById('sucesionEmail')?.value.trim() || '';
                 const sucesionCodigoPais = document.getElementById('sucesionCodigoPais')?.value || '';
-                const sucesionTelefono = document.getElementById('sucesionTelefono')?.value.trim() || '';
+                const sucesionTelefonoSolo = document.getElementById('sucesionTelefono')?.value.trim() || '';
+                const sucesionTelefono = (sucesionCodigoPais && sucesionTelefonoSolo) ? (sucesionCodigoPais + ' ' + sucesionTelefonoSolo) : (sucesionTelefonoSolo || sucesionCodigoPais);
 
-                // Ámbito (array de ámbitos activos)
+                // Datos Técnicos
                 const ambitos = [];
                 const ambitoAudiovisual = document.getElementById('ambitoAudiovisual')?.value;
                 const ambitoDramatico = document.getElementById('ambitoDramatico')?.value;
                 if (ambitoAudiovisual) ambitos.push(ambitoAudiovisual);
                 if (ambitoDramatico) ambitos.push(ambitoDramatico);
+                // Observaciones
+                const observaciones = document.getElementById('observacionesDerechos')?.value.trim() || '';
 
                 // Clase (array de checkboxes seleccionados)
                 const clases = Array.from(document.querySelectorAll('input[name="clase[]"]:checked')).map(cb => cb.value);
@@ -506,6 +511,18 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const perteneceSociedad = document.querySelector('input[name="perteneceSociedad"]:checked')?.value || '';
                 const sociedadPais = document.getElementById('sociedadPais')?.value || '';
                 const sociedadNombre = document.getElementById('sociedadNombre')?.value || '';
+
+                // === FECHA Y HORA DE POSTULACIÓN (invisible para el usuario) ===
+                // Santiago de Chile UTC-4
+                const fechaHoraPostulacion = new Date().toLocaleString('es-CL', {
+                    timeZone: 'America/Santiago',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
 
                 // Construir el objeto de datos
                 const data = {
@@ -544,26 +561,123 @@ document.addEventListener('DOMContentLoaded', async function() {
                     clase: clases.join(', '),
                     perteneceSociedad,
                     sociedadPais,
-                    sociedadNombre
+                    sociedadNombre,
+                    observaciones,
+                    fechaHoraPostulacion
                 };
 
-                try {
-                    const response = await fetch(webhookUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
+                // === ARCHIVOS ===
+                // Función para convertir archivo a base64
+                function fileToBase64(file) {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
                     });
-
-                    if (response.ok) {
-                        mostrarNotificacion('¡Formulario enviado con éxito!', 'success');
-                    } else {
-                        mostrarNotificacion('Error al enviar el formulario. Intente nuevamente.', 'error');
-                    }
-                } catch (error) {
-                    mostrarNotificacion('Error de conexión. Intente más tarde.', 'error');
                 }
+
+                // Función auxiliar para agregar archivo al data
+                async function agregarArchivoAlData(inputId, campoData) {
+                    const input = document.getElementById(inputId);
+                    if (input && input.files && input.files[0]) {
+                        const file = input.files[0];
+                        const base64 = await fileToBase64(file);
+                        data[campoData] = {
+                            nombre: file.name,
+                            contenido: base64
+                        };
+                    }
+                }
+
+                // Lista de archivos a procesar
+                const archivosAProcesar = [
+                    { inputId: 'fotocopiaDocumento', campoData: 'fotocopia_documento_autor' },
+                    { inputId: 'apoderadoDocumento', campoData: 'fotocopia_documento_representante' },
+                    { inputId: 'sucesionDocumento', campoData: 'documento_sucesion' },
+                    { inputId: 'solicitudFirmada', campoData: 'solicitud_incorporacion_firmada' },
+                    { inputId: 'mandatoFirmado', campoData: 'mandato_firmado' }
+                ];
+
+                // Procesar todos los archivos antes de enviar
+                Promise.all(archivosAProcesar.map(({inputId, campoData}) => agregarArchivoAlData(inputId, campoData))).then(() => {
+                    // Mostrar el JSON en consola para verificación
+                    console.log('JSON a enviar:', data);
+                    
+                    // Crear y mostrar la barra de progreso
+                    const progressContainer = document.createElement('div');
+                    progressContainer.className = 'upload-progress';
+                    progressContainer.innerHTML = '<div class="upload-progress-bar"></div>';
+                    document.body.appendChild(progressContainer);
+                    
+                    // Agregar clase de carga al botón
+                    const btnEnviar = document.getElementById('btnEnviar');
+                    if (btnEnviar) {
+                        btnEnviar.classList.add('btn-loading');
+                        btnEnviar.textContent = 'Enviando...';
+                    }
+                    
+                    // Simular progreso inicial
+                    setTimeout(() => {
+                        const progressBar = progressContainer.querySelector('.upload-progress-bar');
+                        if (progressBar) progressBar.style.width = '30%';
+                    }, 500);
+                    
+                    // Enviar el JSON al endpoint
+                    fetch('https://default0c13096209bc40fc8db89d043ff625.1a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95768cafc46c445081fca1472c94358a/triggers/manual/paths/invoke/?api-version=1&tenantId=tId&environmentName=Default-0c130962-09bc-40fc-8db8-9d043ff6251a&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dpXhd5GjJypNhprFHE1nGChVyPcxqM6xYvpNhwOOkm8', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    })
+                    .then(res => {
+                        // Simular progreso durante la respuesta
+                        const progressBar = progressContainer.querySelector('.upload-progress-bar');
+                        if (progressBar) progressBar.style.width = '70%';
+                        return res.text();
+                    })
+                    .then(resp => {
+                        // Completar la barra de progreso
+                        progressContainer.classList.add('complete');
+                        const progressBar = progressContainer.querySelector('.upload-progress-bar');
+                        if (progressBar) progressBar.style.width = '100%';
+                        
+                        // Remover la barra de progreso después de un delay
+                        setTimeout(() => {
+                            if (progressContainer.parentNode) {
+                                progressContainer.parentNode.removeChild(progressContainer);
+                            }
+                        }, 1000);
+                        
+                        // Restaurar el botón y mostrar mensaje de éxito
+                        if (btnEnviar) {
+                            btnEnviar.classList.remove('btn-loading');
+                            btnEnviar.disabled = true;
+                            btnEnviar.textContent = 'Formulario Enviado';
+                        }
+                        
+                        mostrarNotificacion('¡Formulario enviado correctamente! Su postulación ha sido recibida.', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'exito.html';
+                        }, 1200);
+                    })
+                    .catch(err => {
+                        // Remover la barra de progreso en caso de error
+                        if (progressContainer.parentNode) {
+                            progressContainer.parentNode.removeChild(progressContainer);
+                        }
+                        
+                        // Restaurar el botón en caso de error
+                        if (btnEnviar) {
+                            btnEnviar.classList.remove('btn-loading');
+                            btnEnviar.textContent = 'Enviar Solicitud';
+                        }
+                        
+                        mostrarNotificacion('Error al enviar el formulario. Por favor, inténtelo nuevamente.', 'error');
+                        console.error(err);
+                        // Rehabilitar el formulario en caso de error
+                        formularioEnviado = false;
+                    });
+                });
             }
         });
     }
@@ -1233,11 +1347,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         // Mostrar/ocultar el botón de enviar según la sección
         const btnEnviar = document.getElementById('btnEnviar');
-        if (btnEnviar) {
+        const btnSiguiente = document.getElementById('btnSiguiente');
+        if (btnEnviar && btnSiguiente) {
             if (idSeccion === 'documentosSubidos') {
                 btnEnviar.style.display = 'inline-block'; // o 'block' según tu preferencia visual
+                btnSiguiente.style.display = 'none'; // Ocultar botón Siguiente en la última sección
             } else {
                 btnEnviar.style.display = 'none';
+                btnSiguiente.style.display = 'inline-block'; // Mostrar botón Siguiente en otras secciones
             }
         }
     }
@@ -1634,14 +1751,46 @@ document.addEventListener('DOMContentLoaded', async function() {
         campo.addEventListener('blur', function() {
             validarCampo(this);
         });
-        
-        // Para los campos de texto, validar también mientras se escribe
-        if (campo.type === 'text' || campo.type === 'email' || campo.type === 'tel' || campo.type === 'number') {
             campo.addEventListener('input', function() {
                 validarCampo(this);
             });
-        }
     });
+
+    // Validación de RUN para apoderado y sucesión
+    const apoderadoRunInput = document.getElementById('apoderadoRun');
+    if (apoderadoRunInput) {
+        apoderadoRunInput.addEventListener('input', function() {
+            formatearRUN(apoderadoRunInput);
+        });
+        apoderadoRunInput.addEventListener('blur', function() {
+            const valor = apoderadoRunInput.value.trim();
+            const errorElement = apoderadoRunInput.closest('.form-group')?.querySelector('.error-message');
+            if (valor && !validarRUN(valor)) {
+                apoderadoRunInput.classList.add('is-invalid');
+                if (errorElement) errorElement.textContent = 'RUN chileno inválido';
+            } else {
+                apoderadoRunInput.classList.remove('is-invalid');
+                if (errorElement) errorElement.textContent = '';
+            }
+        });
+    }
+    const sucesionRunInput = document.getElementById('sucesionRun');
+    if (sucesionRunInput) {
+        sucesionRunInput.addEventListener('input', function() {
+            formatearRUN(sucesionRunInput);
+        });
+        sucesionRunInput.addEventListener('blur', function() {
+            const valor = sucesionRunInput.value.trim();
+            const errorElement = sucesionRunInput.closest('.form-group')?.querySelector('.error-message');
+            if (valor && !validarRUN(valor)) {
+                sucesionRunInput.classList.add('is-invalid');
+                if (errorElement) errorElement.textContent = 'RUN chileno inválido';
+            } else {
+                sucesionRunInput.classList.remove('is-invalid');
+                if (errorElement) errorElement.textContent = '';
+            }
+        });
+    }
     
     // Inicializar la barra de progreso
     actualizarBarraProgreso(1);
@@ -1657,8 +1806,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     inicializarManejadorDeArchivos();
     actualizarResumenDocumentos(); // Para inicializar el resumen al cargar la página
-    inicializarObrasDinamicas();
     // inicializarGruposDinamicos(); // Esta línea debe ser eliminada
+
+    // Formateo automático de RUN en datos de autor
+    const runInput = document.getElementById('run');
+    if (runInput) {
+        runInput.addEventListener('input', function() {
+            formatearRUN(runInput);
+        });
+    }
 });
 
 function inicializarManejadorDeArchivos() {
@@ -2334,8 +2490,10 @@ function inicializarObrasDinamicas() {
     
     // Función para actualizar el contador
     function updateObrasCounter() {
-        if (obrasCounter) {
-            obrasCounter.textContent = obraCount;
+        // Actualizar el nuevo contador visual
+        const counterNumber = document.querySelector('.obras-counter-number');
+        if (counterNumber) {
+            counterNumber.textContent = obraCount;
         }
         
         // Habilitar/deshabilitar botón de agregar
@@ -2356,7 +2514,10 @@ function inicializarObrasDinamicas() {
         
         obraItem.innerHTML = `
             <div class="obra-header">
-                <span class="obra-number">Obra ${obraId}</span>
+                <div class="obra-header-left">
+                    <div class="obra-icon">🎞️</div>
+                    <span class="obra-number">Obra ${obraId}</span>
+                </div>
                 <button type="button" class="btn-remove-obra" title="Eliminar obra">
                     <i class="fas fa-times"></i>
                 </button>
@@ -2538,6 +2699,10 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
     setTimeout(() => {
         noti.remove();
     }, 4000);
+    if (tipo === 'success') {
+        const btnDescargarPDF = document.getElementById('btnDescargarPDF');
+        if (btnDescargarPDF) btnDescargarPDF.style.display = 'block';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -2545,81 +2710,73 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('[required]').forEach(el => el.removeAttribute('required'));
 });
 
-function autocompletarFormularioPrueba() {
-    // Esperar a que los selects estén poblados (por si hay carga asíncrona)
-    setTimeout(() => {
-        // Datos personales
-        document.getElementById('nombres').value = 'Juan';
-        document.getElementById('apellidoPaterno').value = 'Pérez';
-        document.getElementById('apellidoMaterno').value = 'González';
-        document.getElementById('nacionalidad').value = 'Chilena';
-        $('#nacionalidad').trigger('change');
-        document.getElementById('tipoDocumento').value = 'run-chileno';
-        $('#tipoDocumento').trigger('change');
-        document.getElementById('run').value = '12.345.678-9';
-        document.getElementById('idOrigen').value = '';
-        document.getElementById('fechaNacimiento').value = '1980-05-15';
-        document.getElementById('fechaDefuncion').value = '';
-        document.getElementById('genero').value = 'masculino';
-        $('#genero').trigger('change');
-        document.getElementById('seudonimo').value = 'El Dramaturgo';
-
-        // Contacto
-        document.getElementById('paisResidencia').value = 'Chile';
-        $('#paisResidencia').trigger('change');
-        setTimeout(() => {
-            document.getElementById('region').value = 'Región Metropolitana';
-            $('#region').trigger('change');
-            setTimeout(() => {
-                document.getElementById('comuna').value = 'Santiago';
-                $('#comuna').trigger('change');
-            }, 300);
-        }, 300);
-        document.getElementById('direccion').value = 'Av. Libertador 1234';
-        document.getElementById('detalleDireccion').value = 'Depto 45B';
-        document.getElementById('email').value = 'juan.perez@email.com';
-        document.getElementById('codigoPais').value = '+56';
-        document.getElementById('telefono').value = '912345678';
-
-        // Apoderado
-        document.getElementById('apoderadoNombres').value = 'María';
-        document.getElementById('apoderadoApellidoPaterno').value = 'López';
-        document.getElementById('apoderadoApellidoMaterno').value = 'Ramírez';
-        document.getElementById('apoderadoEmail').value = 'maria.lopez@email.com';
-        document.getElementById('apoderadoCodigoPais').value = '+56';
-        document.getElementById('apoderadoTelefono').value = '987654321';
-
-        // Sucesión
-        document.getElementById('sucesionNombres').value = 'Carlos';
-        document.getElementById('sucesionApellidoPaterno').value = 'Soto';
-        document.getElementById('sucesionApellidoMaterno').value = 'Mena';
-        document.getElementById('sucesionEmail').value = 'carlos.soto@email.com';
-        document.getElementById('sucesionCodigoPais').value = '+56';
-        document.getElementById('sucesionTelefono').value = '998877665';
-
-        // Ámbito (activar ambos)
-        document.getElementById('ambitoAudiovisual').value = 'Audiovisual';
-        document.getElementById('ambitoDramatico').value = 'Dramático';
-
-        // Clases (marcar algunos checkboxes)
-        ['claseDirector', 'claseGuionista', 'claseDramaturgo'].forEach(id => {
-            const cb = document.getElementById(id);
-            if (cb) cb.checked = true;
-        });
-
-        // Sociedad
-        const radioSi = document.querySelector('input[name="perteneceSociedad"][value="si"]');
-        if (radioSi) radioSi.checked = true;
-        document.getElementById('sociedadPais').disabled = false;
-        document.getElementById('sociedadNombre').disabled = false;
-        document.getElementById('sociedadPais').value = 'Argentina';
-        $('#sociedadPais').trigger('change');
-        setTimeout(() => {
-            document.getElementById('sociedadNombre').value = 'ARGENTORES';
-            $('#sociedadNombre').trigger('change');
-        }, 300);
-    }, 800); // Espera para asegurar que los selects estén listos
-}
-document.addEventListener('DOMContentLoaded', autocompletarFormularioPrueba);
-
 let formularioEnviado = false;
+
+// Mostrar botón de descarga PDF tras el envío exitoso
+document.addEventListener('DOMContentLoaded', function() {
+    const btnDescargarPDF = document.getElementById('btnDescargarPDF');
+    if (btnDescargarPDF) {
+        btnDescargarPDF.style.display = 'block';
+        btnDescargarPDF.addEventListener('click', async function() {
+            const formContainer = document.querySelector('.form-container');
+            if (!formContainer) return;
+            btnDescargarPDF.disabled = true;
+            btnDescargarPDF.textContent = 'Generando PDF...';
+
+            // 1. Guardar el estado original de las secciones
+            const secciones = Array.from(document.querySelectorAll('.form-section'));
+            const estadoOriginal = secciones.map(sec => ({
+                id: sec.id,
+                display: sec.style.display,
+                active: sec.classList.contains('active')
+            }));
+
+            // 2. Mostrar todas las secciones
+            secciones.forEach(sec => {
+                sec.style.display = 'block';
+                sec.classList.remove('active');
+            });
+
+            // 3. Capturar el formulario
+            await html2canvas(formContainer, {scale:2, useCORS:true}).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new window.jspdf.jsPDF({unit: 'px', format: 'a4'});
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = pageWidth / imgWidth;
+                const scaledHeight = imgHeight * ratio;
+                let position = 0;
+
+                // Primera página
+                pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, scaledHeight);
+                position -= pageHeight;
+
+                // Si la imagen es más alta que una página, agregar más páginas
+                while (Math.abs(position) + pageHeight < scaledHeight) {
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, pageWidth, scaledHeight);
+                    position -= pageHeight;
+                }
+                pdf.save('Formulario-Postulacion-ATN.pdf');
+            });
+
+            // 4. Restaurar el estado original
+            estadoOriginal.forEach(({id, display, active}) => {
+                const sec = document.getElementById(id);
+                if (sec) {
+                    sec.style.display = display;
+                    if (active) {
+                        sec.classList.add('active');
+                    } else {
+                        sec.classList.remove('active');
+                    }
+                }
+            });
+
+            btnDescargarPDF.disabled = false;
+            btnDescargarPDF.textContent = 'Descargar PDF del formulario';
+        });
+    }
+});
