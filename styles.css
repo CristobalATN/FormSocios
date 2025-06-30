@@ -1441,20 +1441,35 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    margin-bottom: 0;
+    position: relative;
 }
 
 .logo-img {
-    height: 70px;
-    margin-right: 15px;
+    height: 75px;
     object-fit: contain;
+    flex-shrink: 0;
+    margin-left: 10px;
 }
 
 .logo h1 {
     color: var(--color-primary);
     font-size: 1.8rem;
     margin: 0;
+    text-align: center;
+    flex: 1;
+    margin-left: -130px;
+}
+
+.logo a {
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s ease;
+}
+
+.logo a:hover {
+    opacity: 0.8;
 }
 
 /* Barra de progreso */
@@ -1839,6 +1854,19 @@ body {
     background-color: rgba(9, 113, 55, 0.1);
 }
 
+.btn-success {
+    background-color: #28a745;
+    color: var(--color-white);
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
 /* Estilos responsivos */
 @media (max-width: 992px) {
     .form-grid {
@@ -1894,134 +1922,208 @@ body {
 }
 
 /* Estilos para la sección de obras */
+.section-guide {
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.obras-counter-header {
+    margin: 2rem 0 1.5rem 0;
+    text-align: center;
+}
+
+.obras-counter-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #097137, #28a745);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(9, 113, 55, 0.2);
+    font-weight: 600;
+}
+
+.obras-counter-number {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.obras-counter-text {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
 .obras-container {
-    margin-top: 20px;
+    margin-top: 1rem;
 }
 
 .obras-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.5rem;
 }
 
 .obra-item {
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 20px;
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 16px;
+    padding: 1.5rem;
     transition: all 0.3s ease;
     position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.obra-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #097137, #28a745);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .obra-item:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 2px 8px var(--color-shadow);
+    border-color: #097137;
+    box-shadow: 0 8px 25px rgba(9, 113, 55, 0.15);
+    transform: translateY(-2px);
+}
+
+.obra-item:hover::before {
+    opacity: 1;
 }
 
 .obra-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--color-gray-light);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.obra-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.obra-icon {
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #097137, #28a745);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(9, 113, 55, 0.2);
 }
 
 .obra-number {
-    font-weight: 600;
-    color: var(--color-primary);
-    font-size: 1.1rem;
+    font-weight: 700;
+    color: #097137;
+    font-size: 1.2rem;
 }
 
 .btn-remove-obra {
-    background: none;
-    border: none;
-    color: var(--color-danger);
+    background: #fff;
+    border: 2px solid #dc3545;
+    color: #dc3545;
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.1);
 }
 
 .btn-remove-obra:hover {
-    background-color: var(--color-danger);
+    background-color: #dc3545;
     color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
 .obras-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid var(--color-gray-light);
+    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
 }
 
 .btn-add-obra {
-    background: none;
+    background: linear-gradient(135deg, #097137, #28a745);
     border: none;
-    color: var(--color-primary);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 0.9rem;
-    padding: 8px 16px;
-    border-radius: 4px;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.75rem;
+    box-shadow: 0 4px 15px rgba(9, 113, 55, 0.3);
+    text-decoration: none;
 }
 
 .btn-add-obra:hover {
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, #065428, #218838);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(9, 113, 55, 0.4);
     color: white;
 }
 
 .btn-add-obra:disabled {
-    color: var(--color-gray);
+    background: #6c757d;
     cursor: not-allowed;
-    background: none;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2);
 }
 
-.obras-counter {
-    font-size: 0.9rem;
-    color: var(--color-gray);
-    font-weight: 500;
-}
-
-.current-count {
-    color: var(--color-primary);
-    font-weight: 600;
+.btn-add-obra:disabled:hover {
+    background: #6c757d;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2);
 }
 
 /* Animaciones para obras */
 .obra-item.obra-enter {
     opacity: 0;
-    transform: translateY(-10px);
-    animation: obraSlideIn 0.3s ease forwards;
+    transform: translateY(-20px) scale(0.95);
+    animation: obraSlideIn 0.4s ease forwards;
 }
 
 .obra-item.obra-exit {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     animation: obraSlideOut 0.3s ease forwards;
 }
 
 @keyframes obraSlideIn {
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
 @keyframes obraSlideOut {
     to {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-20px) scale(0.95);
     }
 }
 
@@ -2029,17 +2131,108 @@ body {
 @media (max-width: 768px) {
     .obras-actions {
         flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
+        gap: 1rem;
+        align-items: center;
     }
     
     .obra-item {
-        padding: 15px;
+        padding: 1.25rem;
+        border-radius: 12px;
     }
     
     .obra-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 1rem;
     }
+    
+    .obra-header-left {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .btn-add-obra {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .obras-counter-badge {
+        padding: 0.5rem 1rem;
+    }
+    
+    .obras-counter-number {
+        font-size: 1.25rem;
+    }
+}
+
+/* Clase para ocultar elementos en el video */
+.hidden-for-video {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    }
+
+/* Estilos para la barra de progreso de envío */
+.upload-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #f0f0f0;
+    z-index: 10000;
+    overflow: hidden;
+}
+
+.upload-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #097137, #28a745, #097137);
+    background-size: 200% 100%;
+    animation: progress-animation 2s ease-in-out infinite;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+@keyframes progress-animation {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.upload-progress.complete .upload-progress-bar {
+    width: 100%;
+    animation: none;
+    background: #28a745;
+}
+
+/* Estilos para el botón de envío en estado de carga */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
