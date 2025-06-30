@@ -13,7 +13,9 @@
     <div class="container">
         <header class="header">
             <div class="logo">
+                <a href="https://www.atn.cl" target="_blank" rel="noopener noreferrer">
                 <img src="assets/Logo-Fondo-Transparente@3x(1).png" alt="Logo ATN" class="logo-img">
+                </a>
                 <h1>Postulación de Socio</h1>
             </div>
             <div class="progress-container">
@@ -663,6 +665,15 @@
                 <div class="section-header">
                     <h2><i class="fas fa-film"></i> Obras</h2>
                     <p class="section-description">Información general de obras publicadas o estrenadas</p>
+                    <p class="section-guide">Incluya las obras más representativas o recientes. Puede agregar hasta 10 obras.</p>
+                </div>
+                
+                <!-- Contador de obras mejorado -->
+                <div class="obras-counter-header">
+                    <div class="obras-counter-badge">
+                        <span class="obras-counter-number">1</span>
+                        <span class="obras-counter-text">de 10 obras</span>
+                    </div>
                 </div>
                 
                 <!-- Contenedor de obras dinámicas -->
@@ -671,7 +682,10 @@
                         <!-- Primera obra (obligatoria) -->
                         <div class="obra-item" data-obra-id="1">
                             <div class="obra-header">
+                                <div class="obra-header-left">
+                                    <div class="obra-icon">🎞️</div>
                                 <span class="obra-number">Obra 1</span>
+                                </div>
                                 <button type="button" class="btn-remove-obra" style="display: none;" title="Eliminar obra">
                                     <i class="fas fa-times"></i>
                                 </button>
@@ -699,12 +713,9 @@
                     
                     <!-- Botón para agregar más obras -->
                     <div class="obras-actions">
-                        <button type="button" class="btn-text-link btn-add-obra" id="btnAddObra">
+                        <button type="button" class="btn btn-primary btn-add-obra" id="btnAddObra">
                             <i class="fas fa-plus"></i> Agregar otra obra
                         </button>
-                        <div class="obras-counter">
-                            <span class="current-count">1</span>/10 obras
-                        </div>
                     </div>
                 </div>
             </section>
@@ -969,6 +980,9 @@
         </form>
     </div>
 
+    <button id="btnDescargarPDF" class="btn btn-info hidden-for-video" style="display:none;margin:20px auto;">Descargar PDF del formulario</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="script.js"></script>
