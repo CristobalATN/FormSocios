@@ -208,9 +208,19 @@
 
 /* Ajustar el label flotante */
 .phone-number-input .floating-label label {
-    top: 14px;
-    left: 15px;
-    transition: all 0.2s ease;
+    position: absolute;
+    top: -1.2em;
+    left: 10px;
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    background: var(--color-white);
+    padding: 0 5px;
+    transform: none;
+    white-space: normal;
+    max-width: 100%;
+    line-height: 1.2;
+    pointer-events: none;
+    transition: all 0.2s;
 }
 
 .phone-number-input .floating-label input:focus + label,
@@ -220,6 +230,10 @@
     font-size: 12px;
     background: white;
     padding: 0 5px;
+}
+
+.phone-number-input .floating-label .form-control {
+    padding-top: 2em;
 }
 
 /* Estilos para la nota informativa */
@@ -1589,7 +1603,7 @@ body {
 
 .form-control {
     width: 100%;
-    padding: 12px 15px;
+    padding: 0px 15px;
     font-size: 1rem;
     border: 1px solid var(--color-border);
     border-radius: 4px;
@@ -1606,36 +1620,22 @@ body {
 
 .floating-label label {
     position: absolute;
-    top: 30px;
-    left: 15px;
-    color: var(--color-gray);
-    font-size: 1rem;
-    font-weight: normal;
-    pointer-events: none;
-    transition: all 0.2s ease;
-    background: var(--color-white);
-    padding: 0 5px;
-    transform-origin: left top;
-    max-width: calc(100% - 30px);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.floating-label .form-control:focus ~ label,
-.floating-label .form-control:not(:placeholder-shown) ~ label,
-.floating-label .form-control:focus:not(:placeholder-shown) ~ label {
-    top: 0;
+    top: -1.2em;
     left: 10px;
     font-size: 0.75rem;
     color: var(--color-primary);
     background: var(--color-white);
     padding: 0 5px;
-    transform: translateY(-50%) scale(0.9);
-    white-space: nowrap;
-    max-width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    transform: none;
+    white-space: normal;
+    max-width: 100%;
+    line-height: 1.2;
+    pointer-events: none;
+    transition: all 0.2s;
+}
+
+.floating-label .form-control {
+    padding-top: 0em;
 }
 
 /* Estilos para selects con Select2 */
@@ -1706,7 +1706,34 @@ body {
 }
 
 .file-upload .file-info {
-    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    min-height: 48px;
+    padding: 0 18px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px dashed #ced4da;
+    font-size: 1.15rem;
+    color: #575656;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    margin-top:-4px;
+}
+
+.file-upload .file-info i {
+    font-size: 1.5em;
+    margin-right: 12px;
+    color: #097137;
+    display: flex;
+    align-items: center;
+}
+
+.file-upload .file-name {
+    font-size: 1.1em;
+    color: #575656;
+    display: flex;
+    align-items: center;
 }
 
 /* Estilos para el campo de carga de archivos */
@@ -2235,4 +2262,97 @@ body {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Modal personalizada Admin ATN */
+.modal-atn {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0,0,0,0.35) !important;
+  z-index: 99999 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.modal-atn[style*="display: flex"] {
+  display: flex !important;
+}
+.modal-atn-content {
+  position: relative;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 18px;
+  max-width: 420px;
+  width: 95%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalFadeIn 0.28s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-atn-header {
+  padding: 22px 32px 10px 32px;
+  border-bottom: 1px solid #e9ecef;
+  background: #097137;
+  border-radius: 18px 18px 0 0;
+}
+.modal-atn-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+}
+.modal-atn-body {
+  padding: 28px 32px 10px 32px;
+  color: #333;
+  font-size: 1.13rem;
+  text-align: center;
+  background: #fff;
+}
+.modal-atn-footer {
+  padding: 18px 32px 22px 32px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 0 0 18px 18px;
+}
+
+#nacionalidad.select2-hidden-accessible + .select2-container .select2-selection--single,
+#nacionalidad.form-control {
+  min-height: 48px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  font-size: 1rem;
+}
+
+.select2-container .select2-selection--single,
+.form-control.select2 {
+  min-height: 48px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  font-size: 1rem;
+}
+
+.floating-label .form-control[type="date"] {
+  line-height: 48px;
+  height: 48px;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding-right: 12px;
 }
