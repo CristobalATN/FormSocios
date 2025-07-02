@@ -74,6 +74,108 @@ async function cargarRegionesYComunas() {
     }
 }
 
+function validarRUN(run) {
+    // Eliminar puntos y espacios, convertir a mayúsculas
+    const runLimpio = run.replace(/\./g, '').replace(/\s+/g, '').toUpperCase();
+    
+    // Validar formato básico (7-8 dígitos + guión + dígito verificador K o número)
+    if (!/^\d{7,8}-[\dKk]$/.test(runLimpio)) {
+        return false;
+    }
+    
+    // Separar número y dígito verificador
+    const [numero, digitoVerificador] = runLimpio.split('-');
+    
+    // Validar dígito verificador
+    let suma = 0;
+    let multiplicador = 2;
+    
+    // Recorrer el número de derecha a izquierda
+    for (let i = numero.length - 1; i >= 0; i--) {
+        suma += parseInt(numero.charAt(i)) * multiplicador;
+        multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+    }
+    
+    const resto = suma % 11;
+    let dvEsperado = 11 - resto;
+    
+    // Ajustar dígito verificador esperado
+    if (dvEsperado === 11) dvEsperado = '0';
+    if (dvEsperado === 10) dvEsperado = 'K';
+    
+    // Comparar con el dígito verificador ingresado
+    return digitoVerificador.toUpperCase() === dvEsperado.toString();
+}
+
+function validarCampo(campo) {
+    const valor = campo.value.trim();
+    const esRequerido = campo.hasAttribute('required');
+    const tipo = campo.type;
+    const nombre = campo.name;
+    const errorElement = campo.closest('.form-group')?.querySelector('.error-message');
+    if (errorElement) errorElement.textContent = '';
+    campo.classList.remove('is-invalid');
+    if (esRequerido && !valor) {
+        campo.classList.add('is-invalid');
+        if (errorElement) errorElement.textContent = 'Este campo es obligatorio';
+        return false;
+    }
+    if (valor) {
+        switch (tipo) {
+            case 'email':
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(valor)) {
+                    campo.classList.add('is-invalid');
+                    if (errorElement) errorElement.textContent = 'Ingrese un correo electrónico válido';
+                    return false;
+                }
+                break;
+            case 'tel':
+                const telefonoRegex = /^[0-9+\-\s()]{8,20}$/;
+                if (!telefonoRegex.test(valor)) {
+                    campo.classList.add('is-invalid');
+                    if (errorElement) errorElement.textContent = 'Ingrese un número de teléfono válido';
+                    return false;
+                }
+                break;
+            case 'number':
+                if (campo.min && parseFloat(valor) < parseFloat(campo.min)) {
+                    campo.classList.add('is-invalid');
+                    if (errorElement) errorElement.textContent = `El valor mínimo permitido es ${campo.min}`;
+                    return false;
+                }
+                if (campo.max && parseFloat(valor) > parseFloat(campo.max)) {
+                    campo.classList.add('is-invalid');
+                    if (errorElement) errorElement.textContent = `El valor máximo permitido es ${campo.max}`;
+                    return false;
+                }
+                break;
+            case 'file':
+                if (campo.files.length > 0) {
+                    const archivo = campo.files[0];
+                    const extensionesPermitidas = /(\.|\/)(pdf|jpg|jpeg|png)$/i;
+                    if (!extensionesPermitidas.test(archivo.name)) {
+                        campo.classList.add('is-invalid');
+                        if (errorElement) errorElement.textContent = 'Solo se permiten archivos PDF o imágenes (JPG, JPEG, PNG)';
+                        return false;
+                    }
+                    const maxSize = 5 * 1024 * 1024; // 5MB
+                    if (archivo.size > maxSize) {
+                        campo.classList.add('is-invalid');
+                        if (errorElement) errorElement.textContent = 'El archivo no debe superar los 5MB';
+                        return false;
+                    }
+                }
+                break;
+        }
+        if (nombre === 'run' && !validarRUN(valor)) {
+            campo.classList.add('is-invalid');
+            if (errorElement) errorElement.textContent = 'Ingrese un RUN válido (ej: 12.345.678-9)';
+            return false;
+        }
+    }
+    return true;
+}
 // Función para actualizar las comunas según la región seleccionada
 function actualizarComunas(regionSeleccionada) {
     console.log('Actualizando comunas para región:', regionSeleccionada);
@@ -137,7 +239,6 @@ async function cargarNacionalidades() {
         const selectPaisResidencia = document.getElementById('paisResidencia');
         
         // Ordenar países alfabéticamente
-        paises.sort((a, b) => a.País.localeCompare(b.País));
         
         // Función para agregar opciones a un select
         function poblarSelect(selectElement) {
@@ -160,7 +261,41 @@ async function cargarNacionalidades() {
         
         // Poblar ambos selects
         poblarSelect(selectNacionalidad);
+        // Inicializar Select2 para nacionalidad
+        $(selectNacionalidad).select2({
+            placeholder: 'Seleccione una opción',
+            allowClear: true,
+            width: '100%',
+            dropdownParent: $('body'),
+            minimumResultsForSearch: 0
+        });
         poblarSelect(selectPaisResidencia);
+        // Inicializar Select2 para país de residencia SOLO UNA VEZ
+        if (!$(selectPaisResidencia).hasClass('select2-hidden-accessible')) {
+            $(selectPaisResidencia).select2({
+                placeholder: 'Seleccione un país',
+                allowClear: true,
+                width: '100%',
+                dropdownParent: $('body'),
+                minimumResultsForSearch: 0
+            });
+        }
+        
+        // Inicializar Select2 para país de residencia (igual que nacionalidad)
+        $(selectPaisResidencia).select2({
+            placeholder: 'Seleccione un país',
+            allowClear: true,
+            width: '100%',
+            dropdownParent: $('body'),
+            minimumResultsForSearch: 0
+        });
+        // Forzar actualización visual de Select2 para país de residencia
+        $(selectPaisResidencia).trigger('change.select2');
+        $(selectPaisResidencia).select2('close');
+        // Cada vez que cambie el valor, forzar actualización visual
+        $(selectPaisResidencia).on('change', function() {
+            $(this).trigger('change.select2');
+        });
         
         // Configurar la visibilidad condicional después de cargar las nacionalidades
         configurarVisibilidadCondicional();
@@ -189,6 +324,11 @@ function configurarVisibilidadCondicional() {
         // Obtener el valor de la nacionalidad del Select2
         const nacionalidad = nacionalidadSelect ? ($('#nacionalidad').val() || '').toLowerCase() : '';
         const tipoDocumento = tipoDocumentoSelect ? ($('#tipoDocumento').val() || '') : '';
+        // Limpiar campos RUN y N° ID Origen cada vez que se cambia nacionalidad o tipo de documento
+        const runInput = document.getElementById('run');
+        const idOrigenInput = document.getElementById('idOrigen');
+        if (runInput) runInput.value = '';
+        if (idOrigenInput) idOrigenInput.value = '';
         
         console.log('Nacionalidad seleccionada:', nacionalidad);
         console.log('Tipo de documento seleccionado:', tipoDocumento);
@@ -214,7 +354,10 @@ function configurarVisibilidadCondicional() {
             
             // Limpiar y hacer no requeridos los otros campos
             if (tipoDocumentoSelect) {
-                $('#tipoDocumento').val(null).trigger('change');
+                // Solo cambiar y disparar el evento si el valor no es null o vacío
+                if ($('#tipoDocumento').val() !== null && $('#tipoDocumento').val() !== '') {
+                    $('#tipoDocumento').val(null).trigger('change');
+                }
                 tipoDocumentoSelect.required = false;
             }
             const idOrigenInput = document.getElementById('idOrigen');
@@ -524,6 +667,83 @@ document.addEventListener('DOMContentLoaded', async function() {
                     second: '2-digit'
                 });
 
+                // === GENERAR PDF DEL FORMULARIO COMO BASE64 ===
+                const formContainer = document.querySelector('.form-container');
+                let screenshot_pdf = null;
+                if (formContainer && window.jspdf && window.html2canvas) {
+                    // Guardar el estado original de las secciones
+                    const secciones = Array.from(document.querySelectorAll('.form-section'));
+                    const estadoOriginal = secciones.map(sec => ({
+                        id: sec.id,
+                        display: sec.style.display,
+                        active: sec.classList.contains('active')
+                    }));
+
+                    // Mostrar todas las secciones
+                    secciones.forEach(sec => {
+                        sec.style.display = 'block';
+                        sec.classList.remove('active');
+                    });
+
+                    await html2canvas(formContainer, {scale:2, useCORS:true}).then(canvas => {
+                        // Usar JPEG y calidad media
+                        const imgData = canvas.toDataURL('image/jpeg', 0.5);
+                        const pdf = new window.jspdf.jsPDF({unit: 'px', format: 'a4'});
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+                        const imgWidth = canvas.width;
+                        const imgHeight = canvas.height;
+                        const ratio = pageWidth / imgWidth;
+                        const scaledHeight = imgHeight * ratio;
+                        let position = 0;
+
+                        // Primera página
+                        pdf.addImage(imgData, 'JPEG', 0, 0, pageWidth, scaledHeight);
+                        position -= pageHeight;
+
+                        // Corregido: asegurar que la última parte siempre se incluya
+                        while (Math.abs(position) < scaledHeight) {
+                            if (Math.abs(position) + pageHeight < scaledHeight) {
+                                pdf.addPage();
+                                pdf.addImage(imgData, 'JPEG', 0, position, pageWidth, scaledHeight);
+                            } else {
+                                // Si queda un resto, agregar una última página para el final
+                                if (scaledHeight - Math.abs(position) > 0) {
+                                    pdf.addPage();
+                                    pdf.addImage(imgData, 'JPEG', 0, position, pageWidth, scaledHeight);
+                                }
+                                break;
+                            }
+                            position -= pageHeight;
+                        }
+                        // Validar tamaño del PDF antes de enviar (máx 4 MB)
+                        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+                        const pdfSizeMB = (pdfBase64.length * 3 / 4) / (1024 * 1024);
+                        if (pdfSizeMB > 4) {
+                            mostrarNotificacion('El PDF generado es demasiado grande (' + pdfSizeMB.toFixed(2) + ' MB). Por favor, revisa el contenido del formulario o contacta soporte.', 'error');
+                            screenshot_pdf = null;
+                        } else {
+                            screenshot_pdf = {
+                                nombre: 'Formulario-Postulacion-ATN.pdf',
+                                contenido: pdfBase64
+                            };
+                        }
+                    });
+
+                    // Restaurar el estado original de las secciones
+                    estadoOriginal.forEach(({id, display, active}) => {
+                        const sec = document.getElementById(id);
+                        if (sec) {
+                            sec.style.display = display;
+                            if (active) {
+                                sec.classList.add('active');
+                            } else {
+                                sec.classList.remove('active');
+                            }
+                        }
+                    });
+                }
+
                 // Construir el objeto de datos
                 const data = {
                     nombres,
@@ -563,7 +783,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                     sociedadPais,
                     sociedadNombre,
                     observaciones,
-                    fechaHoraPostulacion
+                    fechaHoraPostulacion,
+                    screenshot_pdf,
                 };
 
                 // === ARCHIVOS ===
@@ -1055,88 +1276,68 @@ document.addEventListener('DOMContentLoaded', async function() {
     const direccion = document.getElementById('direccion');
     const email = document.getElementById('email');
     const telefono = document.getElementById('telefono');
+    // Declarar containers después de que los elementos existen
+    const regionContainer = region ? region.closest('.form-group') : null;
+    const comunaContainer = comuna ? comuna.closest('.form-group') : null;
     
     // Manejar cambio en el país de residencia
-    if (paisResidencia) {
-        console.log('Configurando manejador de cambio para país de residencia');
-        // Convertir a jQuery para manejar mejor los eventos de Select2
-        $(paisResidencia).on('change', async function() {
-            console.log('País de residencia cambiado a:', this.value);
+    if (paisResidencia && region && comuna && regionContainer && comunaContainer) {
+        $(paisResidencia).off('change').on('change', async function() {
+            const pais = this.value ? this.value.toString().trim().toLowerCase() : '';
+            // Limpiar campos Estado, Distrito, Región y Comuna al cambiar país
+            const estadoInput = document.getElementById('estado');
+            const distritoInput = document.getElementById('distrito');
             const regionSelect = document.getElementById('region');
             const comunaSelect = document.getElementById('comuna');
-            
-            // Verificar si el valor es Chile (comparación flexible)
-            const paisSeleccionado = this.value ? this.value.toString().trim().toLowerCase() : '';
-            if (paisSeleccionado === 'chile' || paisSeleccionado.includes('chile')) {
-                console.log('Chile detectado como país de residencia');
-                // Habilitar región si se selecciona Chile
-                regionSelect.disabled = false;
-                $(regionSelect).prop('disabled', false);
-                
-                // Limpiar selección de comuna
-                comunaSelect.disabled = true;
-                $(comunaSelect).prop('disabled', true).val(null).trigger('change');
-                
-                // Cargar regiones
-                try {
-                    await cargarRegionesYComunas();
-                    // Forzar la actualización de Select2
-                    $(regionSelect).trigger('change.select2');
-                } catch (error) {
-                    console.error('Error al cargar regiones:', error);
-                }
+            if (estadoInput) {
+                estadoInput.value = '';
+                estadoInput.classList.remove('is-invalid');
+                const error = estadoInput.closest('.form-group')?.querySelector('.error-message');
+                if (error) error.textContent = '';
+            }
+            if (distritoInput) {
+                distritoInput.value = '';
+                distritoInput.classList.remove('is-invalid');
+                const error = distritoInput.closest('.form-group')?.querySelector('.error-message');
+                if (error) error.textContent = '';
+            }
+            if (regionSelect) {
+                regionSelect.value = '';
+                $(regionSelect).trigger('change');
+                regionSelect.classList.remove('is-invalid');
+                const error = regionSelect.closest('.form-group')?.querySelector('.error-message');
+                if (error) error.textContent = '';
+            }
+            if (comunaSelect) {
+                comunaSelect.value = '';
+                $(comunaSelect).trigger('change');
+                comunaSelect.classList.remove('is-invalid');
+                const error = comunaSelect.closest('.form-group')?.querySelector('.error-message');
+                if (error) error.textContent = '';
+            }
+            if (pais === 'chile' || pais.includes('chile')) {
+                // Mostrar región y comuna, ocultar estado y distrito
+                estadoContainer.style.display = 'none';
+                distritoContainer.style.display = 'none';
+                regionContainer.style.display = '';
+                comunaContainer.style.display = '';
+            } else if (pais) {
+                // Mostrar estado y distrito, ocultar región y comuna
+                estadoContainer.style.display = '';
+                distritoContainer.style.display = '';
+                regionContainer.style.display = 'none';
+                comunaContainer.style.display = 'none';
             } else {
-                // Deshabilitar y limpiar región y comuna si no es Chile
-                regionSelect.disabled = true;
-                $(regionSelect).prop('disabled', true).val(null).trigger('change');
-                
-                comunaSelect.disabled = true;
-                $(comunaSelect).prop('disabled', true).val(null).trigger('change');
-                
-                // Limpiar opciones de región y comuna
-                $(regionSelect).empty().append(new Option('Seleccione una región', ''));
-                $(comunaSelect).empty().append(new Option('Seleccione una comuna', ''));
-                
-                // Forzar actualización de Select2
-                $(regionSelect).trigger('change.select2');
-                $(comunaSelect).trigger('change.select2');
+                // Si no hay país seleccionado, ocultar estado y distrito, mostrar región y comuna
+                estadoContainer.style.display = 'none';
+                distritoContainer.style.display = 'none';
+                regionContainer.style.display = '';
             }
         });
     }
     
     // Validación del campo RUN (formato chileno)
-    function validarRUN(run) {
-        // Eliminar puntos y espacios, convertir a mayúsculas
-        const runLimpio = run.replace(/\./g, '').replace(/\s+/g, '').toUpperCase();
-        
-        // Validar formato básico (7-8 dígitos + guión + dígito verificador K o número)
-        if (!/^\d{7,8}-[\dKk]$/.test(runLimpio)) {
-            return false;
-        }
-        
-        // Separar número y dígito verificador
-        const [numero, digitoVerificador] = runLimpio.split('-');
-        
-        // Validar dígito verificador
-        let suma = 0;
-        let multiplicador = 2;
-        
-        // Recorrer el número de derecha a izquierda
-        for (let i = numero.length - 1; i >= 0; i--) {
-            suma += parseInt(numero.charAt(i)) * multiplicador;
-            multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
-        }
-        
-        const resto = suma % 11;
-        let dvEsperado = 11 - resto;
-        
-        // Ajustar dígito verificador esperado
-        if (dvEsperado === 11) dvEsperado = '0';
-        if (dvEsperado === 10) dvEsperado = 'K';
-        
-        // Comparar con el dígito verificador ingresado
-        return digitoVerificador.toUpperCase() === dvEsperado.toString();
-    }
+    
     
     // Formatear RUN mientras se escribe
     function formatearRUN(input) {
@@ -1193,109 +1394,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         return run;
     }
     
-    // Función para validar un campo individual
-    function validarCampo(campo) {
-        const valor = campo.value.trim();
-        const esRequerido = campo.hasAttribute('required');
-        const tipo = campo.type;
-        const nombre = campo.name;
-        const errorElement = campo.closest('.form-group')?.querySelector('.error-message');
-        
-        // Limpiar mensaje de error previo si existe el elemento
-        if (errorElement) {
-        errorElement.textContent = '';
-        }
-        campo.classList.remove('is-invalid');
-        
-        // Validar campo requerido
-        if (esRequerido && !valor) {
-            campo.classList.add('is-invalid');
-            if (errorElement) {
-            errorElement.textContent = 'Este campo es obligatorio';
-            }
-            return false;
-        }
-        
-        // Validaciones específicas por tipo de campo
-        if (valor) {
-            switch (tipo) {
-                case 'email':
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailRegex.test(valor)) {
-                        campo.classList.add('is-invalid');
-                        if (errorElement) {
-                        errorElement.textContent = 'Ingrese un correo electrónico válido';
-                        }
-                        return false;
-                    }
-                    break;
-                    
-                case 'tel':
-                    const telefonoRegex = /^[0-9+\-\s()]{8,20}$/;
-                    if (!telefonoRegex.test(valor)) {
-                        campo.classList.add('is-invalid');
-                        if (errorElement) {
-                        errorElement.textContent = 'Ingrese un número de teléfono válido';
-                        }
-                        return false;
-                    }
-                    break;
-                    
-                case 'number':
-                    if (campo.min && parseFloat(valor) < parseFloat(campo.min)) {
-                        campo.classList.add('is-invalid');
-                        if (errorElement) {
-                        errorElement.textContent = `El valor mínimo permitido es ${campo.min}`;
-                        }
-                        return false;
-                    }
-                    if (campo.max && parseFloat(valor) > parseFloat(campo.max)) {
-                        campo.classList.add('is-invalid');
-                        if (errorElement) {
-                        errorElement.textContent = `El valor máximo permitido es ${campo.max}`;
-                        }
-                        return false;
-                    }
-                    break;
-                    
-                case 'file':
-                    if (campo.files.length > 0) {
-                        const archivo = campo.files[0];
-                        const extensionesPermitidas = /(\.|\/)(pdf|jpg|jpeg|png)$/i;
-                        
-                        if (!extensionesPermitidas.test(archivo.name)) {
-                            campo.classList.add('is-invalid');
-                            if (errorElement) {
-                            errorElement.textContent = 'Solo se permiten archivos PDF o imágenes (JPG, JPEG, PNG)';
-                            }
-                            return false;
-                        }
-                        
-                        // Tamaño máximo de 5MB
-                        const maxSize = 5 * 1024 * 1024; // 5MB
-                        if (archivo.size > maxSize) {
-                            campo.classList.add('is-invalid');
-                            if (errorElement) {
-                            errorElement.textContent = 'El archivo no debe superar los 5MB';
-                            }
-                            return false;
-                        }
-                    }
-                    break;
-            }
-            
-            // Validación personalizada para el campo RUN
-            if (nombre === 'run' && !validarRUN(valor)) {
-                campo.classList.add('is-invalid');
-                if (errorElement) {
-                errorElement.textContent = 'Ingrese un RUN válido (ej: 12.345.678-9)';
-                }
-                return false;
-            }
-        }
-        
-        return true;
-    }
+    // Mover la función validarCampo al scope global, antes de cualquier función que la use
+    
     
     // Validar todos los campos de una sección
     function validarSeccion(seccion) {
@@ -1345,16 +1445,26 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.log('Grupos dinámicos de Datos Generales inicializados.');
             }
         }
-        // Mostrar/ocultar el botón de enviar según la sección
+        // Mostrar/ocultar el botón de enviar y atrás según la sección
         const btnEnviar = document.getElementById('btnEnviar');
         const btnSiguiente = document.getElementById('btnSiguiente');
-        if (btnEnviar && btnSiguiente) {
+        const btnAtras = document.getElementById('btnAtras');
+        if (btnEnviar && btnSiguiente && btnAtras) {
             if (idSeccion === 'documentosSubidos') {
-                btnEnviar.style.display = 'inline-block'; // o 'block' según tu preferencia visual
-                btnSiguiente.style.display = 'none'; // Ocultar botón Siguiente en la última sección
+                btnEnviar.style.display = 'inline-block';
+                btnSiguiente.style.display = 'none';
+                btnAtras.style.display = 'inline-block';
+                btnAtras.disabled = false;
+            } else if (idSeccion === 'datosAutor') {
+                btnEnviar.style.display = 'none';
+                btnSiguiente.style.display = 'inline-block';
+                btnAtras.style.display = 'none'; // Ocultar Atrás en la primera sección
+                btnAtras.disabled = true;
             } else {
                 btnEnviar.style.display = 'none';
-                btnSiguiente.style.display = 'inline-block'; // Mostrar botón Siguiente en otras secciones
+                btnSiguiente.style.display = 'inline-block';
+                btnAtras.style.display = 'inline-block';
+                btnAtras.disabled = false;
             }
         }
     }
@@ -1437,7 +1547,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                     'documentosFirmar',
                     'documentosSubidos'
                 ];
-                
+                const seccionActual = document.querySelector('.form-section.active');
+                if (!validarCamposVisiblesRequeridos(seccionActual)) {
+                    // Desplazar al primer campo con error
+                    const primerError = seccionActual.querySelector('.is-invalid');
+                    if (primerError) primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
                 if (sectionIds[index]) {
                     mostrarSeccion(sectionIds[index]);
                     // Actualizar la barra de progreso
@@ -1570,12 +1686,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Función para actualizar el resumen de documentos
     function actualizarResumenDocumentos() {
-        const crearHtmlDocumento = (doc, nombrePorDefecto = 'Documento') => {
-            if (!doc || !doc.archivo) { // Verificamos que exista el objeto archivo
+        // Ahora acepta mensaje personalizado
+        const crearHtmlDocumento = (doc, mensajeNoCargado = 'No se ha cargado el documento requerido.') => {
+            if (!doc || !doc.archivo) {
                 return `
                 <div class="sin-documento">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span>No se ha cargado ${nombrePorDefecto.toLowerCase()}</span>
+                    <p class="sin-documento-texto">${mensajeNoCargado}</p>
                 </div>
             `;
             }
@@ -1603,21 +1720,28 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Documento de Identidad
         const identidadContainer = document.getElementById('resumenDocumentoIdentidad');
         if (identidadContainer) {
-            identidadContainer.innerHTML = crearHtmlDocumento(documentosSubidos.identidad, 'ningún documento de identidad');
+            identidadContainer.innerHTML = crearHtmlDocumento(
+                documentosSubidos.identidad,
+                'No se ha cargado la copia del documento de identidad nacional (cédula o pasaporte/DNI). Por favor hacerlo en el paso 1.'
+            );
         }
         
         // Documento de Apoderado
         const apoderadoContainer = document.getElementById('resumenDocumentosApoderado');
         if (apoderadoContainer) {
-            apoderadoContainer.innerHTML = crearHtmlDocumento(documentosSubidos.apoderado, 'ningún documento de apoderado');
+            apoderadoContainer.innerHTML = crearHtmlDocumento(
+                documentosSubidos.apoderado,
+                'No se ha cargado la copia de la cédula de identidad del Apoderado o Representante Legal. Si aplica, por favor hacerlo en el paso 3 del formulario.'
+            );
         }
-
         // Documento de Sucesión
         const sucesionContainer = document.getElementById('resumenDocumentosSucesion');
         if (sucesionContainer) {
-            sucesionContainer.innerHTML = crearHtmlDocumento(documentosSubidos.sucesion, 'ningún documento de sucesión');
+            sucesionContainer.innerHTML = crearHtmlDocumento(
+                documentosSubidos.sucesion,
+                'No se ha cargado la copia de la cédula de identidad de la Sucesión. Si aplica, por favor hacerlo en el paso 4 del formulario.'
+            );
         }
-
         // Documentos Firmados
         const firmadosContainer = document.getElementById('resumenDocumentosFirmados');
         if (firmadosContainer) {
@@ -1649,12 +1773,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                     </div>
                 `}).join('');
             } else {
-                firmadosContainer.innerHTML = `
-                    <div class="sin-documento">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Faltan documentos firmados por cargar</span>
-                    </div>
-                `;
+                firmadosContainer.innerHTML = crearHtmlDocumento(
+                    null,
+                    'Faltan documentos firmados por cargar, por favor hacerlo en el paso 9 del formulario.'
+                );
             }
         }
 
@@ -1685,23 +1807,21 @@ document.addEventListener('DOMContentLoaded', async function() {
         btnSiguiente.addEventListener('click', function(e) {
             e.preventDefault();
             const seccionActual = document.querySelector('.form-section.active');
+            // Validar solo los campos requeridos visibles de la sección actual
+            if (!validarCamposVisiblesRequeridos(seccionActual)) {
+                // Desplazar al primer campo con error
+                const primerError = seccionActual.querySelector('.is-invalid');
+                if (primerError) primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            // Avanzar a la siguiente sección
             const secciones = document.querySelectorAll('.form-section');
             const indiceActual = Array.from(secciones).indexOf(seccionActual);
-            
-            // Avanzar a la siguiente sección sin validar
             if (indiceActual < secciones.length - 1) {
                 const siguienteSeccion = secciones[indiceActual + 1];
                 mostrarSeccion(siguienteSeccion.id);
-                
-                // Actualizar la barra de progreso
-                actualizarBarraProgreso(indiceActual + 2); // +2 porque el índice comienza en 0
-                
-                // Habilitar el botón Atrás si no estamos en la primera sección
-                if (btnAtras) {
-                    btnAtras.disabled = false;
-                }
-                
-                // Desplazar al inicio de la nueva sección
+                actualizarBarraProgreso(indiceActual + 2);
+                if (btnAtras) btnAtras.disabled = false;
                 siguienteSeccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
@@ -1738,10 +1858,87 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (btnCancelar) {
         btnCancelar.addEventListener('click', function(e) {
             e.preventDefault();
-            if (confirm('¿Está seguro de que desea cancelar el registro? Se perderán todos los datos ingresados.')) {
-                // Aquí iría la lógica para cancelar el registro
-                console.log('Registro cancelado');
-                // window.location.href = 'index.html'; // Redirigir a la página principal
+            // Mostrar modal personalizado en vez de confirm()
+            const modal = document.getElementById('modalCancelar');
+            if (modal) modal.style.display = 'flex';
+        });
+    }
+
+    // Lógica de la ventana modal personalizada
+    const modalCancelar = document.getElementById('modalCancelar');
+    const modalCancelarSi = document.getElementById('modalCancelarSi');
+    const modalCancelarNo = document.getElementById('modalCancelarNo');
+    if (modalCancelar && modalCancelarSi && modalCancelarNo) {
+        modalCancelarNo.onclick = function() {
+            modalCancelar.style.display = 'none';
+        };
+        modalCancelarSi.onclick = function() {
+            modalCancelar.style.display = 'none';
+            // Resetear el formulario
+            const form = document.getElementById('socioForm');
+            if (form) form.reset();
+
+            // Limpiar archivos subidos y resúmenes
+            if (typeof documentosSubidos !== 'undefined') {
+                documentosSubidos.identidad = null;
+                documentosSubidos.apoderado = null;
+                documentosSubidos.sucesion = null;
+                if (documentosSubidos.firmados) {
+                    documentosSubidos.firmados.solicitud = null;
+                    documentosSubidos.firmados.mandato = null;
+                }
+            }
+            actualizarResumenDocumentos && actualizarResumenDocumentos();
+
+            // Limpiar visualización de archivos
+            document.querySelectorAll('.file-name').forEach(el => {
+                el.textContent = 'Seleccionar archivo';
+            });
+            document.querySelectorAll('.documento-nombre').forEach(el => {
+                el.textContent = 'Ningún archivo seleccionado';
+            });
+            document.querySelectorAll('.btn-eliminar-doc').forEach(btn => {
+                btn.style.display = 'none';
+            });
+            document.querySelectorAll('.documento-info input[type="file"]').forEach(input => {
+                input.value = '';
+            });
+            // Eliminar previsualizaciones e iconos de archivos
+            document.querySelectorAll('.file-info').forEach(fileInfo => {
+                fileInfo.querySelectorAll('.file-preview, .file-icon, .btn-remove-file-preview').forEach(el => el.remove());
+                // Eliminar todos los íconos fa-upload existentes
+                fileInfo.querySelectorAll('i.fa-upload').forEach(icon => icon.remove());
+                // Agregar solo un ícono fa-upload al inicio
+                const defaultIcon = document.createElement('i');
+                defaultIcon.className = 'fas fa-upload';
+                fileInfo.prepend(defaultIcon);
+            });
+            // Limpiar selects con Select2
+            if (window.$) {
+                $('#nacionalidad').val('').trigger('change');
+                $('#paisResidencia').val('').trigger('change');
+                $('#region').val('').trigger('change');
+                $('#comuna').val('').trigger('change');
+                $('#tipoDocumento').val('').trigger('change');
+                $('#genero').val('').trigger('change');
+                $('#sociedadPais').val('').trigger('change');
+                $('#sociedadNombre').val('').trigger('change');
+            }
+            // Volver a la primera sección
+            if (typeof mostrarSeccion === 'function') {
+                mostrarSeccion('datosAutor');
+                // Desplazar la vista al inicio de la sección
+                const seccion = document.getElementById('datosAutor');
+                if (seccion) seccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if (typeof actualizarBarraProgreso === 'function') {
+                actualizarBarraProgreso(1);
+            }
+        };
+        // Cerrar modal si se hace click fuera del contenido
+        window.addEventListener('click', function(event) {
+            if (event.target === modalCancelar) {
+                modalCancelar.style.display = 'none';
             }
         });
     }
@@ -1813,6 +2010,116 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (runInput) {
         runInput.addEventListener('input', function() {
             formatearRUN(runInput);
+        });
+    }
+
+    // Inicializar Select2 para nacionalidad con búsqueda inmediata
+    const selectNacionalidad = document.getElementById('nacionalidad');
+    if (selectNacionalidad) {
+        $(selectNacionalidad).select2({
+            placeholder: 'Seleccione una opción',
+            allowClear: true,
+            width: '100%',
+            dropdownParent: $('body'),
+            minimumResultsForSearch: 0 // Siempre muestra la caja de búsqueda
+        });
+        // Permitir enfocar y escribir directamente
+        selectNacionalidad.addEventListener('focus', function() {
+            $(this).select2('open');
+        });
+    }
+
+    // Restringir fechas máximas en fecha de nacimiento y defunción
+    const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+    const fechaDefuncionInput = document.getElementById('fechaDefuncion');
+    if (fechaNacimientoInput) {
+        const hoy = new Date().toISOString().split('T')[0];
+        fechaNacimientoInput.max = hoy;
+    }
+    if (fechaDefuncionInput) {
+        const hoy = new Date().toISOString().split('T')[0];
+        fechaDefuncionInput.max = hoy;
+    }
+
+    // Mostrar/ocultar campo Estado según país de residencia
+    const estadoContainer = document.getElementById('estadoContainer');
+    const distritoContainer = document.getElementById('distritoContainer');
+    if (paisResidencia && estadoContainer && regionContainer && comunaContainer && distritoContainer) {
+        paisResidencia.addEventListener('change', function() {
+            const pais = this.value ? this.value.toLowerCase() : '';
+            // Limpiar campos Estado, Distrito, Región y Comuna al cambiar país
+            const estadoInput = document.getElementById('estado');
+            const distritoInput = document.getElementById('distrito');
+            const regionSelect = document.getElementById('region');
+            const comunaSelect = document.getElementById('comuna');
+            if (estadoInput) {
+                estadoInput.value = '';
+                estadoInput.classList.remove('is-invalid');
+                const error = estadoInput.closest('.form-group')?.querySelector('.error-message');
+                if (error) error.textContent = '';
+            }
+            if (distritoInput) {
+                distritoInput.value = '';
+                distritoInput.classList.remove('is-invalid');
+                const error = distritoInput.closest('.form-group')?.querySelector('.error-message');
+                if (error) error.textContent = '';
+            }
+            if (regionSelect) {
+                regionSelect.value = '';
+                $(regionSelect).trigger('change');
+                regionSelect.classList.remove('is-invalid');
+                const error = regionSelect.closest('.form-group')?.querySelector('.error-message');
+                if (error) error.textContent = '';
+            }
+            if (comunaSelect) {
+                comunaSelect.value = '';
+                $(comunaSelect).trigger('change');
+                comunaSelect.classList.remove('is-invalid');
+                const error = comunaSelect.closest('.form-group')?.querySelector('.error-message');
+                if (error) error.textContent = '';
+            }
+            if (pais === 'chile' || pais.includes('chile')) {
+                // Mostrar región y comuna, ocultar estado y distrito
+                estadoContainer.style.display = 'none';
+                distritoContainer.style.display = 'none';
+                regionContainer.style.display = '';
+                comunaContainer.style.display = '';
+            } else if (pais) {
+                // Mostrar estado y distrito, ocultar región y comuna
+                estadoContainer.style.display = '';
+                distritoContainer.style.display = '';
+                regionContainer.style.display = 'none';
+                comunaContainer.style.display = 'none';
+            } else {
+                // Si no hay país seleccionado, ocultar estado y distrito, mostrar región y comuna
+                estadoContainer.style.display = 'none';
+                distritoContainer.style.display = 'none';
+                regionContainer.style.display = '';
+            }
+        });
+    }
+
+    // Corregir validación visual del campo Género
+    const generoSelect = document.getElementById('genero');
+    if (generoSelect) {
+        generoSelect.addEventListener('change', function() {
+            if (this.value) {
+                this.classList.remove('is-invalid');
+                const errorElement = this.closest('.form-group')?.querySelector('.error-message');
+                if (errorElement) errorElement.textContent = '';
+            }
+        });
+    }
+
+    // Corregir validación visual del campo Región/Estado
+    const regionSelect = document.getElementById('region');
+    if (regionSelect) {
+        regionSelect.addEventListener('change', function() {
+            if (this.value) {
+                this.classList.remove('is-invalid');
+                const errorElement = this.closest('.form-group')?.querySelector('.error-message');
+                if (errorElement) errorElement.textContent = '';
+            }
         });
     }
 });
@@ -2117,7 +2424,7 @@ function inicializarDatosTecnicos() {
             console.log('Sociedades cargadas del JSON:', sociedades.length);
             
             // Obtener países únicos
-            const paises = [...new Set(sociedades.map(s => s.País))].sort();
+            const paises = [...new Set(sociedades.map(s => s.País))];
             console.log('Países únicos encontrados:', paises);
             
             // Limpiar opciones existentes usando Select2
@@ -2562,6 +2869,10 @@ function inicializarObrasDinamicas() {
                 dropdownAutoWidth: true,
                 allowClear: true
             });
+            // Forzar cierre del dropdown al seleccionar
+            $(newSelect).on('select2:select', function(e) {
+                $(this).select2('close');
+            });
         }
         
         // Agregar event listener para eliminar
@@ -2581,6 +2892,10 @@ function inicializarObrasDinamicas() {
         
         if (ambitoSelect) {
             $(ambitoSelect).on('change', () => validarCampo(ambitoSelect));
+            // Forzar cierre del dropdown al seleccionar
+            $(ambitoSelect).on('select2:select', function(e) {
+                $(this).select2('close');
+            });
         }
         
         updateObrasCounter();
@@ -2663,6 +2978,10 @@ function inicializarObrasDinamicas() {
                 allowClear: true
             });
             $(ambitoSelect).on('change', () => validarCampo(ambitoSelect));
+            // Forzar cierre del dropdown al seleccionar
+            $(ambitoSelect).on('select2:select', function(e) {
+                $(this).select2('close');
+            });
         }
     }
     
@@ -2705,10 +3024,7 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Eliminar cualquier atributo 'required' residual en el DOM
-  document.querySelectorAll('[required]').forEach(el => el.removeAttribute('required'));
-});
+
 
 let formularioEnviado = false;
 
@@ -2780,3 +3096,89 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// === VALIDACIÓN PERSONALIZADA DE CAMPOS VISIBLES Y REQUERIDOS ===
+function validarCamposVisiblesRequeridos(seccion) {
+    let valido = true;
+    // Validar checkboxes de derechos si estamos en la sección correspondiente
+    if (seccion && seccion.id === 'derechosAdministrar') {
+        const checkboxes = Array.from(seccion.querySelectorAll('.form-check-input'));
+        const todosMarcados = checkboxes.every(checkbox => checkbox.checked);
+        const mensajeValidacion = document.getElementById('derechosValidationMessage');
+        if (!todosMarcados) {
+            valido = false;
+            if (mensajeValidacion) mensajeValidacion.classList.add('show');
+        } else {
+            if (mensajeValidacion) mensajeValidacion.classList.remove('show');
+        }
+    }
+    // Validar archivos de Documentos a Firmar
+    if (seccion && seccion.id === 'documentosFirmar') {
+        const solicitud = document.getElementById('solicitudFirmada');
+        const mandato = document.getElementById('mandatoFirmado');
+        const mensajeValidacion = document.getElementById('documentosValidationMessage');
+        let archivosValidos = true;
+        if (!solicitud || !solicitud.files || solicitud.files.length === 0) {
+            mostrarError('solicitudFirmada', 'Por favor, suba la solicitud firmada');
+            archivosValidos = false;
+        }
+        if (!mandato || !mandato.files || mandato.files.length === 0) {
+            mostrarError('mandatoFirmado', 'Por favor, suba el mandato firmado');
+            archivosValidos = false;
+        }
+        if (!archivosValidos) {
+            valido = false;
+            if (mensajeValidacion) mensajeValidacion.classList.add('show');
+        } else {
+            if (mensajeValidacion) mensajeValidacion.classList.remove('show');
+        }
+    }
+    // Validar los campos requeridos visibles normales
+    const campos = seccion.querySelectorAll('input[required], select[required], textarea[required]');
+    campos.forEach(campo => {
+        // Solo validar si el campo está visible
+        const esVisible = campo.offsetParent !== null;
+        if (esVisible) {
+            if (!validarCampo(campo)) {
+                valido = false;
+            }
+        }
+    });
+    return valido;
+}
+
+// Mostrar mensaje de validación de documentos a firmar al entrar a la sección si faltan archivos
+const secciones = document.querySelectorAll('.form-section');
+secciones.forEach(seccion => {
+    if (seccion.id === 'documentosFirmar') {
+        seccion.addEventListener('sectionShown', function() {
+            const solicitud = document.getElementById('solicitudFirmada');
+            const mandato = document.getElementById('mandatoFirmado');
+            const mensajeValidacion = document.getElementById('documentosValidationMessage');
+            let archivosValidos = true;
+            if (!solicitud || !solicitud.files || solicitud.files.length === 0) {
+                archivosValidos = false;
+            }
+            if (!mandato || !mandato.files || mandato.files.length === 0) {
+                archivosValidos = false;
+            }
+            if (!archivosValidos && mensajeValidacion) {
+                mensajeValidacion.classList.add('show');
+            } else if (mensajeValidacion) {
+                mensajeValidacion.classList.remove('show');
+            }
+        });
+    }
+});
+
+// Lanzar el evento personalizado al mostrar una sección
+function mostrarSeccion(id) {
+    // ... existente ...
+    const seccion = document.getElementById(id);
+    if (seccion) {
+        // ... existente ...
+        const event = new CustomEvent('sectionShown');
+        seccion.dispatchEvent(event);
+    }
+    // ... existente ...
+}
