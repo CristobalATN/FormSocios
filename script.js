@@ -747,6 +747,22 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const estadoBackup = document.getElementById('estadoBackup')?.value.trim() || '';
                 const distritoBackup = document.getElementById('distritoBackup')?.value.trim() || '';
 
+                // === EXTRAER DATOS PROFESIONALES ===
+                const estudios = Array.from(document.querySelectorAll('input[name="estudios[]"]'))
+                    .map(input => input.value.trim()).filter(val => val);
+                const docencia = Array.from(document.querySelectorAll('input[name="docencia[]"]'))
+                    .map(input => input.value.trim()).filter(val => val);
+                const premios = Array.from(document.querySelectorAll('input[name="premios[]"]'))
+                    .map(input => input.value.trim()).filter(val => val);
+                // Puedes agregar más campos dinámicos si existen, como experienciaLaboral o membresias
+
+                // === EXTRAER OBRAS ===
+                const obras = Array.from(document.querySelectorAll('.obra-item')).map(obra => {
+                    const titulo = obra.querySelector('input[name="tituloObra[]"]')?.value.trim() || '';
+                    const ambito = obra.querySelector('select[name="ambitoObra[]"]')?.value || '';
+                    return (titulo && ambito) ? { titulo, ambito } : null;
+                }).filter(obra => obra);
+
                 // Construir el objeto de datos
                 const data = {
                     nombres,
@@ -791,7 +807,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                     regionBackup,
                     comunaBackup,
                     estadoBackup,
-                    distritoBackup
+                    distritoBackup,
+                    // === CAMPOS AGREGADOS ===
+                    estudios,
+                    docencia,
+                    premios,
+                    obras
                 };
 
                 // === ARCHIVOS ===
@@ -962,7 +983,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Agregar el event listener al nuevo elemento
             newSolicitud.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = 'https://atncl.odoo.com/sign/document/mail/13/e3fa90c8-05aa-4a72-a7fc-d8402910cc60';
+                const url = 'https://atncl.odoo.com/sign/document/mail/25/84250785-a729-42f4-8f41-a52c17964a83';
                 window.open(url, '_blank');
             });
         }
@@ -975,7 +996,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Agregar el event listener al nuevo elemento
             newMandato.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = 'https://atncl.odoo.com/sign/document/mail/12/e7bd1633-e98b-4557-b1a0-07ee09f69064';
+                const url = 'https://atncl.odoo.com/sign/document/mail/21/7d1ef8bf-7554-4f87-9827-b9b2c84c3043';
                 window.open(url, '_blank');
             });
         }
