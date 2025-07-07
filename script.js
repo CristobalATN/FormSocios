@@ -270,16 +270,14 @@ async function cargarNacionalidades() {
             minimumResultsForSearch: 0
         });
         poblarSelect(selectPaisResidencia);
-        // Inicializar Select2 para país de residencia SOLO UNA VEZ
-        if (!$(selectPaisResidencia).hasClass('select2-hidden-accessible')) {
-            $(selectPaisResidencia).select2({
-                placeholder: 'Seleccione un país',
-                allowClear: true,
-                width: '100%',
-                dropdownParent: $('body'),
-                minimumResultsForSearch: 0
-            });
-        }
+        // Inicializar Select2 para país de residencia
+        $(selectPaisResidencia).select2({
+            placeholder: 'Seleccione un país',
+            allowClear: true,
+            width: '100%',
+            dropdownParent: $('body'),
+            minimumResultsForSearch: 0
+        });
         
         // Inicializar Select2 para país de residencia (igual que nacionalidad)
         $(selectPaisResidencia).select2({
@@ -292,10 +290,6 @@ async function cargarNacionalidades() {
         // Forzar actualización visual de Select2 para país de residencia
         $(selectPaisResidencia).trigger('change.select2');
         $(selectPaisResidencia).select2('close');
-        // Cada vez que cambie el valor, forzar actualización visual
-        $(selectPaisResidencia).on('change', function() {
-            $(this).trigger('change.select2');
-        });
         
         // Configurar la visibilidad condicional después de cargar las nacionalidades
         configurarVisibilidadCondicional();
@@ -625,18 +619,20 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const apoderadoApellidoPaterno = document.getElementById('apoderadoApellidoPaterno')?.value.trim() || '';
                 const apoderadoApellidoMaterno = document.getElementById('apoderadoApellidoMaterno')?.value.trim() || '';
                 const apoderadoEmail = document.getElementById('apoderadoEmail')?.value.trim() || '';
-                const apoderadoCodigoPais = document.getElementById('apoderadoCodigoPais')?.value || '';
+                let apoderadoCodigoPais = document.getElementById('apoderadoCodigoPais')?.value || '';
                 const apoderadoTelefonoSolo = document.getElementById('apoderadoTelefono')?.value.trim() || '';
                 const apoderadoTelefono = (apoderadoCodigoPais && apoderadoTelefonoSolo) ? (apoderadoCodigoPais + ' ' + apoderadoTelefonoSolo) : (apoderadoTelefonoSolo || apoderadoCodigoPais);
+                if (!apoderadoTelefonoSolo) apoderadoCodigoPais = '';
 
                 // Sucesión
                 const sucesionNombres = document.getElementById('sucesionNombres')?.value.trim() || '';
                 const sucesionApellidoPaterno = document.getElementById('sucesionApellidoPaterno')?.value.trim() || '';
                 const sucesionApellidoMaterno = document.getElementById('sucesionApellidoMaterno')?.value.trim() || '';
                 const sucesionEmail = document.getElementById('sucesionEmail')?.value.trim() || '';
-                const sucesionCodigoPais = document.getElementById('sucesionCodigoPais')?.value || '';
+                let sucesionCodigoPais = document.getElementById('sucesionCodigoPais')?.value || '';
                 const sucesionTelefonoSolo = document.getElementById('sucesionTelefono')?.value.trim() || '';
                 const sucesionTelefono = (sucesionCodigoPais && sucesionTelefonoSolo) ? (sucesionCodigoPais + ' ' + sucesionTelefonoSolo) : (sucesionTelefonoSolo || sucesionCodigoPais);
+                if (!sucesionTelefonoSolo) sucesionCodigoPais = '';
 
                 // Datos Técnicos
                 const ambitos = [];
@@ -744,6 +740,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                     });
                 }
 
+                // === BACKUP ===
+                const paisResidenciaBackup = document.getElementById('paisResidenciaBackup')?.value.trim() || '';
+                const regionBackup = document.getElementById('regionBackup')?.value.trim() || '';
+                const comunaBackup = document.getElementById('comunaBackup')?.value.trim() || '';
+                const estadoBackup = document.getElementById('estadoBackup')?.value.trim() || '';
+                const distritoBackup = document.getElementById('distritoBackup')?.value.trim() || '';
+
                 // Construir el objeto de datos
                 const data = {
                     nombres,
@@ -757,7 +760,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                     fechaDefuncion,
                     genero,
                     seudonimo,
-                    paisResidencia,
                     region,
                     comuna,
                     direccion,
@@ -785,6 +787,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                     observaciones,
                     fechaHoraPostulacion,
                     screenshot_pdf,
+                    paisResidenciaBackup,
+                    regionBackup,
+                    comunaBackup,
+                    estadoBackup,
+                    distritoBackup
                 };
 
                 // === ARCHIVOS ===
@@ -844,7 +851,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         if (progressBar) progressBar.style.width = '30%';
                     }, 500);
                     
-                    // Enviar el JSON al endpoint
+                    // Enviar el JSON al endpoint original
                     fetch('https://default0c13096209bc40fc8db89d043ff625.1a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95768cafc46c445081fca1472c94358a/triggers/manual/paths/invoke/?api-version=1&tenantId=tId&environmentName=Default-0c130962-09bc-40fc-8db8-9d043ff6251a&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dpXhd5GjJypNhprFHE1nGChVyPcxqM6xYvpNhwOOkm8', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -861,21 +868,18 @@ document.addEventListener('DOMContentLoaded', async function() {
                         progressContainer.classList.add('complete');
                         const progressBar = progressContainer.querySelector('.upload-progress-bar');
                         if (progressBar) progressBar.style.width = '100%';
-                        
                         // Remover la barra de progreso después de un delay
                         setTimeout(() => {
                             if (progressContainer.parentNode) {
                                 progressContainer.parentNode.removeChild(progressContainer);
                             }
                         }, 1000);
-                        
                         // Restaurar el botón y mostrar mensaje de éxito
                         if (btnEnviar) {
                             btnEnviar.classList.remove('btn-loading');
                             btnEnviar.disabled = true;
                             btnEnviar.textContent = 'Formulario Enviado';
                         }
-                        
                         mostrarNotificacion('¡Formulario enviado correctamente! Su postulación ha sido recibida.', 'success');
                         setTimeout(() => {
                             window.location.href = 'exito.html';
@@ -886,17 +890,30 @@ document.addEventListener('DOMContentLoaded', async function() {
                         if (progressContainer.parentNode) {
                             progressContainer.parentNode.removeChild(progressContainer);
                         }
-                        
                         // Restaurar el botón en caso de error
                         if (btnEnviar) {
                             btnEnviar.classList.remove('btn-loading');
                             btnEnviar.textContent = 'Enviar Solicitud';
                         }
-                        
                         mostrarNotificacion('Error al enviar el formulario. Por favor, inténtelo nuevamente.', 'error');
                         console.error(err);
                         // Rehabilitar el formulario en caso de error
                         formularioEnviado = false;
+                    });
+
+                    // Enviar el JSON al segundo endpoint de Power Automate
+                    fetch('https://default0c13096209bc40fc8db89d043ff625.1a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/8e2f566122c444208c17314bc9ad0508/triggers/manual/paths/invoke/?api-version=1&tenantId=tId&environmentId=Default-0c130962-09bc-40fc-8db8-9d043ff6251a&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=8kDY_BftmB173PBJpvYr28-1hr8TTgdQmLELfxsXONA', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    })
+                    .then(res => res.text())
+                    .then(resp => {
+                        // Opcional: puedes poner logs o acciones adicionales aquí
+                        console.log('Segundo flujo Power Automate ejecutado correctamente');
+                    })
+                    .catch(err => {
+                        console.error('Error en el segundo flujo Power Automate:', err);
                     });
                 });
             }
@@ -910,6 +927,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Inicializar el panel de instrucciones desplegable
         const instructionHeader = document.querySelector('.instruction-header');
         if (instructionHeader) {
+            // Cerrar instrucciones por defecto
+            instructionHeader.setAttribute('aria-expanded', 'false');
+            document.getElementById('instruccionesDetalladas').classList.remove('show');
             instructionHeader.addEventListener('click', function() {
                 const content = document.getElementById('instruccionesDetalladas');
                 const isExpanded = this.getAttribute('aria-expanded') === 'true';
@@ -1541,7 +1561,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     'datosApoderado',
                     'datosSucesion',
                     'datosTecnicos',
-                    'datosGenerales',
+                    'datosGenerales', // Si el id de la sección cambió a datosProfesionales, cámbialo aquí también
                     'obras',
                     'derechosAdministrar',
                     'documentosFirmar',
@@ -2122,6 +2142,153 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         });
     }
+
+    // Cargar países en el campo de prueba backup
+    try {
+        const response = await fetch('assets/paises.json');
+        if (response.ok) {
+            const paises = await response.json();
+            const selectBackup = document.getElementById('paisResidenciaBackup');
+            if (selectBackup) {
+                // Limpiar opciones excepto la primera
+                while (selectBackup.options.length > 1) {
+                    selectBackup.remove(1);
+                }
+                paises.forEach(pais => {
+                    const option = document.createElement('option');
+                    option.value = pais.País;
+                    option.textContent = pais.País;
+                    selectBackup.appendChild(option);
+                });
+                // Inicializar Select2
+                $(selectBackup).select2({
+                    placeholder: 'Seleccione un país',
+                    allowClear: true,
+                    width: '100%',
+                    dropdownParent: $('body'),
+                    minimumResultsForSearch: 0
+                });
+            }
+        } else {
+            console.error('No se pudo cargar paises.json para el backup');
+        }
+    } catch (e) {
+        console.error('Error cargando paises.json para backup:', e);
+    }
+
+    // Cargar regiones en el campo backup
+    let regionesComunasBackup = [];
+    try {
+        const response = await fetch('assets/regionesycomunas.json');
+        if (response.ok) {
+            regionesComunasBackup = await response.json();
+            const selectRegionBackup = document.getElementById('regionBackup');
+            if (selectRegionBackup) {
+                // Limpiar opciones excepto la primera
+                while (selectRegionBackup.options.length > 1) {
+                    selectRegionBackup.remove(1);
+                }
+                // Obtener regiones únicas
+                const regionesUnicas = [...new Set(regionesComunasBackup.map(item => item['Región']))];
+                regionesUnicas.forEach(region => {
+                    const option = document.createElement('option');
+                    option.value = region;
+                    option.textContent = region;
+                    selectRegionBackup.appendChild(option);
+                });
+                // Inicializar Select2
+                $(selectRegionBackup).select2({
+                    placeholder: 'Seleccione una región/estado',
+                    allowClear: true,
+                    width: '100%',
+                    dropdownParent: $('body'),
+                    minimumResultsForSearch: 0
+                });
+            }
+        }
+    } catch (e) {
+        console.error('Error cargando regionesycomunas.json para backup:', e);
+    }
+
+    // Inicializar Select2 para comuna backup
+    const selectComunaBackup = document.getElementById('comunaBackup');
+    if (selectComunaBackup) {
+        $(selectComunaBackup).select2({
+            placeholder: 'Seleccione una comuna',
+            allowClear: true,
+            width: '100%',
+            dropdownParent: $('body'),
+            minimumResultsForSearch: 0
+        });
+    }
+
+    // Actualizar comunas backup al cambiar región backup
+    const selectRegionBackup = document.getElementById('regionBackup');
+    if (selectRegionBackup && selectComunaBackup) {
+        $(selectRegionBackup).on('change', function() {
+            const regionSeleccionada = this.value;
+            // Limpiar opciones excepto la primera
+            while (selectComunaBackup.options.length > 1) {
+                selectComunaBackup.remove(1);
+            }
+            if (regionSeleccionada && regionesComunasBackup.length > 0) {
+                const comunas = regionesComunasBackup.filter(item => item['Región'] === regionSeleccionada).map(item => item['Comuna']);
+                comunas.forEach(comuna => {
+                    const option = document.createElement('option');
+                    option.value = comuna;
+                    option.textContent = comuna;
+                    selectComunaBackup.appendChild(option);
+                });
+            }
+            // Refrescar Select2
+            $(selectComunaBackup).val('').trigger('change.select2');
+        });
+    }
+
+    // Habilitar región y comuna backup solo si el país backup es Chile
+    const selectPaisBackup = document.getElementById('paisResidenciaBackup');
+    if (selectPaisBackup && selectRegionBackup && selectComunaBackup) {
+        const regionBackupGroup = document.getElementById('regionBackup').closest('.form-group');
+        const comunaBackupGroup = document.getElementById('comunaBackup').closest('.form-group');
+        const estadoBackupGroup = document.getElementById('estadoBackup').closest('.form-group');
+        const distritoBackupGroup = document.getElementById('distritoBackup').closest('.form-group');
+        $(selectPaisBackup).on('change', function() {
+            const pais = this.value ? this.value.trim().toLowerCase() : '';
+            if (pais === 'chile') {
+                selectRegionBackup.disabled = false;
+                $(selectRegionBackup).prop('disabled', false).trigger('change.select2');
+                selectComunaBackup.disabled = false;
+                $(selectComunaBackup).prop('disabled', false).trigger('change.select2');
+                if(regionBackupGroup) regionBackupGroup.style.display = '';
+                if(comunaBackupGroup) comunaBackupGroup.style.display = '';
+                if(estadoBackupGroup) {
+                    estadoBackupGroup.style.display = 'none';
+                    document.getElementById('estadoBackup').disabled = true;
+                    document.getElementById('estadoBackup').value = '';
+                }
+                if(distritoBackupGroup) {
+                    distritoBackupGroup.style.display = 'none';
+                    document.getElementById('distritoBackup').disabled = true;
+                    document.getElementById('distritoBackup').value = '';
+                }
+            } else {
+                selectRegionBackup.disabled = true;
+                $(selectRegionBackup).prop('disabled', true).val('').trigger('change.select2');
+                selectComunaBackup.disabled = true;
+                $(selectComunaBackup).prop('disabled', true).val('').trigger('change.select2');
+                if(regionBackupGroup) regionBackupGroup.style.display = 'none';
+                if(comunaBackupGroup) comunaBackupGroup.style.display = 'none';
+                if(estadoBackupGroup) {
+                    estadoBackupGroup.style.display = '';
+                    document.getElementById('estadoBackup').disabled = false;
+                }
+                if(distritoBackupGroup) {
+                    distritoBackupGroup.style.display = '';
+                    document.getElementById('distritoBackup').disabled = false;
+                }
+            }
+        });
+    }
 });
 
 function inicializarManejadorDeArchivos() {
@@ -2147,10 +2314,8 @@ function inicializarManejadorDeArchivos() {
         const resetUI = () => {
             if (fileNameSpan) fileNameSpan.textContent = defaultText;
             if (errorElement) errorElement.textContent = '';
-            
-            const existingPreview = fileInfo.querySelector('.file-preview, .file-icon, .btn-remove-file-preview');
-            if (existingPreview) existingPreview.parentElement.removeChild(existingPreview);
-            
+            // Eliminar todos los elementos de previsualización, íconos y botón de eliminar
+            fileInfo.querySelectorAll('.file-preview, .file-icon, .btn-remove-file-preview').forEach(el => el.remove());
             if (defaultIcon && !fileInfo.contains(defaultIcon)) {
                 fileInfo.prepend(defaultIcon);
             }
@@ -3182,3 +3347,14 @@ function mostrarSeccion(id) {
     }
     // ... existente ...
 }
+
+// ... existente ...
+    // Corregir validación visual de los campos select2 obligatorios
+    $('.select2').on('change', function() {
+        if (this.required && this.value) {
+            this.classList.remove('is-invalid');
+            const errorElement = this.closest('.form-group')?.querySelector('.error-message');
+            if (errorElement) errorElement.textContent = '';
+        }
+    });
+// ... existente ...
