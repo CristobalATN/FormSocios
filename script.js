@@ -996,7 +996,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Agregar el event listener al nuevo elemento
             newMandato.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = 'https://atncl.odoo.com/sign/document/mail/34/edb14739-f2ca-433c-88cf-3f533e92de52';
+                const url = 'https://atncl.odoo.com/sign/document/mail/39/e804bb0b-8cca-4bab-a128-1b9a2587fd35';
                 window.open(url, '_blank');
             });
         }
