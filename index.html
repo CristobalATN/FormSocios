@@ -48,7 +48,7 @@
                         </div>
                         <div class="progress-slide" data-step="6">
                             <div class="progress-step">6</div>
-                            <span class="step-label">Datos Generales</span>
+                            <span class="step-label">Datos Profesionales</span>
                         </div>
                         <div class="progress-slide" data-step="7">
                             <div class="progress-step">7</div>
@@ -226,9 +226,9 @@
                 
                 <div class="form-grid">
                     <!-- Fila 1: País de Residencia -->
-                    <div class="form-group">
+                    <div class="form-group" style="display:none;">
                         <div class="floating-label">
-                            <select id="paisResidencia" name="paisResidencia" class="form-control select2" required>
+                            <select id="paisResidencia" name="paisResidencia" class="form-control select2">
                                 <option value="">Seleccione un país</option>
                                 <!-- Las opciones se cargarán dinámicamente desde el JSON -->
                             </select>
@@ -256,9 +256,9 @@
                     </div>
 
                     <!-- Fila 1: Región -->
-                    <div class="form-group">
+                    <div class="form-group" style="display:none;">
                         <div class="floating-label">
-                            <select id="region" name="region" class="form-control select2" disabled required>
+                            <select id="region" name="region" class="form-control select2" disabled>
                                 <option value="">Seleccione una región</option>
                                 <!-- Las opciones se cargarán dinámicamente -->
                             </select>
@@ -268,13 +268,64 @@
                     </div>
 
                     <!-- Fila 1: Comuna -->
-                    <div class="form-group">
+                    <div class="form-group" style="display:none;">
                         <div class="floating-label">
-                            <select id="comuna" name="comuna" class="form-control select2" disabled required>
+                            <select id="comuna" name="comuna" class="form-control select2" disabled>
                                 <option value="">Seleccione una comuna</option>
                                 <!-- Las opciones se cargarán dinámicamente -->
                             </select>
                             <label for="comuna">Comuna <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 1: País de Residencia Backup -->
+                    <div class="form-group">
+                        <div class="floating-label">
+                            <select id="paisResidenciaBackup" name="paisResidenciaBackup" class="form-control" required>
+                                <option value="">Seleccione un país</option>
+                            </select>
+                            <label for="paisResidenciaBackup">País de Residencia <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 2: Región/Estado backup -->
+                    <div class="form-group">
+                        <div class="floating-label">
+                            <select id="regionBackup" name="regionBackup" class="form-control" disabled required>
+                                <option value="">Seleccione una región/estado</option>
+                            </select>
+                            <label for="regionBackup">Región/Estado <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 3: Comuna backup -->
+                    <div class="form-group">
+                        <div class="floating-label">
+                            <select id="comunaBackup" name="comunaBackup" class="form-control" disabled required>
+                                <option value="">Seleccione una comuna</option>
+                            </select>
+                            <label for="comunaBackup">Comuna <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 4: Estado backup -->
+                    <div class="form-group" style="display:none;">
+                        <div class="floating-label">
+                            <input type="text" id="estadoBackup" name="estadoBackup" class="form-control" disabled>
+                            <label for="estadoBackup">Estado</label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Fila 5: Distrito Backup -->
+                    <div class="form-group" style="display:none;">
+                        <div class="floating-label">
+                            <input type="text" id="distritoBackup" name="distritoBackup" class="form-control" disabled>
+                            <label for="distritoBackup">Distrito</label>
                             <div class="error-message"></div>
                         </div>
                     </div>
@@ -626,7 +677,7 @@
                 </div>
             </section>
 
-            <!-- Sección 6: Datos Generales -->
+            <!-- Sección 6: Datos Profesionales -->
             <section id="datosGenerales" class="form-section" data-section="6">
                 <div class="section-header">
                     <h2><i class="fas fa-briefcase"></i> Datos Profesionales</h2>
@@ -833,7 +884,12 @@
                                 <div class="step-number">2</div>
                                 <div class="step-content">
                                     <h4>Completar y firmar en línea</h4>
-                                    <p class="documentos-instruccion">Dentro del visor de Odoo Sign, complete todos los campos requeridos. Al final del documento, encontrará un espacio para agregar su firma electrónica. Tras ingresar su nombre podrá elegir una de las siguientes opciones para firmar:<br><br>Auto: Se firmará el documento con el nombre ingresado.<br>Trazar: Podrá dibujar su firma usando el cursor.<br>Cargar: Se abrirá una nueva ventana para que cargue una imagen de su firma (JPG o PNG), de ser una imagen válida se mostrará en el cuadro.</p>
+                                    <p class="documentos-instruccion">Dentro del visor de Odoo Sign, complete todos los campos requeridos. Al final del documento, encontrará un espacio para agregar su firma electrónica. Tras ingresar su nombre podrá elegir una de las siguientes opciones para firmar:</p>
+                                    <ul class="file-names">
+                                        <li><strong>Auto:</strong> Se firmará el documento con el nombre ingresado.</li>
+                                        <li><strong>Trazar:</strong> Podrá dibujar su firma usando el cursor.</li>
+                                        <li><strong>Cargar:</strong> Se abrirá una nueva ventana para que cargue una imagen de su firma (JPG o PNG), de ser una imagen válida se mostrará en el cuadro.</li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="instruction-step">
@@ -842,8 +898,8 @@
                                     <h4>Finalizar y descargar</h4>
                                     <p>Una vez completados y firmados los documentos, el sistema le permitirá descargarlos. Asegúrese de guardarlos con los siguientes nombres:</p>
                                     <ul class="file-names">
-                                        <li><strong>Solicitud:</strong> SOLICITUD-INCORPORACION-<i>[SuNombreCompleto]</i>.pdf</li>
-                                        <li><strong>Mandato:</strong> MANDATO-ESPECIAL-<i>[SuNombreCompleto]</i>.pdf</li>
+                                        <li><strong>Solicitud:</strong> SOLICITUD-INCORPORACION.pdf</li>
+                                        <li><strong>Mandato:</strong> MANDATO-ESPECIAL.pdf</li>
                                     </ul>
                                 </div>
                             </div>
