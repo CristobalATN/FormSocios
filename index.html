@@ -44,11 +44,11 @@
                         </div>
                         <div class="progress-slide" data-step="5">
                             <div class="progress-step">5</div>
-                            <span class="step-label">Datos Técnicos</span>
+                            <span class="step-label">Datos Bancarios</span>
                         </div>
                         <div class="progress-slide" data-step="6">
                             <div class="progress-step">6</div>
-                            <span class="step-label">Datos Profesionales</span>
+                            <span class="step-label">Datos Técnicos</span>
                         </div>
                         <div class="progress-slide" data-step="7">
                             <div class="progress-step">7</div>
@@ -550,8 +550,106 @@
                 </div>
             </section>
 
-            <!-- Sección 5: Datos Técnicos -->
-            <section id="datosTecnicos" class="form-section" data-section="5">
+            <!-- Sección 5: Datos Bancarios -->
+            <section id="datosBancarios" class="form-section" data-section="5">
+                <div class="section-header">
+                    <h2><i class="fas fa-university"></i> Datos Bancarios</h2>
+                    <p class="section-description">Complete sus datos bancarios donde, de ser aprobada su solicitud, recibirá los depósitos de sus importes. Los campos marcados con <span class="required">*</span> son obligatorios.</p>
+                </div>
+                <div class="form-grid">
+                    <!-- Fila 1: Tipo de banco -->
+                    <div class="form-group">
+                        <div class="floating-label">
+                            <select id="tipoBanco" name="tipoBanco" class="form-control select2" required>
+                                <option value="">Seleccione tipo de banco</option>
+                                <!-- Las opciones se cargarán dinámicamente -->
+                            </select>
+                            <label for="tipoBanco">Tipo de banco <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <!-- Fila 1: Banco -->
+                    <div class="form-group conditional-field" style="display:none;">
+                        <div class="floating-label">
+                            <select id="banco" name="banco" class="form-control select2">
+                                <option value="">Seleccione un banco</option>
+                                <!-- Las opciones se cargarán dinámicamente -->
+                            </select>
+                            <label for="banco">Banco <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <!-- Fila 2: Tipo de cuenta -->
+                    <div class="form-group conditional-field" style="display:none;">
+                        <div class="floating-label">
+                            <select id="tipoCuenta" name="tipoCuenta" class="form-control" required>
+                                <option value="">Seleccione tipo de cuenta</option>
+                                <option value="Corriente">Corriente</option>
+                                <option value="Vista">Vista</option>
+                                <option value="Ahorro">Ahorro</option>
+                                <option value="RUT">RUT</option>
+                                <option value="Chequera electronica">Chequera electrónica</option>
+                            </select>
+                            <label for="tipoCuenta">Tipo de cuenta <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <!-- Fila 3: N° de cuenta -->
+                    <div class="form-group conditional-field" style="display:none;">
+                        <div class="floating-label">
+                            <input type="text" id="numeroCuenta" name="numeroCuenta" class="form-control" required>
+                            <label for="numeroCuenta">N° de cuenta <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <!-- Fila 4: Banco (ingreso libre) -->
+                    <div class="form-group conditional-field" style="display:none;">
+                        <div class="floating-label">
+                            <input type="text" id="bancoLibre" name="bancoLibre" class="form-control">
+                            <label for="bancoLibre">Banco <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <!-- Fila 5: País del banco (extranjero, obligatorio) -->
+                    <div class="form-group conditional-field" id="paisBancoGroup" style="display:none;">
+                        <div class="floating-label">
+                            <select id="paisBanco" name="paisBanco" class="form-control select2">
+                                <option value="">Seleccione un país</option>
+                                <!-- Las opciones se cargarán dinámicamente -->
+                            </select>
+                            <label for="paisBanco">País <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <!-- Fila 6: Dirección del banco (extranjero, opcional) -->
+                    <div class="form-group conditional-field" id="direccionBancoExtranjeroGroup" style="display:none;">
+                        <div class="floating-label">
+                            <input type="text" id="direccionBancoExtranjero" name="direccionBancoExtranjero" class="form-control">
+                            <label for="direccionBancoExtranjero">Dirección del banco (opcional)</label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <!-- Fila 7: N° de cuenta extranjero (obligatorio) -->
+                    <div class="form-group conditional-field" id="numeroCuentaExtranjeroGroup" style="display:none;">
+                        <div class="floating-label">
+                            <input type="text" id="numeroCuentaExtranjero" name="numeroCuentaExtranjero" class="form-control" required>
+                            <label for="numeroCuentaExtranjero">N° de cuenta <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <!-- Fila 8: Swift / IBAN (obligatorio) -->
+                    <div class="form-group conditional-field" id="swiftIbanGroup" style="display:none;">
+                        <div class="floating-label">
+                            <input type="text" id="swiftIban" name="swiftIban" class="form-control" required>
+                            <label for="swiftIban">Swift / IBAN <span class="required">*</span></label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección 6: Datos Técnicos -->
+            <section id="datosTecnicos" class="form-section" data-section="6">
                 <div class="section-header">
                     <h2><i class="fas fa-laptop-code"></i> Datos Técnicos</h2>
                     <p class="section-description">Seleccione el/los recuadro(s) correspondiente(s) a su solicitud de incorporación. Los campos marcados con * son obligatorios.</p>
@@ -674,65 +772,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <!-- Sección 6: Datos Profesionales -->
-            <section id="datosGenerales" class="form-section" data-section="6">
-                <div class="section-header">
-                    <h2><i class="fas fa-briefcase"></i> Datos Profesionales</h2>
-                    <p class="section-description">Complete la información adicional solicitada en torno a antecedentes profesionales en el/los ámbito(s) para los cuales está solicitando su incorporación. Puede agregar hasta 5 ítems por categoría.</p>
-                </div>
-                
-                <!-- Grupo de Estudios -->
-                <div class="form-group dynamic-input-group">
-                    <label class="form-label">Estudios profesionales en el ámbito audiovisual o dramático</label>
-                    <div id="estudiosContainer" class="dynamic-input-container">
-                        <div class="input-with-actions">
-                            <input type="text" name="estudios[]" class="form-control" placeholder="Ej: Licenciatura en Artes Escénicas, Universidad de Chile">
-                            <button type="button" class="btn-remove-input" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-text-link btn-add-input" data-target="estudiosContainer">
-                        <i class="fas fa-plus"></i> Agregar otro estudio
-                    </button>
-                    <div class="input-counter"><span class="current-count">1</span>/5</div>
-                </div>
-
-                <!-- Grupo de Experiencia Docente -->
-                <div class="form-group dynamic-input-group">
-                    <label class="form-label">Labores docentes en el ámbito audiovisual o dramático</label>
-                    <div id="docenciaContainer" class="dynamic-input-container">
-                        <div class="input-with-actions">
-                            <input type="text" name="docencia[]" class="form-control" placeholder="Ej: Profesor de Dirección Teatral, Escuela de Teatro UC">
-                            <button type="button" class="btn-remove-input" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-text-link btn-add-input" data-target="docenciaContainer">
-                        <i class="fas fa-plus"></i> Agregar otra experiencia docente
-                    </button>
-                    <div class="input-counter"><span class="current-count">1</span>/5</div>
-                </div>
-
-                <!-- Grupo de Premios -->
-                <div class="form-group dynamic-input-group">
-                    <label class="form-label">Premio o distinción en el ámbito audiovisual o dramático</label>
-                    <div id="premiosContainer" class="dynamic-input-container">
-                        <div class="input-with-actions">
-                            <input type="text" name="premios[]" class="form-control" placeholder="Ej: Mejor Director, Festival de Cine de Valdivia 2022">
-                            <button type="button" class="btn-remove-input" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-text-link btn-add-input" data-target="premiosContainer">
-                        <i class="fas fa-plus"></i> Agregar otro premio
-                    </button>
-                    <div class="input-counter"><span class="current-count">1</span>/5</div>
                 </div>
             </section>
 
@@ -1086,5 +1125,11 @@
         </div>
       </div>
     </div>
+    <div id="loadingOverlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);z-index:9999;align-items:center;justify-content:center;">
+  <div style="text-align:center;">
+    <i class="fas fa-spinner fa-spin" style="font-size:3rem;color:#097137;"></i>
+    <div style="margin-top:1rem;font-size:1.2rem;color:#097137;">Cancelando y limpiando datos...</div>
+  </div>
+</div>
 </body>
 </html>
