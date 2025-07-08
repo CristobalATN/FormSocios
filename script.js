@@ -763,6 +763,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                     return (titulo && ambito) ? { titulo, ambito } : null;
                 }).filter(obra => obra);
 
+                // === DATOS BANCARIOS ===
+                const tipoBanco = document.getElementById('tipoBanco')?.value || '';
+                const banco = document.getElementById('banco')?.value || '';
+                const tipoCuenta = document.getElementById('tipoCuenta')?.value || '';
+                const numeroCuenta = document.getElementById('numeroCuenta')?.value || '';
+                const bancoLibre = document.getElementById('bancoLibre')?.value || '';
+                const paisBanco = document.getElementById('paisBanco')?.value || '';
+                const direccionBancoExtranjero = document.getElementById('direccionBancoExtranjero')?.value || '';
+                const numeroCuentaExtranjero = document.getElementById('numeroCuentaExtranjero')?.value || '';
+                const swiftIban = document.getElementById('swiftIban')?.value || '';
+
                 // Construir el objeto de datos
                 const data = {
                     nombres,
@@ -812,7 +823,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                     estudios,
                     docencia,
                     premios,
-                    obras
+                    obras,
+                    // === DATOS BANCARIOS AL MISMO NIVEL ===
+                    tipoBanco,
+                    banco,
+                    tipoCuenta,
+                    numeroCuenta,
+                    bancoLibre,
+                    paisBanco,
+                    direccionBancoExtranjero,
+                    numeroCuentaExtranjero,
+                    swiftIban
                 };
 
                 // === ARCHIVOS ===
@@ -1581,8 +1602,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                     'datosContacto',
                     'datosApoderado',
                     'datosSucesion',
+                    'datosBancarios',
                     'datosTecnicos',
-                    'datosGenerales', // Si el id de la sección cambió a datosProfesionales, cámbialo aquí también
+                    'datosGenerales',
                     'obras',
                     'derechosAdministrar',
                     'documentosFirmar',
@@ -1915,73 +1937,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         };
         modalCancelarSi.onclick = function() {
             modalCancelar.style.display = 'none';
-            // Resetear el formulario
-            const form = document.getElementById('socioForm');
-            if (form) form.reset();
-
-            // Limpiar archivos subidos y resúmenes
-            if (typeof documentosSubidos !== 'undefined') {
-                documentosSubidos.identidad = null;
-                documentosSubidos.apoderado = null;
-                documentosSubidos.sucesion = null;
-                if (documentosSubidos.firmados) {
-                    documentosSubidos.firmados.solicitud = null;
-                    documentosSubidos.firmados.mandato = null;
-                }
-            }
-            actualizarResumenDocumentos && actualizarResumenDocumentos();
-
-            // Limpiar visualización de archivos
-            document.querySelectorAll('.file-name').forEach(el => {
-                el.textContent = 'Seleccionar archivo';
-            });
-            document.querySelectorAll('.documento-nombre').forEach(el => {
-                el.textContent = 'Ningún archivo seleccionado';
-            });
-            document.querySelectorAll('.btn-eliminar-doc').forEach(btn => {
-                btn.style.display = 'none';
-            });
-            document.querySelectorAll('.documento-info input[type="file"]').forEach(input => {
-                input.value = '';
-            });
-            // Eliminar previsualizaciones e iconos de archivos
-            document.querySelectorAll('.file-info').forEach(fileInfo => {
-                fileInfo.querySelectorAll('.file-preview, .file-icon, .btn-remove-file-preview').forEach(el => el.remove());
-                // Eliminar todos los íconos fa-upload existentes
-                fileInfo.querySelectorAll('i.fa-upload').forEach(icon => icon.remove());
-                // Agregar solo un ícono fa-upload al inicio
-                const defaultIcon = document.createElement('i');
-                defaultIcon.className = 'fas fa-upload';
-                fileInfo.prepend(defaultIcon);
-            });
-            // Limpiar selects con Select2
-            if (window.$) {
-                $('#nacionalidad').val('').trigger('change');
-                $('#paisResidencia').val('').trigger('change');
-                $('#region').val('').trigger('change');
-                $('#comuna').val('').trigger('change');
-                $('#tipoDocumento').val('').trigger('change');
-                $('#genero').val('').trigger('change');
-                $('#sociedadPais').val('').trigger('change');
-                $('#sociedadNombre').val('').trigger('change');
-            }
-            // Volver a la primera sección
-            if (typeof mostrarSeccion === 'function') {
-                mostrarSeccion('datosAutor');
-                // Desplazar la vista al inicio de la sección
-                const seccion = document.getElementById('datosAutor');
-                if (seccion) seccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-            if (typeof actualizarBarraProgreso === 'function') {
-                actualizarBarraProgreso(1);
-            }
+            // Mostrar overlay de loading
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) overlay.style.display = 'flex';
+            // Esperar un breve momento y recargar la página
+            setTimeout(() => { window.location.reload(); }, 900);
+            // IMPORTANTE: No ejecutar el reseteo manual del formulario ni otras limpiezas aquí
         };
-        // Cerrar modal si se hace click fuera del contenido
-        window.addEventListener('click', function(event) {
-            if (event.target === modalCancelar) {
-                modalCancelar.style.display = 'none';
-            }
-        });
     }
     
     // Validación en tiempo real para los campos de texto
@@ -2310,6 +2272,290 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         });
     }
+
+    // Función para cargar los bancos desde banco.json y poblar el select
+    async function cargarBancos() {
+        try {
+            const response = await fetch('assets/banco.json');
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo de bancos');
+            }
+            const bancos = await response.json();
+            const selectBanco = document.getElementById('banco');
+            if (!selectBanco) return;
+            // Limpiar opciones excepto la primera
+            while (selectBanco.options.length > 1) {
+                selectBanco.remove(1);
+            }
+            bancos.forEach(banco => {
+                const option = document.createElement('option');
+                option.value = banco.Banco;
+                option.textContent = banco.Banco;
+                selectBanco.appendChild(option);
+            });
+            // Inicializar/actualizar Select2
+            $(selectBanco).select2({
+                placeholder: 'Seleccione un banco',
+                allowClear: true,
+                width: '100%',
+                dropdownParent: $('body'),
+                minimumResultsForSearch: 0
+            });
+            $(selectBanco).trigger('change.select2');
+        } catch (error) {
+            console.error('Error al cargar los bancos:', error);
+        }
+    }
+
+    // Llamar a cargarBancos aquí para asegurar que el DOM esté listo
+    cargarBancos();
+
+    // Función para cargar los tipos de cuenta desde tipodecuenta.json y poblar el select
+    async function cargarTiposDeCuenta() {
+        try {
+            const response = await fetch('assets/tipodecuenta.json');
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo de tipos de cuenta');
+            }
+            const tipos = await response.json();
+            const selectTipoCuenta = document.getElementById('tipoCuenta');
+            if (!selectTipoCuenta) return;
+            // Limpiar opciones excepto la primera
+            while (selectTipoCuenta.options.length > 1) {
+                selectTipoCuenta.remove(1);
+            }
+            tipos.forEach(tipo => {
+                const option = document.createElement('option');
+                option.value = tipo["Tipo de cuenta"];
+                option.textContent = tipo["Tipo de cuenta"];
+                selectTipoCuenta.appendChild(option);
+            });
+            // Inicializar/actualizar Select2
+            $(selectTipoCuenta).select2({
+                placeholder: 'Seleccione tipo de cuenta',
+                allowClear: true,
+                width: '100%',
+                dropdownParent: $('body'),
+                minimumResultsForSearch: 0
+            });
+            $(selectTipoCuenta).trigger('change.select2');
+        } catch (error) {
+            console.error('Error al cargar los tipos de cuenta:', error);
+        }
+    }
+
+    // Llamar a cargarTiposDeCuenta aquí para asegurar que el DOM esté listo
+    cargarTiposDeCuenta();
+
+    // Función para cargar los tipos de banco desde tipodebanco.json y poblar el select
+    async function cargarTiposDeBanco() {
+        try {
+            const response = await fetch('assets/tipodebanco.json');
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo de tipos de banco');
+            }
+            const tipos = await response.json();
+            const selectTipoBanco = document.getElementById('tipoBanco');
+            if (!selectTipoBanco) return;
+            // Limpiar opciones excepto la primera
+            while (selectTipoBanco.options.length > 1) {
+                selectTipoBanco.remove(1);
+            }
+            tipos.forEach(tipo => {
+                const option = document.createElement('option');
+                option.value = tipo["Tipo de banco"];
+                option.textContent = tipo["Tipo de banco"];
+                selectTipoBanco.appendChild(option);
+            });
+            // Inicializar/actualizar Select2
+            $(selectTipoBanco).select2({
+                placeholder: 'Seleccione tipo de banco',
+                allowClear: true,
+                width: '100%',
+                dropdownParent: $('body'),
+                minimumResultsForSearch: 0
+            });
+            $(selectTipoBanco).trigger('change.select2');
+        } catch (error) {
+            console.error('Error al cargar los tipos de banco:', error);
+        }
+    }
+
+    // Llamar a cargarTiposDeBanco aquí para asegurar que el DOM esté listo
+    cargarTiposDeBanco();
+
+    // Lógica para mostrar/ocultar campos según Tipo de Banco
+    const tipoBancoSelect = document.getElementById('tipoBanco');
+    const bancoSelectGroup = document.getElementById('banco')?.closest('.form-group');
+    const tipoCuentaGroup = document.getElementById('tipoCuenta')?.closest('.form-group');
+    const numeroCuentaGroup = document.getElementById('numeroCuenta')?.closest('.form-group');
+    const bancoLibreGroup = document.getElementById('bancoLibre')?.closest('.form-group');
+
+    function actualizarCamposBanco() {
+        const tipoBanco = tipoBancoSelect ? tipoBancoSelect.value : '';
+        if (tipoBanco === 'Nacional') {
+            if (bancoSelectGroup) bancoSelectGroup.style.display = '';
+            if (tipoCuentaGroup) tipoCuentaGroup.style.display = '';
+            if (numeroCuentaGroup) numeroCuentaGroup.style.display = '';
+            if (bancoLibreGroup) bancoLibreGroup.style.display = 'none';
+            if (paisBancoGroup) paisBancoGroup.style.display = 'none';
+            if (direccionBancoExtranjeroGroup) direccionBancoExtranjeroGroup.style.display = 'none';
+            if (numeroCuentaExtranjeroGroup) numeroCuentaExtranjeroGroup.style.display = 'none';
+            if (swiftIbanGroup) swiftIbanGroup.style.display = 'none';
+            // Requeridos nacionales
+            $('#banco').prop('required', true);
+            $('#tipoCuenta, #numeroCuenta').prop('required', true);
+            // No requeridos extranjeros
+            $('#bancoLibre, #paisBanco, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').prop('required', false);
+        } else if (tipoBanco === 'Extranjero') {
+            if (bancoSelectGroup) bancoSelectGroup.style.display = 'none';
+            if (tipoCuentaGroup) tipoCuentaGroup.style.display = 'none';
+            if (numeroCuentaGroup) numeroCuentaGroup.style.display = 'none';
+            if (bancoLibreGroup) bancoLibreGroup.style.display = '';
+            if (paisBancoGroup) paisBancoGroup.style.display = '';
+            if (direccionBancoExtranjeroGroup) direccionBancoExtranjeroGroup.style.display = '';
+            if (numeroCuentaExtranjeroGroup) numeroCuentaExtranjeroGroup.style.display = '';
+            if (swiftIbanGroup) swiftIbanGroup.style.display = '';
+            // No requeridos nacionales
+            $('#banco, #tipoCuenta, #numeroCuenta').prop('required', false);
+            // Requeridos extranjeros (excepto dirección que es opcional)
+            $('#bancoLibre, #paisBanco, #numeroCuentaExtranjero, #swiftIban').prop('required', true);
+            $('#direccionBancoExtranjero').prop('required', false);
+        } else {
+            if (bancoSelectGroup) bancoSelectGroup.style.display = 'none';
+            if (tipoCuentaGroup) tipoCuentaGroup.style.display = 'none';
+            if (numeroCuentaGroup) numeroCuentaGroup.style.display = 'none';
+            if (bancoLibreGroup) bancoLibreGroup.style.display = 'none';
+            if (paisBancoGroup) paisBancoGroup.style.display = 'none';
+            if (direccionBancoExtranjeroGroup) direccionBancoExtranjeroGroup.style.display = 'none';
+            if (numeroCuentaExtranjeroGroup) numeroCuentaExtranjeroGroup.style.display = 'none';
+            if (swiftIbanGroup) swiftIbanGroup.style.display = 'none';
+            // Ninguno requerido
+            $('#banco, #tipoCuenta, #numeroCuenta, #bancoLibre, #paisBanco, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').prop('required', false);
+        }
+    }
+    if (tipoBancoSelect) {
+        tipoBancoSelect.addEventListener('change', actualizarCamposBanco);
+        // Ejecutar al cargar
+        actualizarCamposBanco();
+    }
+
+    // Lógica para mostrar/ocultar campos según Tipo de Banco (más robusta)
+    function getBancoGroups() {
+        return {
+            bancoSelectGroup: document.querySelector('#banco')?.closest('.form-group'),
+            tipoCuentaGroup: document.querySelector('#tipoCuenta')?.closest('.form-group'),
+            numeroCuentaGroup: document.querySelector('#numeroCuenta')?.closest('.form-group'),
+            bancoLibreGroup: document.querySelector('#bancoLibre')?.closest('.form-group'),
+            paisBancoGroup: document.getElementById('paisBancoGroup'),
+            direccionBancoExtranjeroGroup: document.getElementById('direccionBancoExtranjeroGroup'),
+            numeroCuentaExtranjeroGroup: document.getElementById('numeroCuentaExtranjeroGroup'),
+            swiftIbanGroup: document.getElementById('swiftIbanGroup'),
+        };
+    }
+    function actualizarCamposBanco() {
+        const tipoBanco = $('#tipoBanco').val();
+        const {
+            bancoSelectGroup,
+            tipoCuentaGroup,
+            numeroCuentaGroup,
+            bancoLibreGroup,
+            paisBancoGroup,
+            direccionBancoExtranjeroGroup,
+            numeroCuentaExtranjeroGroup,
+            swiftIbanGroup
+        } = getBancoGroups();
+        if (tipoBanco === 'Nacional') {
+            if (bancoSelectGroup) bancoSelectGroup.style.display = '';
+            if (tipoCuentaGroup) tipoCuentaGroup.style.display = '';
+            if (numeroCuentaGroup) numeroCuentaGroup.style.display = '';
+            if (bancoLibreGroup) bancoLibreGroup.style.display = 'none';
+            if (paisBancoGroup) paisBancoGroup.style.display = 'none';
+            if (direccionBancoExtranjeroGroup) direccionBancoExtranjeroGroup.style.display = 'none';
+            if (numeroCuentaExtranjeroGroup) numeroCuentaExtranjeroGroup.style.display = 'none';
+            if (swiftIbanGroup) swiftIbanGroup.style.display = 'none';
+            // Requeridos nacionales
+            $('#banco').prop('required', true);
+            $('#tipoCuenta, #numeroCuenta').prop('required', true);
+            // No requeridos extranjeros
+            $('#bancoLibre, #paisBanco, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').prop('required', false);
+        } else if (tipoBanco === 'Extranjero') {
+            if (bancoSelectGroup) bancoSelectGroup.style.display = 'none';
+            if (tipoCuentaGroup) tipoCuentaGroup.style.display = 'none';
+            if (numeroCuentaGroup) numeroCuentaGroup.style.display = 'none';
+            if (bancoLibreGroup) bancoLibreGroup.style.display = '';
+            if (paisBancoGroup) paisBancoGroup.style.display = '';
+            if (direccionBancoExtranjeroGroup) direccionBancoExtranjeroGroup.style.display = '';
+            if (numeroCuentaExtranjeroGroup) numeroCuentaExtranjeroGroup.style.display = '';
+            if (swiftIbanGroup) swiftIbanGroup.style.display = '';
+            // No requeridos nacionales
+            $('#banco, #tipoCuenta, #numeroCuenta').prop('required', false);
+            // Requeridos extranjeros (excepto dirección que es opcional)
+            $('#bancoLibre, #paisBanco, #numeroCuentaExtranjero, #swiftIban').prop('required', true);
+            $('#direccionBancoExtranjero').prop('required', false);
+        } else {
+            if (bancoSelectGroup) bancoSelectGroup.style.display = 'none';
+            if (tipoCuentaGroup) tipoCuentaGroup.style.display = 'none';
+            if (numeroCuentaGroup) numeroCuentaGroup.style.display = 'none';
+            if (bancoLibreGroup) bancoLibreGroup.style.display = 'none';
+            if (paisBancoGroup) paisBancoGroup.style.display = 'none';
+            if (direccionBancoExtranjeroGroup) direccionBancoExtranjeroGroup.style.display = 'none';
+            if (numeroCuentaExtranjeroGroup) numeroCuentaExtranjeroGroup.style.display = 'none';
+            if (swiftIbanGroup) swiftIbanGroup.style.display = 'none';
+            // Ninguno requerido
+            $('#banco, #tipoCuenta, #numeroCuenta, #bancoLibre, #paisBanco, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').prop('required', false);
+        }
+    }
+    $('#tipoBanco').on('change', actualizarCamposBanco);
+    // Ejecutar al cargar (después de inicializar select2)
+    setTimeout(actualizarCamposBanco, 0);
+
+    // Ocultar todos los campos bancarios menos tipoBanco al cargar la página
+    [
+        document.querySelector('#banco')?.closest('.form-group'),
+        document.querySelector('#tipoCuenta')?.closest('.form-group'),
+        document.querySelector('#numeroCuenta')?.closest('.form-group'),
+        document.querySelector('#bancoLibre')?.closest('.form-group'),
+        document.querySelector('#paisBancoGroup')?.closest('.form-group'),
+        document.querySelector('#direccionBancoExtranjeroGroup')?.closest('.form-group'),
+        document.querySelector('#numeroCuentaExtranjeroGroup')?.closest('.form-group'),
+        document.querySelector('#swiftIbanGroup')?.closest('.form-group')
+    ].forEach(group => { if (group) group.style.display = 'none'; });
+
+    // Función para cargar los países en el select2 de paísBanco (extranjero)
+    async function cargarPaisesBanco() {
+        try {
+            const response = await fetch('assets/paises.json');
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo de países');
+            }
+            const paises = await response.json();
+            const selectPaisBanco = document.getElementById('paisBanco');
+            if (!selectPaisBanco) return;
+            // Limpiar opciones excepto la primera
+            while (selectPaisBanco.options.length > 1) {
+                selectPaisBanco.remove(1);
+            }
+            paises.forEach(pais => {
+                const option = document.createElement('option');
+                option.value = pais["País"];
+                option.textContent = pais["País"];
+                selectPaisBanco.appendChild(option);
+            });
+            // Inicializar/actualizar Select2
+            $(selectPaisBanco).select2({
+                placeholder: 'Seleccione un país',
+                allowClear: true,
+                width: '100%',
+                dropdownParent: $('body'),
+                minimumResultsForSearch: 0
+            });
+            $(selectPaisBanco).trigger('change.select2');
+        } catch (error) {
+            console.error('Error al cargar los países para el banco extranjero:', error);
+        }
+    }
+    cargarPaisesBanco();
 });
 
 function inicializarManejadorDeArchivos() {
@@ -3017,9 +3263,11 @@ function inicializarObrasDinamicas() {
             </div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="tituloObra${obraId}" class="form-label">Título <span class="required">*</span></label>
-                    <input type="text" id="tituloObra${obraId}" name="tituloObra[]" class="form-control" placeholder="Ej: La obra de mi vida" required>
-                    <div class="error-message"></div>
+                    <div class="floating-label">
+                        <input type="text" id="tituloObra${obraId}" name="tituloObra[]" class="form-control" required>
+                        <label for="tituloObra${obraId}">Título <span class="required">*</span></label>
+                        <div class="error-message"></div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <div class="floating-label">
