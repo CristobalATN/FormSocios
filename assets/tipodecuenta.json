@@ -1,0 +1,17 @@
+[
+    {
+      "Tipo de cuenta": "Corriente"
+    },
+    {
+      "Tipo de cuenta": "Vista"
+    },
+    {
+      "Tipo de cuenta": "Ahorro"
+    },
+    {
+      "Tipo de cuenta": "RUT"
+    },
+    {
+      "Tipo de cuenta": "Chequera electrónica"
+    }
+]
