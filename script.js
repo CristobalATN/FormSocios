@@ -2394,6 +2394,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     function actualizarCamposBanco() {
         const tipoBanco = tipoBancoSelect ? tipoBancoSelect.value : '';
         if (tipoBanco === 'Nacional') {
+            // Mostrar campos nacionales, ocultar extranjeros
             if (bancoSelectGroup) bancoSelectGroup.style.display = '';
             if (tipoCuentaGroup) tipoCuentaGroup.style.display = '';
             if (numeroCuentaGroup) numeroCuentaGroup.style.display = '';
@@ -2407,7 +2408,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             $('#tipoCuenta, #numeroCuenta').prop('required', true);
             // No requeridos extranjeros
             $('#bancoLibre, #paisBanco, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').prop('required', false);
+            // Limpiar campos de banco extranjero
+            $('#bancoLibre').val('').trigger('change');
+            $('#paisBanco').val('').trigger('change');
+            $('#direccionBancoExtranjero').val('');
+            $('#numeroCuentaExtranjero').val('');
+            $('#swiftIban').val('');
         } else if (tipoBanco === 'Extranjero') {
+            // Mostrar campos extranjeros, ocultar nacionales
             if (bancoSelectGroup) bancoSelectGroup.style.display = 'none';
             if (tipoCuentaGroup) tipoCuentaGroup.style.display = 'none';
             if (numeroCuentaGroup) numeroCuentaGroup.style.display = 'none';
@@ -2421,7 +2429,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Requeridos extranjeros (excepto dirección que es opcional)
             $('#bancoLibre, #paisBanco, #numeroCuentaExtranjero, #swiftIban').prop('required', true);
             $('#direccionBancoExtranjero').prop('required', false);
+            // Limpiar campos de banco nacional
+            $('#banco').val('').trigger('change');
+            $('#tipoCuenta').val('').trigger('change');
+            $('#numeroCuenta').val('');
         } else {
+            // Ocultar todos
             if (bancoSelectGroup) bancoSelectGroup.style.display = 'none';
             if (tipoCuentaGroup) tipoCuentaGroup.style.display = 'none';
             if (numeroCuentaGroup) numeroCuentaGroup.style.display = 'none';
@@ -2432,6 +2445,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (swiftIbanGroup) swiftIbanGroup.style.display = 'none';
             // Ninguno requerido
             $('#banco, #tipoCuenta, #numeroCuenta, #bancoLibre, #paisBanco, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').prop('required', false);
+            // Limpiar todos los campos bancarios
+            $('#banco, #tipoCuenta, #paisBanco').val('').trigger('change');
+            $('#numeroCuenta, #bancoLibre, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').val('');
         }
     }
     if (tipoBancoSelect) {
@@ -2466,6 +2482,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             swiftIbanGroup
         } = getBancoGroups();
         if (tipoBanco === 'Nacional') {
+            // Mostrar campos nacionales, ocultar extranjeros
             if (bancoSelectGroup) bancoSelectGroup.style.display = '';
             if (tipoCuentaGroup) tipoCuentaGroup.style.display = '';
             if (numeroCuentaGroup) numeroCuentaGroup.style.display = '';
@@ -2479,7 +2496,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             $('#tipoCuenta, #numeroCuenta').prop('required', true);
             // No requeridos extranjeros
             $('#bancoLibre, #paisBanco, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').prop('required', false);
+            // Limpiar campos de banco extranjero
+            $('#bancoLibre').val('').trigger('change');
+            $('#paisBanco').val('').trigger('change');
+            $('#direccionBancoExtranjero').val('');
+            $('#numeroCuentaExtranjero').val('');
+            $('#swiftIban').val('');
         } else if (tipoBanco === 'Extranjero') {
+            // Mostrar campos extranjeros, ocultar nacionales
             if (bancoSelectGroup) bancoSelectGroup.style.display = 'none';
             if (tipoCuentaGroup) tipoCuentaGroup.style.display = 'none';
             if (numeroCuentaGroup) numeroCuentaGroup.style.display = 'none';
@@ -2493,7 +2517,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Requeridos extranjeros (excepto dirección que es opcional)
             $('#bancoLibre, #paisBanco, #numeroCuentaExtranjero, #swiftIban').prop('required', true);
             $('#direccionBancoExtranjero').prop('required', false);
+            // Limpiar campos de banco nacional
+            $('#banco').val('').trigger('change');
+            $('#tipoCuenta').val('').trigger('change');
+            $('#numeroCuenta').val('');
         } else {
+            // Ocultar todos
             if (bancoSelectGroup) bancoSelectGroup.style.display = 'none';
             if (tipoCuentaGroup) tipoCuentaGroup.style.display = 'none';
             if (numeroCuentaGroup) numeroCuentaGroup.style.display = 'none';
@@ -2504,6 +2533,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (swiftIbanGroup) swiftIbanGroup.style.display = 'none';
             // Ninguno requerido
             $('#banco, #tipoCuenta, #numeroCuenta, #bancoLibre, #paisBanco, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').prop('required', false);
+            // Limpiar todos los campos bancarios
+            $('#banco, #tipoCuenta, #paisBanco').val('').trigger('change');
+            $('#numeroCuenta, #bancoLibre, #direccionBancoExtranjero, #numeroCuentaExtranjero, #swiftIban').val('');
         }
     }
     $('#tipoBanco').on('change', actualizarCamposBanco);
