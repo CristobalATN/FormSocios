@@ -597,7 +597,7 @@
                     <!-- Fila 3: N° de cuenta -->
                     <div class="form-group conditional-field" style="display:none;">
                         <div class="floating-label">
-                            <input type="text" id="numeroCuenta" name="numeroCuenta" class="form-control" required>
+                            <input type="text" id="numeroCuenta" name="numeroCuenta" class="form-control" inputmode="numeric" pattern="[0-9]*" required>
                             <label for="numeroCuenta">N° de cuenta <span class="required">*</span></label>
                             <div class="error-message"></div>
                         </div>
@@ -935,10 +935,10 @@
                                 <div class="step-number">3</div>
                                 <div class="step-content">
                                     <h4>Finalizar y descargar</h4>
-                                    <p>Una vez completados y firmados los documentos, el sistema le permitirá descargarlos. Asegúrese de guardarlos con los siguientes nombres:</p>
+                                    <p>Una vez completados y firmados los documentos, el sistema le permitirá descargarlos. Asegúrese de descargar ambos archivos a continuación:</p>
                                     <ul class="file-names">
-                                        <li><strong>Solicitud:</strong> SOLICITUD-INCORPORACION.pdf</li>
-                                        <li><strong>Mandato:</strong> MANDATO-ESPECIAL.pdf</li>
+                                        <li><strong>Solicitud:</strong> SOLICITUD INCORPORACION.pdf</li>
+                                        <li><strong>Mandato:</strong> MANDATO ESPECIAL.pdf</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1131,5 +1131,11 @@
     <div style="margin-top:1rem;font-size:1.2rem;color:#097137;">Cancelando y limpiando datos...</div>
   </div>
 </div>
+<script>
+// Solo permitir números en numeroCuenta
+$(document).on('input', '#numeroCuenta', function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+});
+</script>
 </body>
 </html>
