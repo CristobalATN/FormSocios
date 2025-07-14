@@ -1,4 +1,4 @@
-/* Estilos para el carrusel de progreso */
+* Estilos para el carrusel de progreso */
 .progress-container {
     width: 100%;
     margin: 20px 0;
@@ -36,6 +36,9 @@
     opacity: 0.6;
     transition: all 0.3s ease;
     text-align: center;
+    pointer-events: none !important;
+    cursor: default !important;
+    opacity: 1 !important;
 }
 
 .progress-slide.active {
@@ -195,7 +198,9 @@
     padding-left: 15px;
     border-radius: 4px;
     border: 1px solid #ced4da;
-    width: 100%;
+    width: 180px; /* Fijo, pero puede crecer */
+    min-width: 120px;
+    max-width: 250px;
     box-sizing: border-box;
 }
 
@@ -2355,4 +2360,171 @@ body {
   align-items: center;
   text-align: left;
   padding-right: 12px;
+}
+
+#modalRepresentanteLegal .modal-atn-content {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .logo {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .logo-img {
+    height: 48px;
+    margin-left: 0;
+  }
+  .logo h1 {
+    font-size: 1.1rem;
+    margin-left: 0;
+    text-align: center;
+    margin-top: 4px;
+  }
+  .header {
+    padding: 10px 0 5px 0;
+  }
+}
+
+/* Campos de representante legal deshabilitados */
+#datosApoderado .form-control:disabled {
+    background-color: #f1f1f1;
+    color: #888;
+    border-color: #d3d3d3;
+    position: relative;
+}
+#datosApoderado .form-control:disabled::before {
+    content: '\f023'; /* fa-lock */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #b0b0b0;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    pointer-events: none;
+}
+#datosApoderado .floating-label {
+    position: relative;
+}
+#datosApoderado .lock-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b0b0b0;
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 2;
+}
+#datosApoderado input.form-control:disabled,
+#datosApoderado select.form-control:disabled,
+#datosApoderado textarea.form-control:disabled {
+    padding-left: 2.2em;
+    background-color: #f1f1f1;
+    color: #888;
+    border-color: #d3d3d3;
+}
+.modal-justificado {
+    text-align: left;
+}
+
+/* --- Firma electrónica del postulante --- */
+.firma-electronica-block {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+    box-shadow: 0 2px 10px rgba(9,113,55,0.04);
+    border: 1px solid #e9ecef;
+}
+.firma-electronica-block h3 {
+    color: #333;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.firma-electronica-block .subtitle {
+    color: #6c757d;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+}
+
+/* --- Documentos generados automáticamente --- */
+.documentos-generados-block {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+    box-shadow: 0 2px 10px rgba(9,113,55,0.04);
+    border: 1px solid #e9ecef;
+}
+.documentos-generados-block h3 {
+    color: #333;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.documentos-generados-block .subtitle {
+    color: #6c757d;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+}
+.documentos-generados-block .documentos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.documento-info-block {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    color: #097137;
+    box-shadow: 0 1px 4px rgba(9,113,55,0.03);
+}
+.documento-info-block i.far.fa-file-pdf {
+    color: #dc3545;
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+}
+.documento-info-block .btn-documento {
+    margin-left: auto;
+    background: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    color: #097137;
+    padding: 0.4rem 1rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+.documento-info-block .btn-documento:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+    color: #097137;
+}
+@media (max-width: 768px) {
+    .firma-electronica-block, .documentos-generados-block {
+        padding: 1rem 0.5rem 1rem 0.5rem;
+    }
+    .documento-info-block {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.95rem;
+    }
 }
