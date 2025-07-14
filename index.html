@@ -36,19 +36,19 @@
                         </div>
                         <div class="progress-slide" data-step="3">
                             <div class="progress-step">3</div>
-                            <span class="step-label">Apoderado/Representante</span>
+                            <span class="step-label">Representante Legal</span>
                         </div>
                         <div class="progress-slide" data-step="4">
                             <div class="progress-step">4</div>
-                            <span class="step-label">Datos Sucesión</span>
+                            <span class="step-label">Datos Bancarios</span>
                         </div>
                         <div class="progress-slide" data-step="5">
                             <div class="progress-step">5</div>
-                            <span class="step-label">Datos Bancarios</span>
+                            <span class="step-label">Datos Técnicos</span>
                         </div>
                         <div class="progress-slide" data-step="6">
                             <div class="progress-step">6</div>
-                            <span class="step-label">Datos Técnicos</span>
+                            <span class="step-label">Datos Generales</span>
                         </div>
                         <div class="progress-slide" data-step="7">
                             <div class="progress-step">7</div>
@@ -77,14 +77,14 @@
 
         <form id="socioForm" class="form-container">
             <!-- Sección 1: Datos de Autor -->
-            <section id="datosAutor" class="form-section active" data-section="1">
+            <section id="datosAutor" class="form-section" data-section="1">
                 <div class="section-header">
                     <h2><i class="fas fa-user-edit"></i> Datos de Autor</h2>
-                    <p class="section-description">Complete los datos personales del autor postulante. Los campos marcados con * son obligatorios.</p>
+                    <p class="section-description">Complete los datos personales del autor postulante. Los campos marcados con <span class="required">*</span> son obligatorios.</p>
                 </div>
                 
                 <div class="note-box">
-                    <p class="note-text"><i class="fas fa-info-circle"></i> NOTA: Antes de continuar, asegúrese de contar con obras que ya hayan sido exhibidas o que se estrenarán en los próximos meses.</p>
+                    <p class="note-text"><i class="fas fa-info-circle"></i><strong>NOTA: Antes de continuar, asegúrese de contar con obras que ya hayan sido exhibidas. Además, tenga a mano una fotocopia de su cédula de identidad. En caso de postular como representante legal, se requerirá también una fotocopia de la cédula de identidad de cada heredero.</strong> </p>
                 </div>
                 
                 <div class="form-grid">
@@ -382,8 +382,8 @@
             <!-- Sección 3: Datos del Apoderado o Representante Legal -->
             <section id="datosApoderado" class="form-section" data-section="3">
                 <div class="section-header">
-                    <h2><i class="fas fa-user-tie"></i> Datos del Apoderado o Representante Legal</h2>
-                    <p class="section-description">Complete los datos del apoderado o representante legal (en caso de postulación de autor menor de edad o nacional residente en el extranjero).</p>
+                    <h2><i class="fas fa-user-tie"></i> Datos del Representante Legal</h2>
+                    <p class="section-description">Complete los datos del representante legal (campos bloqueados en caso de que haya marcado "No" en el mensaje anterior).</p>
                 </div>
                 
                 <div class="form-grid">
@@ -466,7 +466,7 @@
             </section>
 
             <!-- Sección 4: Datos Sucesión -->
-            <section id="datosSucesion" class="form-section" data-section="4">
+            <section id="datosSucesion" class="form-section" data-section="4" style="display:none;">
                 <div class="section-header">
                     <h2><i class="fas fa-scroll"></i> Datos Sucesión</h2>
                     <p class="section-description">Complete los datos de la sucesión (en caso de postulación de autor fallecido).</p>
@@ -598,7 +598,7 @@
                     <div class="form-group conditional-field" style="display:none;">
                         <div class="floating-label">
                             <input type="text" id="numeroCuenta" name="numeroCuenta" class="form-control" inputmode="numeric" pattern="[0-9]*" required>
-                            <label for="numeroCuenta">N° de cuenta (solo dígitos)<span class="required">*</span></label>
+                            <label for="numeroCuenta">N° de cuenta (solo dígitos) <span class="required">*</span></label>
                             <div class="error-message"></div>
                         </div>
                     </div>
@@ -625,7 +625,7 @@
                     <div class="form-group conditional-field" id="direccionBancoExtranjeroGroup" style="display:none;">
                         <div class="floating-label">
                             <input type="text" id="direccionBancoExtranjero" name="direccionBancoExtranjero" class="form-control">
-                            <label for="direccionBancoExtranjero">Dirección del banco</label>
+                            <label for="direccionBancoExtranjero">Dirección del banco (Sucursal)</label>
                             <div class="error-message"></div>
                         </div>
                     </div>
@@ -648,11 +648,11 @@
                 </div>
             </section>
 
-            <!-- Sección 6: Datos Técnicos -->
-            <section id="datosTecnicos" class="form-section" data-section="6">
+            <!-- Sección 5: Datos Técnicos -->
+            <section id="datosTecnicos" class="form-section" data-section="5">
                 <div class="section-header">
                     <h2><i class="fas fa-laptop-code"></i> Datos Técnicos</h2>
-                    <p class="section-description">Seleccione el/los recuadro(s) correspondiente(s) a su solicitud de incorporación. Los campos marcados con * son obligatorios.</p>
+                    <p class="section-description">Complete su información técnica.</p>
                 </div>
                 
                 <div class="form-grid-datos-tecnicos">
@@ -731,7 +731,7 @@
                         <h5 class="block-title">Sociedad de Autores</h5>
                         <div class="sociedad-content">
                             <div class="form-group">
-                                <label for="perteneceSociedad">¿Pertenece a otra sociedad de gestión de derechos de autor en Chile y/o en el extranjero? <span class="required">*</span></label>
+                                <label class="form-label">¿Pertenece a otra sociedad de autores audiovisuales y/o dramáticos? <span class="required">*</span></label>
                                 <div class="toggle-group">
                                     <label class="toggle-option">
                                         <input type="radio" name="perteneceSociedad" value="si" class="sociedad-radio">
@@ -775,6 +775,65 @@
                 </div>
             </section>
 
+            <!-- Sección 6: Datos Generales -->
+            <section id="datosGenerales" class="form-section" data-section="6">
+                <div class="section-header">
+                    <h2><i class="fas fa-info-circle"></i> Datos Generales</h2>
+                    <p class="section-description">Complete la información general adicional. Puede agregar hasta 5 ítems por categoría.</p>
+                </div>
+                
+                <!-- Grupo de Estudios -->
+                <div class="form-group dynamic-input-group">
+                    <label class="form-label">Estudios profesionales en el área audiovisual o dramática</label>
+                    <div id="estudiosContainer" class="dynamic-input-container">
+                        <div class="input-with-actions">
+                            <input type="text" name="estudios[]" class="form-control" placeholder="Ej: Licenciatura en Artes Escénicas, Universidad de Chile">
+                            <button type="button" class="btn-remove-input" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-text-link btn-add-input" data-target="estudiosContainer">
+                        <i class="fas fa-plus"></i> Agregar otro estudio
+                    </button>
+                    <div class="input-counter"><span class="current-count">1</span>/5</div>
+                </div>
+
+                <!-- Grupo de Experiencia Docente -->
+                <div class="form-group dynamic-input-group">
+                    <label class="form-label">Labores docentes en el área audiovisual o dramática</label>
+                    <div id="docenciaContainer" class="dynamic-input-container">
+                        <div class="input-with-actions">
+                            <input type="text" name="docencia[]" class="form-control" placeholder="Ej: Profesor de Dirección Teatral, Escuela de Teatro UC">
+                            <button type="button" class="btn-remove-input" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-text-link btn-add-input" data-target="docenciaContainer">
+                        <i class="fas fa-plus"></i> Agregar otra experiencia docente
+                    </button>
+                    <div class="input-counter"><span class="current-count">1</span>/5</div>
+                </div>
+
+                <!-- Grupo de Premios -->
+                <div class="form-group dynamic-input-group">
+                    <label class="form-label">Premio o distinción en el área audiovisual o dramática</label>
+                    <div id="premiosContainer" class="dynamic-input-container">
+                        <div class="input-with-actions">
+                            <input type="text" name="premios[]" class="form-control" placeholder="Ej: Mejor Director, Festival de Cine de Valdivia 2022">
+                            <button type="button" class="btn-remove-input" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-text-link btn-add-input" data-target="premiosContainer">
+                        <i class="fas fa-plus"></i> Agregar otro premio
+                    </button>
+                    <div class="input-counter"><span class="current-count">1</span>/5</div>
+                </div>
+            </section>
+
             <!-- Sección 7: Obras -->
             <section id="obras" class="form-section" data-section="7">
                 <div class="section-header">
@@ -797,7 +856,7 @@
                         <div class="obra-item" data-obra-id="1">
                             <div class="obra-header">
                                 <div class="obra-header-left">
-                                    <div class="obra-icon">🎞️</div>
+                                    <div class="obra-icon">🎬</div>
                                 <span class="obra-number">Obra 1</span>
                                 </div>
                                 <button type="button" class="btn-remove-obra" style="display: none;" title="Eliminar obra">
@@ -810,6 +869,13 @@
                                     <div class="floating-label">
                                         <input type="text" id="tituloObra1" name="tituloObra[]" class="form-control" required>
                                         <label for="tituloObra1">Título <span class="required">*</span></label>
+                                        <div class="error-message"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="floating-label">
+                                        <input type="number" id="anioEstrenoObra1" name="anioEstrenoObra[]" class="form-control" min="1500" max="2100" required>
+                                        <label for="anioEstrenoObra1">Año de estreno <span class="required">*</span></label>
                                         <div class="error-message"></div>
                                     </div>
                                 </div>
@@ -855,7 +921,7 @@
                                 <input type="checkbox" id="confirmacionObras" name="confirmacionObras" class="form-check-input">
                                 <label for="confirmacionObras" class="form-check-label">
                                     <span class="derecho-title">Confirmación de Obras</span>
-                                    <p class="derecho-text">Confirmo tener obras que han sido exhibidas anteriormente o serán estrenadas en los próximos 6 meses.</p>
+                                    <p class="derecho-text">Confirmo tener obras que ya hayan han sido exhibidas anteriormente.</p>
                                 </label>
                             </div>
                         </div>
@@ -872,6 +938,26 @@
                                 <label for="derechosComunicacion" class="form-check-label">
                                     <span class="derecho-title">Derechos de Comunicación Pública</span>
                                     <p class="derecho-text">Se refiere a la administración del derecho de comunicación pública y adaptación de obras dramáticas, como también la administración del Derecho de Remuneración Audiovisual, consagrado por la ley N° 20.959 "Ricardo Larraín" y que comprende la comunicación al público, puesta a disposición, arrendamiento y utilización directa de soportes audiovisuales de cualquier naturaleza en los que se encuentren fijadas sus obras audiovisuales.</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tarjeta 3: Autorización de uso de datos personales -->
+                    <div class="derecho-card">
+                        <div class="derecho-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="derecho-content">
+                            <div class="form-check">
+                                <input type="checkbox" id="autorizacionDatos" name="autorizacionDatos" class="form-check-input">
+                                <label for="autorizacionDatos" class="form-check-label">
+                                    <span class="derecho-title">Autorización de uso de datos personales</span>
+                                    <p class="derecho-text">
+                                        Autorizo a ATN a usar los datos que entrego en este formulario, incluyendo nombre, DNI o pasaporte, correo electrónico, teléfono, datos bancarios y, en los casos que corresponda, información relacionada con representación legal o situación de fallecimiento del autor.<br>
+                                        El tratamiento de estos datos tendrá como única finalidad la gestión de la solicitud de incorporación como socio/a y, en caso de aprobación, los procesos operacionales y administrativos de ATN.<br>
+                                        Podré revisar, corregir o eliminar mis datos escribiendo a info@atn.cl.
+                                    </p>
                                 </label>
                             </div>
                         </div>
@@ -910,7 +996,7 @@
                         <span>¿Cómo completar los documentos?</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
-                    <div id="instruccionesDetalladas" class="instruction-content">
+                    <div id="instruccionesDetalladas" class="instruction-content show">
                         <div class="instruction-steps">
                             <div class="instruction-step">
                                 <div class="step-number">1</div>
@@ -1019,10 +1105,87 @@
                     </div>
 
                     <!-- Mensaje de validación -->
-                    <div class="validation-message" id="documentosValidationMessage">
+                    <!-- <div class="validation-message" id="documentosValidationMessage">
                         <i class="fas fa-exclamation-circle"></i>
                         <span>Debe subir ambos documentos firmados para continuar con la postulación.</span>
+                    </div> -->
+                </div>
+
+                <!-- Subtítulo explicativo antes del campo de firma -->
+                <div class="firma-explicacion" style="margin-bottom:1rem; color:#495057; font-size:1rem;">
+                    Puede optar por subir su firma electrónica o firmar manualmente el documento que recibirá por correo.
+                </div>
+
+                <!-- NUEVO BLOQUE DE FIRMA Y DOCUMENTO GENERADO -->
+                <div class="firma-electronica-block" style="margin-bottom:2rem;">
+                    <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="fas fa-pen-nib"></i> Firma electrónica del postulante</h3>
+                    <div class="firma-intro" style="margin-bottom:1rem;color:#495057;font-size:1rem;">
+                        <span style="font-size:1.1rem;">A continuación, puede elegir si desea subir su firma electrónica o firmar el documento manualmente más adelante.</span><br>
+                        Subir la firma es <strong>opcional</strong>, y depende completamente de su comodidad con este proceso.
                     </div>
+                    <div class="firma-privacidad" style="background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;padding:0.75rem 1.25rem;margin-bottom:1.2rem;display:flex;align-items:flex-start;gap:0.8rem;">
+                        <i class="fas fa-thumbtack" style="color:#097137;font-size:1.2rem;margin-top:0.2rem;"></i>
+                        <div style="font-size:1rem;color:#495057;">
+                            <strong>Importante:</strong> Su firma solo será utilizada para incluirla en el documento de <em>Antecedentes Generales</em> y <strong>no se almacenará ni usará para ningún otro fin</strong>.
+                        </div>
+                    </div>
+                    <div class="firma-upload-block" style="margin-bottom:1.5rem;">
+                        <div style="font-weight:600;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;">
+                            <i class="fas fa-image"></i> Imagen de la firma <span style="font-weight:400;font-size:0.98rem;color:#888;">(opcional)</span>
+                        </div>
+                        <div style="margin-bottom:0.3rem;color:#495057;font-size:0.97rem;">Suba una imagen de su firma manuscrita (JPG o PNG, máximo 2MB).</div>
+                        <div class="documento-upload-group">
+                            <label class="documento-upload-label">
+                                <span class="sr-only">Imagen de la firma</span>
+                                <input type="file" id="firmaPostulante" name="firmaPostulante" accept=".jpg,.jpeg,.png" class="documento-upload-input">
+                                <span class="documento-upload-button">
+                                    <i class="fas fa-cloud-upload-alt"></i> Seleccionar imagen
+                                </span>
+                            </label>
+                            <div class="documento-info" id="infoFirmaPostulante">
+                                <span class="documento-nombre">Ningún archivo seleccionado</span>
+                                <button type="button" class="btn-eliminar-doc" data-target="firmaPostulante" style="display: none;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="error-message" id="errorFirmaPostulante"></div>
+                            <div class="file-preview" id="firmaPreview" style="display:none;margin-top:1rem;">
+                                <div style="font-size:0.95rem;color:#6c757d;margin-bottom:0.5rem;">Previsualización de la firma:</div>
+                                <img id="firmaImgPreview" src="" alt="Previsualización de la firma" style="max-width:220px;max-height:120px;border:1px solid #e9ecef;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="firma-info-block" style="background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;padding:1rem 1.25rem;margin-bottom:2rem;display:flex;align-items:flex-start;gap:1rem;">
+                    <i class="fas fa-info-circle" style="color:#097137;font-size:1.5rem;margin-top:0.2rem;"></i>
+                    <div style="font-size:1rem;color:#495057;">
+                        <strong>¿Qué ocurre si no sube su firma?</strong><br>
+                        Si decide <strong>no subir su firma</strong>, igualmente se generará el documento de <em>Antecedentes Generales</em> con todos sus datos <strong>excepto la firma</strong>.<br>
+                        Lo recibirá por correo electrónico una vez finalizada la postulación, y deberá <strong>firmarlo manualmente</strong> y responder al correo con el documento firmado adjunto.
+                    </div>
+                </div>
+
+                <div class="documentos-generados-block">
+                    <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="far fa-file-pdf"></i> Documento generado automáticamente</h3>
+                    <div class="doc-gen-desc" style="color:#495057;font-size:1rem;margin-bottom:0.7rem;">
+                        El documento de <strong>Antecedentes Generales</strong> se genera automáticamente con los datos ingresados en el formulario.<br>
+                        <i class="fas fa-envelope" style="color:#097137;"></i> Se enviará a su correo <strong>con o sin firma</strong>, según su decisión anterior.
+                    </div>
+                    <div class="documentos-lista">
+                        <a href="./docs/ANTECEDENTES GENERALES DEL POSTULANTE.pdf" class="documento-descarga" target="_blank" onclick="verDocumentoGenerado('antecedentes'); return false;">
+                            <i class="far fa-file-pdf"></i>
+                            <span>Antecedentes Generales</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- FIN NUEVO BLOQUE DE FIRMA Y DOCUMENTO GENERADO -->
+
+                <!-- Mensaje de validación general de documentos -->
+                <div class="validation-message" id="documentosValidationMessage" style="display:none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Debe subir ambos documentos firmados y la firma electrónica para continuar con la postulación.</span>
                 </div>
             </section>
 
@@ -1137,5 +1300,34 @@ $(document).on('input', '#numeroCuenta', function() {
     this.value = this.value.replace(/[^0-9]/g, '');
 });
 </script>
+<div id="modalRepresentanteLegal" class="modal-atn" style="display:none;">
+  <div class="modal-atn-content">
+    <div class="modal-atn-header">
+      <h3 class="modal-atn-title"><i class="fas fa-user-tie"></i> ¿Desea registrar un representante legal? (solo se admite una sucesión por autor)</h3>
+    </div>
+    <div class="modal-atn-body modal-justificado">
+      <p>Este apartado aplica <strong>solo si el autor postulante se encuentra en una de las siguientes situaciones</strong>:<br></p>
+      <ul style="margin-bottom:1em;">
+        <li><strong>Es menor de edad</strong>.</li>
+        <li><strong>Reside en el extranjero</strong> y requiere representación legal en Chile.</li>
+        <li><strong>Ha fallecido</strong>, en cuyo caso el representante legal corresponde a la <strong>sucesión hereditaria</strong>.</li>
+      </ul>
+      <div style="margin-bottom:1em;">
+        <label style="display:block;margin-bottom:0.5em;">
+          <input type="radio" name="opcionRepresentanteLegal" value="si"> <strong>Sí</strong>, deseo registrar un representante legal.
+        </label>
+        <label style="display:block;">
+          <input type="radio" name="opcionRepresentanteLegal" value="no"> <strong>No</strong>, no necesito registrar un representante legal.
+        </label>
+      </div>
+      <div class="note-box" style="margin-top:1em;">
+        <p style="margin:0;"><i class="fas fa-info-circle"></i> <strong>Nota:</strong> Si selecciona “<strong>Sí</strong>”, se desplegarán los campos correspondientes para ingresar los datos del representante legal. En caso contrario, podrá pasar directamente al siguiente paso.</p>
+      </div>
+    </div>
+    <div class="modal-atn-footer" style="display:flex;justify-content:flex-end;gap:10px;">
+      <button id="modalRepresentanteLegalConfirmar" class="btn btn-primary" type="button" disabled>Confirmar</button>
+        </div>
+      </div>
+    </div>
 </body>
 </html>
