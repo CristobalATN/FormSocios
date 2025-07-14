@@ -773,6 +773,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const direccionBancoExtranjero = document.getElementById('direccionBancoExtranjero')?.value || '';
                 const numeroCuentaExtranjero = document.getElementById('numeroCuentaExtranjero')?.value || '';
                 const swiftIban = document.getElementById('swiftIban')?.value || '';
+                const confirmacionObras = document.getElementById('confirmacionObras')?.checked || false;
+                const derechosComunicacion = document.getElementById('derechosComunicacion')?.checked || false;
+                const autorizacionDatos = document.getElementById('autorizacionDatos')?.checked || false;
 
                 // Construir el objeto de datos
                 const data = {
@@ -833,7 +836,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                     paisBanco,
                     direccionBancoExtranjero,
                     numeroCuentaExtranjero,
-                    swiftIban
+                    swiftIban,
+                    confirmacionObras,
+                    derechosComunicacion,
+                    autorizacionDatos
                 };
 
                 // === ARCHIVOS ===
@@ -969,25 +975,23 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Inicializar el panel de instrucciones desplegable
         const instructionHeader = document.querySelector('.instruction-header');
         if (instructionHeader) {
-            // Cerrar instrucciones por defecto
-            instructionHeader.setAttribute('aria-expanded', 'false');
-            document.getElementById('instruccionesDetalladas').classList.remove('show');
+            // Abrir instrucciones por defecto
+            instructionHeader.setAttribute('aria-expanded', 'true');
+            document.getElementById('instruccionesDetalladas').classList.add('show');
             instructionHeader.addEventListener('click', function() {
                 const content = document.getElementById('instruccionesDetalladas');
                 const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                
                 this.setAttribute('aria-expanded', !isExpanded);
                 content.classList.toggle('show', !isExpanded);
-                
                 // Guardar el estado en localStorage para recordar la preferencia del usuario
                 localStorage.setItem('instruccionesExpandidas', !isExpanded);
             });
-            
             // Cargar el estado guardado
-            const savedState = localStorage.getItem('instruccionesExpandidas') === 'true';
-            if (savedState) {
-                instructionHeader.setAttribute('aria-expanded', 'true');
-                document.getElementById('instruccionesDetalladas').classList.add('show');
+            const savedState = localStorage.getItem('instruccionesExpandidas');
+            if (savedState !== null) {
+                const expanded = savedState === 'true';
+                instructionHeader.setAttribute('aria-expanded', expanded);
+                document.getElementById('instruccionesDetalladas').classList.toggle('show', expanded);
             }
         }
         
@@ -1138,20 +1142,20 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.log('Procesando archivo:', fileName, 'en input:', inputId);
             console.log('Procesando archivo:', fileName, 'Tipo:', fileType, 'Tamaño:', fileSize, 'MB');
             
-            // Validar tipo de archivo
-            if (fileType !== 'application/pdf') {
-                mostrarError(input.id, 'Por favor, suba un archivo en formato PDF.');
-                input.value = '';
-                return;
+            // Solo validar PDF en los campos de documentos firmados
+            if (inputId === 'solicitudFirmada' || inputId === 'mandatoFirmado') {
+                if (fileType !== 'application/pdf') {
+                    mostrarError(input.id, 'Por favor, suba un archivo en formato PDF.');
+                    input.value = '';
+                    return;
+                }
+                // Validar tamaño del archivo (máximo 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    mostrarError(input.id, 'El archivo es demasiado grande. El tamaño máximo permitido es 5MB.');
+                    input.value = '';
+                    return;
+                }
             }
-            
-            // Validar tamaño del archivo (máximo 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                mostrarError(input.id, 'El archivo es demasiado grande. El tamaño máximo permitido es 5MB.');
-                input.value = '';
-                return;
-            }
-            
             // Limpiar cualquier mensaje de error
             const errorElement = document.getElementById(`error${input.id}`);
             if (errorElement) {
@@ -1256,27 +1260,32 @@ document.addEventListener('DOMContentLoaded', async function() {
         const mandato = document.getElementById('mandatoFirmado');
         const mensajeValidacion = document.getElementById('documentosValidationMessage');
         let valido = true;
-        
+
         if (mensajeValidacion) {
             mensajeValidacion.style.display = 'none';
         }
-        
+
         // Validar solicitud
         if (!solicitud || !solicitud.files || solicitud.files.length === 0) {
             mostrarError('solicitudFirmada', 'Por favor, suba la solicitud firmada');
             valido = false;
         }
-        
+
         // Validar mandato
         if (!mandato || !mandato.files || mandato.files.length === 0) {
             mostrarError('mandatoFirmado', 'Por favor, suba el mandato firmado');
             valido = false;
         }
-        
+
+        // Limpiar error de firma si no es obligatoria
+        const firmaError = document.getElementById('errorFirmaPostulante');
+        if (firmaError) firmaError.textContent = '';
+
         if (!valido && mensajeValidacion) {
             mensajeValidacion.style.display = 'flex';
+            mensajeValidacion.querySelector('span').textContent = 'Debe subir ambos documentos firmados para continuar con la postulación.';
         }
-        
+
         return valido;
     }
     
@@ -1500,8 +1509,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             seccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 50);
 
-            // Inicializar los grupos dinámicos solo una vez cuando se muestre la sección
-            if (idSeccion === 'datosGenerales' && !datosGeneralesInicializados) {
+            // Limpiar listeners y atributos previos de los botones y contenedores de la sección Datos Generales
+            if (idSeccion === 'datosGenerales') {
+                // Limpiar atributos data-initialized de los botones de agregar y eliminar
+                document.querySelectorAll('#datosGenerales .btn-add-input, #datosGenerales .btn-remove-input').forEach(btn => {
+                    btn.removeAttribute('data-initialized');
+                });
+                // Limpiar listeners clonando los contenedores (esto elimina listeners antiguos)
+                document.querySelectorAll('#datosGenerales .dynamic-input-container').forEach(container => {
+                    const newContainer = container.cloneNode(true);
+                    container.parentNode.replaceChild(newContainer, container);
+                });
                 inicializarGruposDinamicos();
                 datosGeneralesInicializados = true;
                 console.log('Grupos dinámicos de Datos Generales inicializados.');
@@ -1601,7 +1619,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                     'datosAutor',
                     'datosContacto',
                     'datosApoderado',
-                    'datosSucesion',
                     'datosBancarios',
                     'datosTecnicos',
                     'datosGenerales',
@@ -1877,13 +1894,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                 if (primerError) primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
-            // Avanzar a la siguiente sección
-            const secciones = document.querySelectorAll('.form-section');
-            const indiceActual = Array.from(secciones).indexOf(seccionActual);
-            if (indiceActual < secciones.length - 1) {
-                const siguienteSeccion = secciones[indiceActual + 1];
+            // Avanzar a la siguiente sección (ignorando datosSucesion)
+            const seccionesFiltradas = Array.from(document.querySelectorAll('.form-section')).filter(sec => sec.id !== 'datosSucesion');
+            const indiceActualFiltrado = seccionesFiltradas.indexOf(seccionActual);
+            if (indiceActualFiltrado < seccionesFiltradas.length - 1) {
+                const siguienteSeccion = seccionesFiltradas[indiceActualFiltrado + 1];
                 mostrarSeccion(siguienteSeccion.id);
-                actualizarBarraProgreso(indiceActual + 2);
+                actualizarBarraProgreso(indiceActualFiltrado + 2);
                 if (btnAtras) btnAtras.disabled = false;
                 siguienteSeccion.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
@@ -1898,20 +1915,16 @@ document.addEventListener('DOMContentLoaded', async function() {
             const secciones = document.querySelectorAll('.form-section');
             const indiceActual = Array.from(secciones).indexOf(seccionActual);
             
-            // Retroceder a la sección anterior
-            if (indiceActual > 0) {
-                const seccionAnterior = secciones[indiceActual - 1];
+            // Retroceder a la sección anterior (ignorando datosSucesion)
+            const seccionesFiltradas = Array.from(document.querySelectorAll('.form-section')).filter(sec => sec.id !== 'datosSucesion');
+            const indiceActualFiltrado = seccionesFiltradas.indexOf(seccionActual);
+            if (indiceActualFiltrado > 0) {
+                const seccionAnterior = seccionesFiltradas[indiceActualFiltrado - 1];
                 mostrarSeccion(seccionAnterior.id);
-                
-                // Actualizar la barra de progreso
-                actualizarBarraProgreso(indiceActual); // El índice es base 1 para la barra de progreso
-                
-                // Deshabilitar el botón Atrás si volvemos a la primera sección
-                if (indiceActual === 1) {
+                actualizarBarraProgreso(indiceActualFiltrado);
+                if (indiceActualFiltrado === 1) {
                     btnAtras.disabled = true;
                 }
-                
-                // Desplazar al inicio de la sección anterior
                 seccionAnterior.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
@@ -2588,6 +2601,189 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
     cargarPaisesBanco();
+
+    // Añadir placeholder al buscador de todos los select2
+    $(document).on('select2:open', function(e) {
+        // Si hay más de un select2 abierto, se aplica a todos
+        document.querySelectorAll('input.select2-search__field').forEach(function(input) {
+            input.placeholder = 'Buscar...';
+        });
+    });
+
+    // --- MODAL REPRESENTANTE LEGAL ---
+    let representanteLegalDecision = null;
+    let modalMostradoRepresentanteLegal = false;
+
+    function setRepresentanteLegalEditable(editable) {
+        const section = document.getElementById('datosApoderado');
+        if (!section) return;
+        const inputs = section.querySelectorAll('input, select, textarea, button');
+        inputs.forEach(el => {
+            if (editable) {
+                el.removeAttribute('disabled');
+                // Quitar candado si existe
+                if (el.parentElement && el.parentElement.querySelector('.lock-icon')) {
+                    el.parentElement.querySelector('.lock-icon').remove();
+                }
+            } else {
+                if (el.type !== 'hidden') el.setAttribute('disabled', 'disabled');
+                // Agregar candado solo a input, select, textarea (no a button)
+                if ((el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA') && el.parentElement && !el.parentElement.querySelector('.lock-icon')) {
+                    const span = document.createElement('span');
+                    span.className = 'lock-icon';
+                    span.innerHTML = '<i class="fas fa-lock"></i>';
+                    el.parentElement.insertBefore(span, el);
+                }
+            }
+        });
+        // Permitir que el botón Siguiente siga funcionando
+        const btnSiguiente = document.getElementById('btnSiguiente');
+        if (btnSiguiente) btnSiguiente.removeAttribute('disabled');
+    }
+
+    function mostrarModalRepresentanteLegal(callback) {
+        const modal = document.getElementById('modalRepresentanteLegal');
+        const confirmar = document.getElementById('modalRepresentanteLegalConfirmar');
+        const radios = modal.querySelectorAll('input[name="opcionRepresentanteLegal"]');
+        confirmar.disabled = true;
+        radios.forEach(r => r.checked = false);
+        modal.style.display = 'flex';
+        let seleccion = null;
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                seleccion = this.value;
+                confirmar.disabled = false;
+            });
+        });
+        confirmar.onclick = function() {
+            modal.style.display = 'none';
+            representanteLegalDecision = seleccion;
+            setRepresentanteLegalEditable(seleccion === 'si');
+            if (callback) callback(seleccion);
+            if (seleccion === 'no') {
+                // Avanzar automáticamente a la siguiente sección
+                mostrarSeccion('datosBancarios');
+                actualizarBarraProgreso(4);
+            }
+            // Si es 'si', no avanzar, solo cerrar el modal
+        };
+    }
+
+    // Interceptar avance por botón Siguiente
+    const btnSiguienteRL = document.getElementById('btnSiguiente');
+    if (btnSiguienteRL) {
+        btnSiguienteRL.addEventListener('click', function(e) {
+            const seccionActual = document.querySelector('.form-section.active');
+            if (seccionActual && seccionActual.id === 'datosContacto') {
+                if (!representanteLegalDecision && !modalMostradoRepresentanteLegal) {
+                    e.preventDefault();
+                    modalMostradoRepresentanteLegal = true;
+                    mostrarModalRepresentanteLegal(() => {
+                        // Avanzar a la sección de apoderado
+                        mostrarSeccion('datosApoderado');
+                        actualizarBarraProgreso(3);
+                    });
+                    return;
+                }
+            }
+        }, true);
+    }
+
+    // Interceptar avance por cinta de navegación
+    function interceptarCintaRepresentanteLegal() {
+        const slides = document.querySelectorAll('.progress-slide');
+        slides.forEach((slide, index) => {
+            slide.addEventListener('click', function(e) {
+                // El índice 2 corresponde a datosApoderado
+                if (index === 2) {
+                    const seccionActual = document.querySelector('.form-section.active');
+                    if (seccionActual && seccionActual.id === 'datosContacto') {
+                        if (!representanteLegalDecision && !modalMostradoRepresentanteLegal) {
+                            e.preventDefault();
+                            modalMostradoRepresentanteLegal = true;
+                            mostrarModalRepresentanteLegal(() => {
+                                mostrarSeccion('datosApoderado');
+                                actualizarBarraProgreso(3);
+                            });
+                            return;
+                        }
+                    }
+                }
+            }, true);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', interceptarCintaRepresentanteLegal);
+
+    // Al cargar, la decisión se reinicia
+    representanteLegalDecision = null;
+    modalMostradoRepresentanteLegal = false;
+
+    // --- Firma electrónica del postulante ---
+    const firmaInput = document.getElementById('firmaPostulante');
+    const firmaInfo = document.getElementById('infoFirmaPostulante');
+    const firmaError = document.getElementById('errorFirmaPostulante');
+    const firmaPreview = document.getElementById('firmaPreview');
+    const firmaImgPreview = document.getElementById('firmaImgPreview');
+    const firmaDeleteBtn = firmaInfo ? firmaInfo.querySelector('.btn-eliminar-doc') : null;
+
+    if (firmaInput) {
+        // Limpiar listeners previos
+        const newFirmaInput = firmaInput.cloneNode(true);
+        firmaInput.parentNode.replaceChild(newFirmaInput, firmaInput);
+
+        newFirmaInput.addEventListener('change', function(e) {
+            if (!this.files || !this.files[0]) return;
+            const file = this.files[0];
+            const fileName = file.name;
+            const fileSize = (file.size / (1024 * 1024)).toFixed(2); // MB
+            const fileType = file.type;
+            // Validar tipo SOLO para imagen
+            if (!(fileType === 'image/jpeg' || fileType === 'image/png')) {
+                if (firmaError) firmaError.textContent = 'Solo se aceptan imágenes JPG o PNG.';
+                this.value = '';
+                if (firmaPreview) firmaPreview.style.display = 'none';
+                return;
+            }
+            // Validar tamaño
+            if (file.size > 2 * 1024 * 1024) {
+                if (firmaError) firmaError.textContent = 'La imagen es demasiado grande. Máximo permitido: 2MB.';
+                this.value = '';
+                if (firmaPreview) firmaPreview.style.display = 'none';
+                return;
+            }
+            // Limpiar error
+            if (firmaError) firmaError.textContent = '';
+            // Mostrar nombre
+            if (firmaInfo) {
+                const nombreElem = firmaInfo.querySelector('.documento-nombre');
+                if (nombreElem) nombreElem.textContent = `${fileName} (${fileSize} MB)`;
+                if (firmaDeleteBtn) firmaDeleteBtn.style.display = 'inline-flex';
+            }
+            // Previsualizar imagen
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                if (firmaImgPreview) firmaImgPreview.src = ev.target.result;
+                if (firmaPreview) firmaPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+        // Botón de eliminar
+        if (firmaDeleteBtn) {
+            firmaDeleteBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                newFirmaInput.value = '';
+                if (firmaInfo) {
+                    const nombreElem = firmaInfo.querySelector('.documento-nombre');
+                    if (nombreElem) nombreElem.textContent = 'Ningún archivo seleccionado';
+                    firmaDeleteBtn.style.display = 'none';
+                }
+                if (firmaPreview) firmaPreview.style.display = 'none';
+                if (firmaError) firmaError.textContent = '';
+            });
+        }
+    }
+    // --- Fin firma electrónica ---
 });
 
 function inicializarManejadorDeArchivos() {
@@ -3286,7 +3482,7 @@ function inicializarObrasDinamicas() {
         obraItem.innerHTML = `
             <div class="obra-header">
                 <div class="obra-header-left">
-                    <div class="obra-icon">🎞️</div>
+                    <div class="obra-icon">🎬</div>
                     <span class="obra-number">Obra ${obraId}</span>
                 </div>
                 <button type="button" class="btn-remove-obra" title="Eliminar obra">
@@ -3309,6 +3505,13 @@ function inicializarObrasDinamicas() {
                             <option value="Dramatico">Dramático</option>
                         </select>
                         <label for="ambitoObra${obraId}">Ámbito <span class="required">*</span></label>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="floating-label">
+                        <input type="number" id="anioEstrenoObra${obraId}" name="anioEstrenoObra[]" class="form-control" min="1500" max="2100" required>
+                        <label for="anioEstrenoObra${obraId}">Año de estreno <span class="required">*</span></label>
                         <div class="error-message"></div>
                     </div>
                 </div>
@@ -3568,8 +3771,12 @@ function validarCamposVisiblesRequeridos(seccion) {
     let valido = true;
     // Validar checkboxes de derechos si estamos en la sección correspondiente
     if (seccion && seccion.id === 'derechosAdministrar') {
-        const checkboxes = Array.from(seccion.querySelectorAll('.form-check-input'));
-        const todosMarcados = checkboxes.every(checkbox => checkbox.checked);
+        const checkboxes = [
+            document.getElementById('confirmacionObras'),
+            document.getElementById('derechosComunicacion'),
+            document.getElementById('autorizacionDatos')
+        ];
+        const todosMarcados = checkboxes.every(checkbox => checkbox && checkbox.checked);
         const mensajeValidacion = document.getElementById('derechosValidationMessage');
         if (!todosMarcados) {
             valido = false;
@@ -3582,6 +3789,7 @@ function validarCamposVisiblesRequeridos(seccion) {
     if (seccion && seccion.id === 'documentosFirmar') {
         const solicitud = document.getElementById('solicitudFirmada');
         const mandato = document.getElementById('mandatoFirmado');
+        const firma = document.getElementById('firmaPostulante');
         const mensajeValidacion = document.getElementById('documentosValidationMessage');
         let archivosValidos = true;
         if (!solicitud || !solicitud.files || solicitud.files.length === 0) {
@@ -3590,6 +3798,10 @@ function validarCamposVisiblesRequeridos(seccion) {
         }
         if (!mandato || !mandato.files || mandato.files.length === 0) {
             mostrarError('mandatoFirmado', 'Por favor, suba el mandato firmado');
+            archivosValidos = false;
+        }
+        if (!firma || !firma.files || firma.files.length === 0) {
+            mostrarError('firmaPostulante', 'Por favor, suba la imagen de su firma manuscrita');
             archivosValidos = false;
         }
         if (!archivosValidos) {
@@ -3620,12 +3832,16 @@ secciones.forEach(seccion => {
         seccion.addEventListener('sectionShown', function() {
             const solicitud = document.getElementById('solicitudFirmada');
             const mandato = document.getElementById('mandatoFirmado');
+            const firma = document.getElementById('firmaPostulante');
             const mensajeValidacion = document.getElementById('documentosValidationMessage');
             let archivosValidos = true;
             if (!solicitud || !solicitud.files || solicitud.files.length === 0) {
                 archivosValidos = false;
             }
             if (!mandato || !mandato.files || mandato.files.length === 0) {
+                archivosValidos = false;
+            }
+            if (!firma || !firma.files || firma.files.length === 0) {
                 archivosValidos = false;
             }
             if (!archivosValidos && mensajeValidacion) {
@@ -3659,3 +3875,24 @@ function mostrarSeccion(id) {
         }
     });
 // ... existente ...
+
+// Función para ver documentos generados automáticamente
+function verDocumentoGenerado(tipo) {
+    let url = '';
+    let titulo = '';
+    
+    if (tipo === 'antecedentes') {
+        url = './docs/ANTECEDENTES GENERALES DEL POSTULANTE.pdf';
+        titulo = 'Antecedentes Generales';
+    } else if (tipo === 'pagos') {
+        url = './docs/PAGOS.pdf';
+        titulo = 'Declaración de Pagos';
+    }
+    
+    if (url) {
+        // Abrir en nueva pestaña para vista previa
+        window.open(url, '_blank');
+    } else {
+        alert('Documento no disponible.');
+    }
+}
