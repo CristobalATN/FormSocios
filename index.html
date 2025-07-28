@@ -170,13 +170,7 @@
                     </div>
 
                     <!-- Fila 3: Fecha de Defunción -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="date" id="fechaDefuncion" name="fechaDefuncion" class="form-control">
-                            <label for="fechaDefuncion">Fecha de defunción (en caso de postulación de un autor fallecido)</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
+                    <!-- CAMPO MOVIDO A DATOS REPRESENTANTE LEGAL -->
 
                     <!-- Fila 4: Fotocopia Documento (Opcional) -->
                     <div class="form-group file-upload">
@@ -446,6 +440,15 @@
                         </div>
                     </div>
 
+                    <!-- Fila X: Fecha de Defunción (solo si corresponde) -->
+                    <div class="form-group">
+                        <div class="floating-label">
+                            <input type="date" id="fechaDefuncion" name="fechaDefuncion" class="form-control">
+                            <label for="fechaDefuncion">Fecha de defunción (en caso de postulación de un autor fallecido)</label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
                     <!-- Fila 3: Teléfono con código de país -->
                     <div class="form-group">
                         <div class="phone-input-container">
@@ -458,91 +461,6 @@
                             <div class="floating-label phone-number-input">
                                 <input type="tel" id="apoderadoTelefono" name="apoderadoTelefono" class="form-control" pattern="[0-9]+">
                                 <label for="apoderadoTelefono">Teléfono</label>
-                                <div class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 4: Datos Sucesión -->
-            <section id="datosSucesion" class="form-section" data-section="4" style="display:none;">
-                <div class="section-header">
-                    <h2><i class="fas fa-scroll"></i> Datos Sucesión</h2>
-                    <p class="section-description">Complete los datos de la sucesión (en caso de postulación de autor fallecido).</p>
-                </div>
-                
-                <div class="form-grid">
-                    <!-- Fila 1: Nombres -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="sucesionNombres" name="sucesionNombres" class="form-control">
-                            <label for="sucesionNombres">Nombres</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Apellido Paterno -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="sucesionApellidoPaterno" name="sucesionApellidoPaterno" class="form-control">
-                            <label for="sucesionApellidoPaterno">Apellido Paterno</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Apellido Materno -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="sucesionApellidoMaterno" name="sucesionApellidoMaterno" class="form-control">
-                            <label for="sucesionApellidoMaterno">Apellido Materno</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: RUN -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="sucesionRun" name="sucesionRun" class="form-control">
-                            <label for="sucesionRun">RUN</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: Fotocopia Documento (Opcional) -->
-                    <div class="form-group file-upload">
-                        <div class="floating-label">
-                            <input type="file" id="sucesionDocumento" name="sucesionDocumento" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
-                            <label for="sucesionDocumento">Fotocopia por ambos lados de cédula de identidad (PDF o imagen)</label>
-                            <div class="file-info">
-                                <i class="fas fa-upload"></i>
-                                <span class="file-name">Seleccionar archivo</span>
-                            </div>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Email -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="email" id="sucesionEmail" name="sucesionEmail" class="form-control">
-                            <label for="sucesionEmail">Email</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Teléfono con código de país -->
-                    <div class="form-group">
-                        <div class="phone-input-container">
-                            <div class="phone-code-selector">
-                                <select id="sucesionCodigoPais" name="sucesionCodigoPais" class="form-control">
-                                    <option value="">Seleccione</option>
-                                    <!-- Las opciones se cargarán dinámicamente -->
-                                </select>
-                            </div>
-                            <div class="floating-label phone-number-input">
-                                <input type="tel" id="sucesionTelefono" name="sucesionTelefono" class="form-control" pattern="[0-9]+">
-                                <label for="sucesionTelefono">Teléfono</label>
                                 <div class="error-message"></div>
                             </div>
                         </div>
@@ -584,10 +502,10 @@
                         <div class="floating-label">
                             <select id="tipoCuenta" name="tipoCuenta" class="form-control" required>
                                 <option value="">Seleccione tipo de cuenta</option>
-                                <option value="Corriente">Corriente</option>
-                                <option value="Vista">Vista</option>
-                                <option value="Ahorro">Ahorro</option>
-                                <option value="RUT">RUT</option>
+                                <option value="Corriente">Cuenta Corriente</option>
+                                <option value="Vista">Cuenta Vista</option>
+                                <option value="Ahorro">Cuenta Ahorro</option>
+                                <option value="RUT">Cuenta RUT</option>
                                 <option value="Chequera electronica">Chequera electrónica</option>
                             </select>
                             <label for="tipoCuenta">Tipo de cuenta <span class="required">*</span></label>
@@ -977,7 +895,7 @@
                     <!-- Mensaje de Validación -->
                     <div class="validation-message" id="derechosValidationMessage">
                         <i class="fas fa-exclamation-circle"></i>
-                        <span>Debe aceptar ambas declaraciones antes de continuar.</span>
+                        <span>Debe aceptar todos los acuerdos antes de continuar.</span>
                     </div>
                 </div>
             </section>
@@ -1109,12 +1027,10 @@
                         <i class="fas fa-exclamation-circle"></i>
                         <span>Debe subir ambos documentos firmados para continuar con la postulación.</span>
                     </div> -->
-                </div>
+                    </div>
 
                 <!-- Subtítulo explicativo antes del campo de firma -->
-                <div class="firma-explicacion" style="margin-bottom:1rem; color:#495057; font-size:1rem;">
-                    Puede optar por subir su firma electrónica o firmar manualmente el documento que recibirá por correo.
-                </div>
+                
 
                 <!-- NUEVO BLOQUE DE FIRMA Y DOCUMENTO GENERADO -->
                 <div class="firma-electronica-block" style="margin-bottom:2rem;">
@@ -1173,7 +1089,7 @@
                         <i class="fas fa-envelope" style="color:#097137;"></i> Se enviará a su correo <strong>con o sin firma</strong>, según su decisión anterior.
                     </div>
                     <div class="documentos-lista">
-                        <a href="./docs/ANTECEDENTES GENERALES DEL POSTULANTE.pdf" class="documento-descarga" target="_blank" onclick="verDocumentoGenerado('antecedentes'); return false;">
+                        <a href="./docs/ANTECEDENTES_GENERALES-1.pdf" class="documento-descarga" target="_blank" onclick="verDocumentoGenerado('antecedentes'); return false;">
                             <i class="far fa-file-pdf"></i>
                             <span>Antecedentes Generales</span>
                             <i class="fas fa-chevron-right"></i>
@@ -1216,17 +1132,6 @@
                             <div class="sin-documento">
                                 <i class="fas fa-info-circle"></i>
                                 <span>No aplica o no se han cargado documentos de apoderado</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Documentos de Sucesión (condicional) -->
-                    <div class="documento-categoria" id="contenedorSucesion">
-                        <h3><i class="fas fa-scroll"></i> Copia de cédula de identidad de Sucesión</h3>
-                        <div id="resumenDocumentosSucesion" class="documento-lista">
-                            <div class="sin-documento">
-                                <i class="fas fa-info-circle"></i>
-                                <span>No aplica o no se han cargado documentos de sucesión</span>
                             </div>
                         </div>
                     </div>
@@ -1321,7 +1226,7 @@ $(document).on('input', '#numeroCuenta', function() {
         </label>
       </div>
       <div class="note-box" style="margin-top:1em;">
-        <p style="margin:0;"><i class="fas fa-info-circle"></i> <strong>Nota:</strong> Si selecciona “<strong>Sí</strong>”, se desplegarán los campos correspondientes para ingresar los datos del representante legal. En caso contrario, podrá pasar directamente al siguiente paso.</p>
+        <p style="margin:0;"><i class="fas fa-info-circle"></i> <strong>Nota:</strong> Si selecciona "<strong>Sí</strong>", se desplegarán los campos correspondientes para ingresar los datos del representante legal. En caso contrario, podrá pasar directamente al siguiente paso.</p>
       </div>
     </div>
     <div class="modal-atn-footer" style="display:flex;justify-content:flex-end;gap:10px;">
