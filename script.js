@@ -595,11 +595,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const apellidoPaterno = document.getElementById('apellidoPaterno')?.value.trim() || '';
                 const apellidoMaterno = document.getElementById('apellidoMaterno')?.value.trim() || '';
                 const nacionalidad = document.getElementById('nacionalidad')?.value || '';
-                const tipoDocumento = document.getElementById('tipoDocumento')?.value || '';
+                let tipoDocumento = document.getElementById('tipoDocumento')?.value || '';
+                if (nacionalidad.trim().toLowerCase() === 'chile') {
+                    tipoDocumento = 'RUT';
+                }
                 const run = document.getElementById('run')?.value.trim() || '';
                 const idOrigen = document.getElementById('idOrigen')?.value.trim() || '';
-                const fechaNacimiento = document.getElementById('fechaNacimiento')?.value || '';
-                const fechaDefuncion = document.getElementById('fechaDefuncion')?.value || '';
+                // Formatear fechas a dd-mm-yyyy
+                function formatearFecha(fechaStr) {
+                    if (!fechaStr) return '';
+                    const partes = fechaStr.split('-');
+                    if (partes.length !== 3) return fechaStr;
+                    return `${partes[2]}-${partes[1]}-${partes[0]}`;
+                }
+                const fechaNacimiento = formatearFecha(document.getElementById('fechaNacimiento')?.value || '');
+                const fechaDefuncion = formatearFecha(document.getElementById('fechaDefuncion')?.value || '');
                 const genero = document.getElementById('genero')?.value || '';
                 const seudonimo = document.getElementById('seudonimo')?.value.trim() || '';
 
@@ -619,6 +629,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const apoderadoApellidoPaterno = document.getElementById('apoderadoApellidoPaterno')?.value.trim() || '';
                 const apoderadoApellidoMaterno = document.getElementById('apoderadoApellidoMaterno')?.value.trim() || '';
                 const apoderadoEmail = document.getElementById('apoderadoEmail')?.value.trim() || '';
+                const apoderadoRun = document.getElementById('apoderadoRun')?.value.trim() || '';
                 let apoderadoCodigoPais = document.getElementById('apoderadoCodigoPais')?.value || '';
                 const apoderadoTelefonoSolo = document.getElementById('apoderadoTelefono')?.value.trim() || '';
                 const apoderadoTelefono = (apoderadoCodigoPais && apoderadoTelefonoSolo) ? (apoderadoCodigoPais + ' ' + apoderadoTelefonoSolo) : (apoderadoTelefonoSolo || apoderadoCodigoPais);
@@ -647,7 +658,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const clases = Array.from(document.querySelectorAll('input[name="clase[]"]:checked')).map(cb => cb.value);
 
                 // Sociedad
-                const perteneceSociedad = document.querySelector('input[name="perteneceSociedad"]:checked')?.value || '';
+                let perteneceSociedad = document.querySelector('input[name="perteneceSociedad"]:checked')?.value || '';
+                if (perteneceSociedad === 'si') perteneceSociedad = 'Sí';
+                else if (perteneceSociedad === 'no') perteneceSociedad = 'No';
                 const sociedadPais = document.getElementById('sociedadPais')?.value || '';
                 const sociedadNombre = document.getElementById('sociedadNombre')?.value || '';
 
@@ -759,17 +772,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                 // === EXTRAER OBRAS ===
                 const obras = Array.from(document.querySelectorAll('.obra-item')).map(obra => {
                     const titulo = obra.querySelector('input[name="tituloObra[]"]')?.value.trim() || '';
-                    const ambito = obra.querySelector('select[name="ambitoObra[]"]')?.value || '';
-                    return (titulo && ambito) ? { titulo, ambito } : null;
+                    const ambitoObra = obra.querySelector('select[name="ambitoObra[]"]')?.value || '';
+                    const anioEstreno = obra.querySelector('input[name="anioEstrenoObra[]"]')?.value || '';
+                    return (titulo && ambitoObra && anioEstreno) ? { titulo, ambitoObra, anioEstreno } : null;
                 }).filter(obra => obra);
 
                 // === DATOS BANCARIOS ===
                 const tipoBanco = document.getElementById('tipoBanco')?.value || '';
+                let paisBanco = document.getElementById('paisBanco')?.value || '';
+                if (tipoBanco.trim().toLowerCase() === 'nacional') {
+                    paisBanco = 'Chile';
+                }
                 const banco = document.getElementById('banco')?.value || '';
                 const tipoCuenta = document.getElementById('tipoCuenta')?.value || '';
                 const numeroCuenta = document.getElementById('numeroCuenta')?.value || '';
                 const bancoLibre = document.getElementById('bancoLibre')?.value || '';
-                const paisBanco = document.getElementById('paisBanco')?.value || '';
                 const direccionBancoExtranjero = document.getElementById('direccionBancoExtranjero')?.value || '';
                 const numeroCuentaExtranjero = document.getElementById('numeroCuentaExtranjero')?.value || '';
                 const swiftIban = document.getElementById('swiftIban')?.value || '';
@@ -801,6 +818,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     apoderadoApellidoPaterno,
                     apoderadoApellidoMaterno,
                     apoderadoEmail,
+                    apoderadoRun, // <-- Añadido aquí
                     apoderadoCodigoPais,
                     apoderadoTelefono,
                     sucesionNombres,
@@ -809,8 +827,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                     sucesionEmail,
                     sucesionCodigoPais,
                     sucesionTelefono,
-                    ambito: ambitos.join(', '),
-                    clase: clases.join(', '),
+                    ambito: ambitos, // ahora array
+                    clase: clases,   // ahora array
                     perteneceSociedad,
                     sociedadPais,
                     sociedadNombre,
@@ -872,7 +890,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                     { inputId: 'apoderadoDocumento', campoData: 'fotocopia_documento_representante' },
                     { inputId: 'sucesionDocumento', campoData: 'documento_sucesion' },
                     { inputId: 'solicitudFirmada', campoData: 'solicitud_incorporacion_firmada' },
-                    { inputId: 'mandatoFirmado', campoData: 'mandato_firmado' }
+                    { inputId: 'mandatoFirmado', campoData: 'mandato_firmado' },
+                    { inputId: 'firmaPostulante', campoData: 'firmaElectronica' } // Agregado para la firma electrónica
                 ];
 
                 // Procesar todos los archivos antes de enviar
@@ -1885,8 +1904,34 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Manejador de eventos para el botón Siguiente
     if (btnSiguiente) {
         btnSiguiente.addEventListener('click', function(e) {
-            e.preventDefault();
             const seccionActual = document.querySelector('.form-section.active');
+            // Validación personalizada para Datos Técnicos
+            if (seccionActual && seccionActual.id === 'datosTecnicos') {
+                // Validar que se haya seleccionado al menos un ámbito
+                const btnAmbitos = document.querySelectorAll('.btn-ambito');
+                const ambitosSeleccionados = Array.from(btnAmbitos).filter(btn => btn.classList.contains('active'));
+                if (ambitosSeleccionados.length === 0) {
+                    e.preventDefault();
+                    document.getElementById('ambitoError').textContent = 'Seleccione al menos un ámbito';
+                    return;
+                }
+                // Validar que se haya seleccionado al menos una clase por cada ámbito
+                const ambitosActivos = ambitosSeleccionados.map(btn => btn.dataset.ambito);
+                let errorClase = false;
+                let mensajeError = '';
+                ambitosActivos.forEach(ambito => {
+                    const claseMarcada = document.querySelector('.clase-option[data-ambito="' + ambito + '"] input[type="checkbox"]:checked');
+                    if (!claseMarcada) {
+                        errorClase = true;
+                        mensajeError += `Debe seleccionar al menos una clase para el ámbito ${ambito}. `;
+                    }
+                });
+                if (errorClase) {
+                    e.preventDefault();
+                    document.getElementById('claseError').textContent = mensajeError.trim();
+                    return;
+                }
+            }
             // Validar solo los campos requeridos visibles de la sección actual
             if (!validarCamposVisiblesRequeridos(seccionActual)) {
                 // Desplazar al primer campo con error
@@ -2632,13 +2677,40 @@ document.addEventListener('DOMContentLoaded', async function() {
                     const span = document.createElement('span');
                     span.className = 'lock-icon';
                     span.innerHTML = '<i class="fas fa-lock"></i>';
-                    el.parentElement.insertBefore(span, el);
+                    el.parentElement.appendChild(span);
                 }
             }
         });
-        // Permitir que el botón Siguiente siga funcionando
-        const btnSiguiente = document.getElementById('btnSiguiente');
-        if (btnSiguiente) btnSiguiente.removeAttribute('disabled');
+        // --- NUEVO: Manejar campos requeridos ---
+        // Lista de campos obligatorios
+        const obligatorios = [
+            'apoderadoNombres',
+            'apoderadoApellidoPaterno',
+            'apoderadoRun',
+            'apoderadoEmail',
+            'apoderadoCodigoPais',
+            'apoderadoTelefono',
+            'apoderadoDocumento' // Ahora también obligatorio
+        ];
+        obligatorios.forEach(id => {
+            const campo = document.getElementById(id);
+            if (campo) {
+                if (editable) {
+                    campo.setAttribute('required', 'required');
+                } else {
+                    campo.removeAttribute('required');
+                }
+            }
+        });
+        // Los campos NO obligatorios: apoderadoApellidoMaterno y fechaDefuncion
+        const noObligatorios = [
+            'apoderadoApellidoMaterno',
+            'fechaDefuncion'
+        ];
+        noObligatorios.forEach(id => {
+            const campo = document.getElementById(id);
+            if (campo) campo.removeAttribute('required');
+        });
     }
 
     function mostrarModalRepresentanteLegal(callback) {
@@ -3194,11 +3266,20 @@ function inicializarDatosTecnicos() {
                     return;
                 }
                 
-                // Validar que se haya seleccionado al menos una clase
-                const checkboxes = document.querySelectorAll('.clase-option.activo input[type="checkbox"]:checked');
-                if (checkboxes.length === 0) {
+                // Nueva validación por ámbito:
+                const ambitosActivos = ambitosSeleccionados.map(btn => btn.dataset.ambito);
+                let errorClase = false;
+                let mensajeError = '';
+                ambitosActivos.forEach(ambito => {
+                    const claseMarcada = document.querySelector('.clase-option[data-ambito="' + ambito + '"] input[type="checkbox"]:checked');
+                    if (!claseMarcada) {
+                        errorClase = true;
+                        mensajeError += `Debe seleccionar al menos una clase para el ámbito ${ambito}. `;
+                    }
+                });
+                if (errorClase) {
                     event.preventDefault();
-                    document.getElementById('claseError').textContent = 'Seleccione al menos una clase';
+                    document.getElementById('claseError').textContent = mensajeError.trim();
                     return;
                 }
                 
@@ -3226,9 +3307,9 @@ function inicializarDatosTecnicos() {
                     
                     obras.forEach(obra => {
                         const titulo = obra.querySelector('input[name="tituloObra[]"]');
-                        const ambito = obra.querySelector('select[name="ambitoObra[]"]');
+                        const ambitoObra = obra.querySelector('select[name="ambitoObra[]"]');
                         
-                        if (titulo && ambito && titulo.value.trim() && ambito.value) {
+                        if (titulo && ambitoObra && titulo.value.trim() && ambitoObra.value) {
                             obrasValidas++;
                         }
                     });
@@ -3359,6 +3440,10 @@ function inicializarGruposDinamicos() {
     // Manejador para agregar nuevos campos
     // Seleccionamos solo los botones que NO han sido inicializados
     document.querySelectorAll('.btn-add-input:not([data-initialized])').forEach(button => {
+        // Eliminar listeners previos reemplazando el botón por un clon
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        button = newButton;
         console.log("Inicializando botón de AGREGAR:", button.getAttribute('data-target'));
         button.addEventListener('click', function() {
             // ... (código interno del click sin cambios)
@@ -3499,19 +3584,19 @@ function inicializarObrasDinamicas() {
                 </div>
                 <div class="form-group">
                     <div class="floating-label">
+                        <input type="number" id="anioEstrenoObra${obraId}" name="anioEstrenoObra[]" class="form-control" min="1500" max="2100" required>
+                        <label for="anioEstrenoObra${obraId}">Año de estreno <span class="required">*</span></label>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="floating-label">
                         <select id="ambitoObra${obraId}" name="ambitoObra[]" class="form-control select2" required>
                             <option value="">Seleccione un ámbito</option>
                             <option value="Audiovisual">Audiovisual</option>
                             <option value="Dramatico">Dramático</option>
                         </select>
                         <label for="ambitoObra${obraId}">Ámbito <span class="required">*</span></label>
-                        <div class="error-message"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="floating-label">
-                        <input type="number" id="anioEstrenoObra${obraId}" name="anioEstrenoObra[]" class="form-control" min="1500" max="2100" required>
-                        <label for="anioEstrenoObra${obraId}">Año de estreno <span class="required">*</span></label>
                         <div class="error-message"></div>
                     </div>
                 </div>
@@ -3789,7 +3874,7 @@ function validarCamposVisiblesRequeridos(seccion) {
     if (seccion && seccion.id === 'documentosFirmar') {
         const solicitud = document.getElementById('solicitudFirmada');
         const mandato = document.getElementById('mandatoFirmado');
-        const firma = document.getElementById('firmaPostulante');
+        // const firma = document.getElementById('firmaPostulante'); // Ya no se valida como obligatoria
         const mensajeValidacion = document.getElementById('documentosValidationMessage');
         let archivosValidos = true;
         if (!solicitud || !solicitud.files || solicitud.files.length === 0) {
@@ -3800,10 +3885,7 @@ function validarCamposVisiblesRequeridos(seccion) {
             mostrarError('mandatoFirmado', 'Por favor, suba el mandato firmado');
             archivosValidos = false;
         }
-        if (!firma || !firma.files || firma.files.length === 0) {
-            mostrarError('firmaPostulante', 'Por favor, suba la imagen de su firma manuscrita');
-            archivosValidos = false;
-        }
+        // Eliminada la validación de firma electrónica como obligatoria
         if (!archivosValidos) {
             valido = false;
             if (mensajeValidacion) mensajeValidacion.classList.add('show');
@@ -3832,16 +3914,13 @@ secciones.forEach(seccion => {
         seccion.addEventListener('sectionShown', function() {
             const solicitud = document.getElementById('solicitudFirmada');
             const mandato = document.getElementById('mandatoFirmado');
-            const firma = document.getElementById('firmaPostulante');
+            // const firma = document.getElementById('firmaPostulante'); // Ya no se valida como obligatoria
             const mensajeValidacion = document.getElementById('documentosValidationMessage');
             let archivosValidos = true;
             if (!solicitud || !solicitud.files || solicitud.files.length === 0) {
                 archivosValidos = false;
             }
             if (!mandato || !mandato.files || mandato.files.length === 0) {
-                archivosValidos = false;
-            }
-            if (!firma || !firma.files || firma.files.length === 0) {
                 archivosValidos = false;
             }
             if (!archivosValidos && mensajeValidacion) {
@@ -3882,7 +3961,7 @@ function verDocumentoGenerado(tipo) {
     let titulo = '';
     
     if (tipo === 'antecedentes') {
-        url = './docs/ANTECEDENTES GENERALES DEL POSTULANTE.pdf';
+        url = './docs/ANTECEDENTES_GENERALES-1.pdf';
         titulo = 'Antecedentes Generales';
     } else if (tipo === 'pagos') {
         url = './docs/PAGOS.pdf';
