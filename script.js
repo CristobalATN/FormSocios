@@ -412,27 +412,22 @@ const documentosSubidos = {
     identidad: null,
     sucesion: null, // Cambiado para un solo archivo
     apoderado: null,
-    firmados: {
-        solicitud: null,
-        mandato: null
-    },
-    
+    // firmados: {
+    //     solicitud: null,
+    //     mandato: null
+    // },
     // Verificar si todos los documentos requeridos están completos
     estaCompleto: function() {
         // Verificar documento de identidad
         if (!this.identidad) return false;
-        
         // Verificar documentos de sucesión (si aplica)
         const tieneSucesion = document.getElementById('tieneSucesion')?.checked;
         if (tieneSucesion && this.sucesion.length === 0) return false;
-        
         // Verificar documentos de apoderado (si aplica)
         const tieneApoderado = document.getElementById('tieneApoderado')?.checked;
         if (tieneApoderado && !this.apoderado) return false;
-        
-        // Verificar documentos firmados
-        if (!this.firmados.solicitud || !this.firmados.mandato) return false;
-        
+        // // Verificar documentos firmados
+        // if (!this.firmados.solicitud || !this.firmados.mandato) return false;
         return true;
     }
 };
@@ -1785,104 +1780,54 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Función para actualizar el resumen de documentos
     function actualizarResumenDocumentos() {
-        // Ahora acepta mensaje personalizado
-        const crearHtmlDocumento = (doc, mensajeNoCargado = 'No se ha cargado el documento requerido.') => {
-            if (!doc || !doc.archivo) {
-                return `
-                <div class="sin-documento">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <p class="sin-documento-texto">${mensajeNoCargado}</p>
-                </div>
-            `;
-            }
-            
-            const urlArchivo = URL.createObjectURL(doc.archivo);
-
-            return `
-                <div class="documento-item">
-                    <div class="documento-info">
-                        <i class="fas fa-check-circle"></i>
-                        <div class="documento-detalle">
-                            <div class="documento-nombre">${doc.nombre}</div>
-                            <div class="documento-tamano">${doc.tamano}</div>
-                        </div>
-                    </div>
-                    <div class="documento-acciones">
-                        <a href="${urlArchivo}" target="_blank" class="btn btn-documento btn-ver" title="Ver documento">
-                            <i class="fas fa-eye"></i> Ver
-                        </a>
-                    </div>
-                </div>
-            `;
-        };
-
         // Documento de Identidad
         const identidadContainer = document.getElementById('resumenDocumentoIdentidad');
         if (identidadContainer) {
-            identidadContainer.innerHTML = crearHtmlDocumento(
-                documentosSubidos.identidad,
-                'No se ha cargado la copia del documento de identidad nacional (cédula o pasaporte/DNI). Por favor hacerlo en el paso 1.'
-            );
-        }
-        
-        // Documento de Apoderado
-        const apoderadoContainer = document.getElementById('resumenDocumentosApoderado');
-        if (apoderadoContainer) {
-            apoderadoContainer.innerHTML = crearHtmlDocumento(
-                documentosSubidos.apoderado,
-                'No se ha cargado la copia de la cédula de identidad del Apoderado o Representante Legal. Si aplica, por favor hacerlo en el paso 3 del formulario.'
-            );
-        }
-        // Documento de Sucesión
-        const sucesionContainer = document.getElementById('resumenDocumentosSucesion');
-        if (sucesionContainer) {
-            sucesionContainer.innerHTML = crearHtmlDocumento(
-                documentosSubidos.sucesion,
-                'No se ha cargado la copia de la cédula de identidad de la Sucesión. Si aplica, por favor hacerlo en el paso 4 del formulario.'
-            );
-        }
-        // Documentos Firmados
-        const firmadosContainer = document.getElementById('resumenDocumentosFirmados');
-        if (firmadosContainer) {
-            const docsFirmados = [
-                { nombre: 'Solicitud de Incorporación', doc: documentosSubidos.firmados.solicitud },
-                { nombre: 'Mandato Especial', doc: documentosSubidos.firmados.mandato }
-            ].filter(d => d.doc && d.doc.archivo);
-
-            if (docsFirmados.length > 0) {
-                firmadosContainer.innerHTML = docsFirmados.map(({ nombre, doc }) => {
-                    const urlArchivoFirmado = URL.createObjectURL(doc.archivo);
-                    return `
+            if (documentosSubidos.identidad) {
+                identidadContainer.innerHTML = `
                     <div class="documento-item">
                         <div class="documento-info">
                             <i class="fas fa-check-circle"></i>
                             <div class="documento-detalle">
-                                <div class="documento-nombre">${nombre}</div>
-                                <div class="documento-subinfo">
-                                    <span class="documento-nombre">${doc.nombre}</span>
-                                    <span class="documento-tamano">${doc.tamano}</span>
-                                </div>
+                                <div class="documento-nombre">${documentosSubidos.identidad.nombre}</div>
+                                <div class="documento-tamano">${documentosSubidos.identidad.tamano}</div>
                             </div>
                         </div>
-                        <div class="documento-acciones">
-                            <a href="${urlArchivoFirmado}" target="_blank" class="btn btn-documento btn-ver" title="Ver documento firmado">
-                                <i class="fas fa-eye"></i> Ver
-                            </a>
-                        </div>
                     </div>
-                `}).join('');
+                `;
             } else {
-                firmadosContainer.innerHTML = crearHtmlDocumento(
-                    null,
-                    'Faltan documentos firmados por cargar, por favor hacerlo en el paso 9 del formulario.'
-                );
+                identidadContainer.innerHTML = `
+                    <div class="sin-documento">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>No se ha cargado ningún documento de identidad</span>
+                    </div>
+                `;
             }
         }
 
-        // Actualizar estado de validación general
-        const validacionContainer = document.getElementById('resumenValidacion');
-        if (validacionContainer) {
-            // ... (la lógica de validación general se puede mejorar aquí si es necesario) ...
+        // Documento de Apoderado
+        const apoderadoContainer = document.getElementById('resumenDocumentosApoderado');
+        if (apoderadoContainer) {
+            if (documentosSubidos.apoderado) {
+                apoderadoContainer.innerHTML = `
+                    <div class="documento-item">
+                        <div class="documento-info">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="documento-detalle">
+                                <div class="documento-nombre">${documentosSubidos.apoderado.nombre}</div>
+                                <div class="documento-tamano">${documentosSubidos.apoderado.tamano}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                apoderadoContainer.innerHTML = `
+                    <div class="sin-documento">
+                        <i class="fas fa-info-circle"></i>
+                        <span>No aplica o no se han cargado documentos de apoderado</span>
+                    </div>
+                `;
+            }
         }
     }
     
