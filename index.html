@@ -935,34 +935,12 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="instruction-step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h4>Finalizar y descargar</h4>
-                                    <p>Una vez completados y firmados los documentos, el sistema le permitirá descargarlos. Asegúrese de descargar ambos archivos a continuación:</p>
-                                    <ul class="file-names">
-                                        <li><strong>Solicitud:</strong> SOLICITUD INCORPORACION.pdf</li>
-                                        <li><strong>Mandato:</strong> MANDATO ESPECIAL.pdf</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="instruction-step">
-                                <div class="step-number">4</div>
-                                <div class="step-content">
-                                    <h4>Subir los documentos firmados</h4>
-                                    <p>Regrese a este formulario y cargue los documentos que acaba de descargar en las secciones correspondientes a continuación.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="note-box">
-                            <p><i class="fas fa-info-circle"></i> <strong>Importante:</strong> Asegúrese de que los archivos estén en formato PDF y no excedan los 5MB de tamaño.</p>
-                        </div>
                     </div>
                 </div>
                 
                 <!-- Parte 1: Enlaces de descarga -->
                 <div class="documentos-descarga">
-                    <h3><i class="fas fa-download"></i> Documentos para descargar</h3>
+                    <h3><i class="fas fa-download"></i> Documentos para firmar</h3>
                     <div class="documentos-lista">
                         <a href="#" class="documento-descarga" id="descargarSolicitud" download="Solicitud-de-incorporacion-ATN.pdf">
                             <i class="far fa-file-pdf"></i>
@@ -980,54 +958,7 @@
                 <hr class="documentos-separador">
 
                 <!-- Parte 2: Subida de documentos -->
-                <div class="documentos-subida">
-                    <h3><i class="fas fa-upload"></i> Subir documentos firmados</h3>
-                    <p class="subtitle">Por favor, suba los documentos completados y firmados en formato PDF.</p>
-                    
-                    <!-- Solicitud de incorporación -->
-                    <div class="documento-upload-group">
-                        <label class="documento-upload-label">
-                            <i class="fas fa-file-signature"></i>
-                            <span>Solicitud de incorporación firmada <span class="required">*</span></span>
-                            <input type="file" id="solicitudFirmada" name="solicitudFirmada" accept=".pdf" class="documento-upload-input">
-                            <span class="documento-upload-button">
-                                <i class="fas fa-cloud-upload-alt"></i> Seleccionar archivo
-                            </span>
-                        </label>
-                        <div class="documento-info" id="infoSolicitud">
-                            <span class="documento-nombre">Ningún archivo seleccionado</span>
-                            <button type="button" class="btn-eliminar-doc" data-target="solicitudFirmada" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="error-message" id="errorSolicitud"></div>
-                    </div>
-
-                    <!-- Mandato especial -->
-                    <div class="documento-upload-group">
-                        <label class="documento-upload-label">
-                            <i class="fas fa-file-contract"></i>
-                            <span>Mandato especial firmado <span class="required">*</span></span>
-                            <input type="file" id="mandatoFirmado" name="mandatoFirmado" accept=".pdf" class="documento-upload-input">
-                            <span class="documento-upload-button">
-                                <i class="fas fa-cloud-upload-alt"></i> Seleccionar archivo
-                            </span>
-                        </label>
-                        <div class="documento-info" id="infoMandato">
-                            <span class="documento-nombre">Ningún archivo seleccionado</span>
-                            <button type="button" class="btn-eliminar-doc" data-target="mandatoFirmado" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="error-message" id="errorMandato"></div>
-                    </div>
-
-                    <!-- Mensaje de validación -->
-                    <!-- <div class="validation-message" id="documentosValidationMessage">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span>Debe subir ambos documentos firmados para continuar con la postulación.</span>
-                    </div> -->
-                    </div>
+                
 
                 <!-- Subtítulo explicativo antes del campo de firma -->
                 
@@ -1085,7 +1016,7 @@
                 <div class="documentos-generados-block">
                     <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="far fa-file-pdf"></i> Documento generado automáticamente</h3>
                     <div class="doc-gen-desc" style="color:#495057;font-size:1rem;margin-bottom:0.7rem;">
-                        El documento de <strong>Antecedentes Generales</strong> se genera automáticamente con los datos ingresados en el formulario.<br>
+                        El documento de <strong>Antecedentes Generales</strong> se generará automáticamente con los datos ingresados en el formulario.<br>
                         <i class="fas fa-envelope" style="color:#097137;"></i> Se enviará a su correo <strong>con o sin firma</strong>, según su decisión anterior.
                     </div>
                     <div class="documentos-lista">
