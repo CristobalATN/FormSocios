@@ -3816,28 +3816,7 @@ function validarCamposVisiblesRequeridos(seccion) {
         }
     }
     // Validar archivos de Documentos a Firmar
-    if (seccion && seccion.id === 'documentosFirmar') {
-        const solicitud = document.getElementById('solicitudFirmada');
-        const mandato = document.getElementById('mandatoFirmado');
-        // const firma = document.getElementById('firmaPostulante'); // Ya no se valida como obligatoria
-        const mensajeValidacion = document.getElementById('documentosValidationMessage');
-        let archivosValidos = true;
-        if (!solicitud || !solicitud.files || solicitud.files.length === 0) {
-            mostrarError('solicitudFirmada', 'Por favor, suba la solicitud firmada');
-            archivosValidos = false;
-        }
-        if (!mandato || !mandato.files || mandato.files.length === 0) {
-            mostrarError('mandatoFirmado', 'Por favor, suba el mandato firmado');
-            archivosValidos = false;
-        }
-        // Eliminada la validación de firma electrónica como obligatoria
-        if (!archivosValidos) {
-            valido = false;
-            if (mensajeValidacion) mensajeValidacion.classList.add('show');
-        } else {
-            if (mensajeValidacion) mensajeValidacion.classList.remove('show');
-        }
-    }
+
     // Validar los campos requeridos visibles normales
     const campos = seccion.querySelectorAll('input[required], select[required], textarea[required]');
     campos.forEach(campo => {
