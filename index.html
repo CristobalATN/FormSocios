@@ -84,7 +84,13 @@
                 </div>
                 
                 <div class="note-box">
-                    <p class="note-text"><i class="fas fa-info-circle"></i><strong>NOTA: Antes de continuar, asegúrese de contar con obras que ya hayan sido exhibidas. Además, tenga a mano una fotocopia de su cédula de identidad. En caso de postular como representante legal, se requerirá también una fotocopia de la cédula de identidad de cada heredero.</strong> </p>
+                    <p class="note-text"><i class="fas fa-info-circle"></i><strong>NOTA IMPORTANTE: Antes de continuar, asegúrese de lo siguiente:</strong></p>
+                    <ul class="note-list">
+                        <li>Contar con obras audiovisuales y/o dramáticas que ya hayan sido exhibidas.</li>
+                        <li>Tener a mano una fotocopia de su cédula de identidad por ambos lados (del autor y del representante legal, si es que aplica).</li>
+                        <li>En caso de postular como representante legal de un autor fallecido, se requerirá adicionalmente una fotocopia de la cédula de identidad de cada heredero.</li>
+                        <li>Para una mejor experiencia, asegúrese de completar el formulario desde un navegador de escritorio (Chrome/Edge u otro).</li>
+                    </ul>
                 </div>
                 
                 <div class="form-grid">
@@ -440,15 +446,6 @@
                         </div>
                     </div>
 
-                    <!-- Fila X: Fecha de Defunción (solo si corresponde) -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="date" id="fechaDefuncion" name="fechaDefuncion" class="form-control">
-                            <label for="fechaDefuncion">Fecha de defunción (en caso de postulación de un autor fallecido)</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
                     <!-- Fila 3: Teléfono con código de país -->
                     <div class="form-group">
                         <div class="phone-input-container">
@@ -463,6 +460,28 @@
                                 <label for="apoderadoTelefono">Teléfono</label>
                                 <div class="error-message"></div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Fila X: Fecha de Defunción (solo si corresponde) -->
+                    <div class="form-group">
+                        <div class="floating-label">
+                            <input type="date" id="fechaDefuncion" name="fechaDefuncion" class="form-control">
+                            <label for="fechaDefuncion">Fecha de defunción (en caso de postulación de un <strong>autor fallecido</strong>)</label>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <!-- Campo para cédulas de herederos (se muestra solo si hay fecha de defunción) -->
+                    <div class="form-group file-upload" id="cedulasHerederosGroup" style="display: none;">
+                        <div class="floating-label">
+                            <input type="file" id="cedulasHerederos" name="cedulasHerederos" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="cedulasHerederos">Fotocopia por ambos lados de cédula de identidad de todos los herederos (PDF o imagen). <a href="assets/ejemploherederos.jpg" target="_blank" title="Ver ejemplo de cómo organizar las cédulas de los herederos">Ejemplo</a></label>
+                            <div class="file-info" style="display: flex;">
+                                <i class="fas fa-upload"></i>
+                                <span class="file-name" style="display: inline-block;">Seleccionar archivo</span>
+                            </div>
+                            <div class="error-message"></div>
                         </div>
                     </div>
                 </div>
@@ -570,7 +589,7 @@
             <section id="datosTecnicos" class="form-section" data-section="5">
                 <div class="section-header">
                     <h2><i class="fas fa-laptop-code"></i> Datos Técnicos</h2>
-                    <p class="section-description">Complete su información técnica.</p>
+                    <p class="section-description">Complete su información técnica con la que se desea inscribir en ATN</p>
                 </div>
                 
                 <div class="form-grid-datos-tecnicos">
@@ -756,8 +775,7 @@
             <section id="obras" class="form-section" data-section="7">
                 <div class="section-header">
                     <h2><i class="fas fa-film"></i> Obras</h2>
-                    <p class="section-description">Información general de obras publicadas o estrenadas</p>
-                    <p class="section-guide">Incluya las obras más representativas o recientes. Este registro no representa una declaración válida para pago de derechos, es meramente informativo para la identificación y revisión de la postulación. Puede agregar hasta 10 obras.</p>
+                    <p class="section-description">Incluya las obras más representativas o recientes del o los ámbitos de postulación. <strong>Este registro no representa una declaración válida para pago de derechos, es meramente informativo para la identificación y revisión de la postulación.</strong> Puede agregar hasta 10 obras.</p>
                 </div>
                 
                 <!-- Contador de obras mejorado -->
@@ -873,7 +891,7 @@
                                     <span class="derecho-title">Autorización de uso de datos personales</span>
                                     <p class="derecho-text">
                                         Autorizo a ATN a usar los datos que entrego en este formulario, incluyendo nombre, DNI o pasaporte, correo electrónico, teléfono, datos bancarios y, en los casos que corresponda, información relacionada con representación legal o situación de fallecimiento del autor.<br>
-                                        El tratamiento de estos datos tendrá como única finalidad la gestión de la solicitud de incorporación como socio/a y, en caso de aprobación, los procesos operacionales y administrativos de ATN.<br>
+                                        <strong>El tratamiento de estos datos tendrá como única finalidad la gestión de la solicitud de incorporación como socio/a y, en caso de aprobación, los procesos operacionales y administrativos de ATN.</strong><br>
                                         Podré revisar, corregir o eliminar mis datos escribiendo a info@atn.cl.
                                     </p>
                                 </label>
@@ -887,7 +905,7 @@
                             <i class="fas fa-comment-alt"></i> Observaciones o alcances (opcional)
                         </label>
                         <div class="textarea-container">
-                            <textarea id="observacionesDerechos" name="observacionesDerechos" class="form-control" maxlength="500" rows="4" placeholder="Ingrese sus observaciones aquí..."></textarea>
+                            <textarea id="observacionesDerechos" name="observacionesDerechos" class="form-control" maxlength="500" rows="4" placeholder="Si tiene alguna observación, alcance o comentario sobre su postulación, por favor indíquela en este espacio."></textarea>
                             <div class="char-counter"><span id="contadorDerechos">0</span>/500 caracteres</div>
                         </div>
                     </div>
@@ -911,7 +929,7 @@
                 <div class="instruction-panel">
                     <button type="button" class="instruction-header" aria-expanded="false" aria-controls="instruccionesDetalladas">
                         <i class="fas fa-question-circle"></i>
-                        <span>¿Cómo completar los documentos?</span>
+                        <span style="font-size: 1.2rem; font-weight: bold;">¿Cómo completar los documentos?</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div id="instruccionesDetalladas" class="instruction-content show">
@@ -933,6 +951,14 @@
                                         <li><strong>Trazar:</strong> Podrá dibujar su firma usando el cursor.</li>
                                         <li><strong>Cargar:</strong> Se abrirá una nueva ventana para que cargue una imagen de su firma (JPG o PNG), de ser una imagen válida se mostrará en el cuadro.</li>
                                     </ul>
+                                    <p>Luego de agregar su firma debe hacer clic en "Firmar todo" o en "Firma electrónica" (ambos botones cumplen la misma funcionalidad). <a href="assets/firmar todo.png" target="_blank">Ejemplo.</a></p>
+                                </div>
+                            </div>
+                            <div class="instruction-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Confirmación</h4>
+                                    <p>Una vez finalice y envíe firmado el documento, el sistema realizará una validación final solicitándole su nombre y correo electrónico. Tras esto se abrirá una ventana donde podrá descargar el archivo firmado y con ello estará listo el proceso, no debe cargarlo ni enviarlo ya que nuestro equipo también lo recibirá automáticamente.</p>
                                 </div>
                             </div>
                     </div>
@@ -953,6 +979,9 @@
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
+                    <div style="margin-top: 0.75rem; padding: 0.75rem; background: #f8f9fa; border-left: 4px solid #097137; border-radius: 4px;">
+                        <p style="margin: 0; font-size: 0.95rem; color: #495057;"><strong>Nota importante:</strong> De aprobarse su incorporación, recibirá el documento "Mandato especial" firmado por el Director General de ATN.</p>
+                    </div>
                 </div>
 
                 <hr class="documentos-separador">
@@ -967,13 +996,15 @@
                 <div class="firma-electronica-block" style="margin-bottom:2rem;">
                     <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="fas fa-pen-nib"></i> Firma electrónica del postulante</h3>
                     <div class="firma-intro" style="margin-bottom:1rem;color:#495057;font-size:1rem;">
-                        <span style="font-size:1.1rem;">A continuación, puede elegir si desea subir su firma electrónica o firmar el documento manualmente más adelante.</span><br>
-                        Subir la firma es <strong>opcional</strong>, y depende completamente de su comodidad con este proceso.
+                        <span style="font-size:1.1rem;">Para hacer válido el documento de Antecedentes Generales con la información registrada en este formulario requerimos oficializarlo con su firma. A continuación, puede elegir si desea subir ahora su firma o hacerlo manualmente más adelante. Cargar una imagen de su firma es <strong>opcional</strong>, y depende completamente de su comodidad con este proceso.</span>
                     </div>
                     <div class="firma-privacidad" style="background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;padding:0.75rem 1.25rem;margin-bottom:1.2rem;display:flex;align-items:flex-start;gap:0.8rem;">
                         <i class="fas fa-thumbtack" style="color:#097137;font-size:1.2rem;margin-top:0.2rem;"></i>
                         <div style="font-size:1rem;color:#495057;">
-                            <strong>Importante:</strong> Su firma solo será utilizada para incluirla en el documento de <em>Antecedentes Generales</em> y <strong>no se almacenará ni usará para ningún otro fin</strong>.
+                            <strong>Importante:</strong> Su firma solo será utilizada para incluirla en el documento de Antecedentes Generales y <strong>no se almacenará ni usará para ningún otro fin</strong>. Esto permitirá simplificar y finalizar el proceso de postulación ya que no se requerirá ninguna otra acción por parte suya.<br><br>
+                            <strong>¿Qué ocurre si no sube su firma?</strong><br>
+                            Si decide <strong>no subir su firma</strong>, igualmente se generará automáticamente el documento de Antecedentes Generales con todos sus datos ingresados en el formulario <strong>excepto la firma</strong>.<br>
+                            Lo recibirá por correo electrónico una vez finalizada la postulación pero para hacerla efectiva <strong>deberá firmarlo manualmente</strong> y responder al correo adjuntando el documento firmado.
                         </div>
                     </div>
                     <div class="firma-upload-block" style="margin-bottom:1.5rem;">
@@ -1004,25 +1035,18 @@
                     </div>
                 </div>
 
-                <div class="firma-info-block" style="background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;padding:1rem 1.25rem;margin-bottom:2rem;display:flex;align-items:flex-start;gap:1rem;">
-                    <i class="fas fa-info-circle" style="color:#097137;font-size:1.5rem;margin-top:0.2rem;"></i>
-                    <div style="font-size:1rem;color:#495057;">
-                        <strong>¿Qué ocurre si no sube su firma?</strong><br>
-                        Si decide <strong>no subir su firma</strong>, igualmente se generará el documento de <em>Antecedentes Generales</em> con todos sus datos <strong>excepto la firma</strong>.<br>
-                        Lo recibirá por correo electrónico una vez finalizada la postulación, y deberá <strong>firmarlo manualmente</strong> y responder al correo con el documento firmado adjunto.
-                    </div>
-                </div>
+
 
                 <div class="documentos-generados-block">
                     <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="far fa-file-pdf"></i> Documento generado automáticamente</h3>
                     <div class="doc-gen-desc" style="color:#495057;font-size:1rem;margin-bottom:0.7rem;">
                         El documento de <strong>Antecedentes Generales</strong> se generará automáticamente con los datos ingresados en el formulario.<br>
-                        <i class="fas fa-envelope" style="color:#097137;"></i> Se enviará a su correo <strong>con o sin firma</strong>, según su decisión anterior.
+                        <i class="fas fa-envelope" style="color:#097137;"></i> Se enviará a su correo <strong>con o sin firma</strong>, según su decisión anterior. A continuación se muestra una plantilla del documento, pero recuerde, este llegará completado con sus datos a su email.
                     </div>
                     <div class="documentos-lista">
                         <a href="./docs/ANTECEDENTES_GENERALES-1.pdf" class="documento-descarga" target="_blank" onclick="verDocumentoGenerado('antecedentes'); return false;">
                             <i class="far fa-file-pdf"></i>
-                            <span>Antecedentes Generales</span>
+                            <span>Antecedentes Generales (plantilla)</span>
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
@@ -1063,13 +1087,24 @@
                         </div>
                     </div>
                     
-                    <!-- Documentos Firmados -->
-                    <div class="documento-categoria">
-                        <h3><i class="fas fa-file-signature"></i> Documentos Firmados</h3>
-                        <div id="resumenDocumentosFirmados" class="documento-lista">
+                    <!-- Cédulas de Herederos (condicional) -->
+                    <div class="documento-categoria" id="contenedorCedulasHerederos">
+                        <h3><i class="fas fa-users"></i> Cédulas de Herederos</h3>
+                        <div id="resumenCedulasHerederos" class="documento-lista">
                             <div class="sin-documento">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span>Faltan documentos por cargar</span>
+                                <i class="fas fa-info-circle"></i>
+                                <span>No aplica (no hay fecha de defunción registrada)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Firma del Postulante -->
+                    <div class="documento-categoria" id="contenedorFirmaPostulante">
+                        <h3><i class="fas fa-signature"></i> Firma del Postulante</h3>
+                        <div id="resumenFirmaPostulante" class="documento-lista">
+                            <div class="sin-documento">
+                                <i class="fas fa-info-circle"></i>
+                                <span>No se ha cargado la firma</span>
                             </div>
                         </div>
                     </div>
@@ -1080,8 +1115,8 @@
                             <i class="fas fa-exclamation-circle"></i>
                         </div>
                         <div class="validacion-contenido">
-                            <h4>Revisión de Documentos Pendiente</h4>
-                            <p>Por favor, asegúrese de haber cargado todos los documentos requeridos antes de enviar su postulación.</p>
+                            <h4>Revisión de Documentos</h4>
+                            <p>Por favor, asegúrese de haber cargado todos los documentos requeridos y haber firmado en línea la carta de solicitud y el mandato especial antes de enviar su postulación, para que esta pueda ser cursada por el equipo interno.</p>
                         </div>
                     </div>
                 </div>
@@ -1135,7 +1170,7 @@ $(document).on('input', '#numeroCuenta', function() {
 <div id="modalRepresentanteLegal" class="modal-atn" style="display:none;">
   <div class="modal-atn-content">
     <div class="modal-atn-header">
-      <h3 class="modal-atn-title"><i class="fas fa-user-tie"></i> ¿Desea registrar un representante legal? (solo se admite una sucesión por autor)</h3>
+      <h3 class="modal-atn-title"><i class="fas fa-user-tie"></i> ¿Desea registrar un representante legal? (solo se admite uno por autor)</h3>
     </div>
     <div class="modal-atn-body modal-justificado">
       <p>Este apartado aplica <strong>solo si el autor postulante se encuentra en una de las siguientes situaciones</strong>:<br></p>
@@ -1153,7 +1188,7 @@ $(document).on('input', '#numeroCuenta', function() {
         </label>
       </div>
       <div class="note-box" style="margin-top:1em;">
-        <p style="margin:0;"><i class="fas fa-info-circle"></i> <strong>Nota:</strong> Si selecciona "<strong>Sí</strong>", se desplegarán los campos correspondientes para ingresar los datos del representante legal. En caso contrario, podrá pasar directamente al siguiente paso.</p>
+        <p style="margin:0;"><i class="fas fa-info-circle"></i> <strong>Nota:</strong> Si selecciona "Sí" se desplegarán los campos correspondientes para ingresar los datos del representante legal. En caso contrario, pasará directamente al paso siguiente.</p>
       </div>
     </div>
     <div class="modal-atn-footer" style="display:flex;justify-content:flex-end;gap:10px;">
