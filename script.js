@@ -412,6 +412,8 @@ const documentosSubidos = {
     identidad: null,
     sucesion: null, // Cambiado para un solo archivo
     apoderado: null,
+    cedulasHerederos: null, // Nuevo campo para cédulas de herederos
+    firmaPostulante: null, // Firma del postulante
     // firmados: {
     //     solicitud: null,
     //     mandato: null
@@ -426,6 +428,9 @@ const documentosSubidos = {
         // Verificar documentos de apoderado (si aplica)
         const tieneApoderado = document.getElementById('tieneApoderado')?.checked;
         if (tieneApoderado && !this.apoderado) return false;
+        // Verificar cédulas de herederos (si aplica)
+        const fechaDefuncion = document.getElementById('fechaDefuncion')?.value;
+        if (fechaDefuncion && !this.cedulasHerederos) return false;
         // // Verificar documentos firmados
         // if (!this.firmados.solicitud || !this.firmados.mandato) return false;
         return true;
@@ -596,12 +601,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
                 const run = document.getElementById('run')?.value.trim() || '';
                 const idOrigen = document.getElementById('idOrigen')?.value.trim() || '';
-                // Formatear fechas a dd-mm-yyyy
+                // Formatear fechas a dd/mm/aaaa
                 function formatearFecha(fechaStr) {
                     if (!fechaStr) return '';
                     const partes = fechaStr.split('-');
                     if (partes.length !== 3) return fechaStr;
-                    return `${partes[2]}-${partes[1]}-${partes[0]}`;
+                    return `${partes[2]}/${partes[1]}/${partes[0]}`;
                 }
                 const fechaNacimiento = formatearFecha(document.getElementById('fechaNacimiento')?.value || '');
                 const fechaDefuncion = formatearFecha(document.getElementById('fechaDefuncion')?.value || '');
@@ -884,6 +889,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     { inputId: 'fotocopiaDocumento', campoData: 'fotocopia_documento_autor' },
                     { inputId: 'apoderadoDocumento', campoData: 'fotocopia_documento_representante' },
                     { inputId: 'sucesionDocumento', campoData: 'documento_sucesion' },
+                    { inputId: 'cedulasHerederos', campoData: 'cedulas_herederos' }, // Agregado para cédulas de herederos
                     { inputId: 'solicitudFirmada', campoData: 'solicitud_incorporacion_firmada' },
                     { inputId: 'mandatoFirmado', campoData: 'mandato_firmado' },
                     { inputId: 'firmaPostulante', campoData: 'firmaElectronica' } // Agregado para la firma electrónica
@@ -1217,7 +1223,14 @@ document.addEventListener('DOMContentLoaded', async function() {
                     tamano: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
                     tipo: inputId === 'solicitudFirmada' ? 'Solicitud de Incorporación' : 'Mandato Especial',
                     archivo: file,
-                    fechaSubida: new Date().toLocaleString()
+                    fechaSubida: new Date().toLocaleString('es-ES', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    })
                 };
                 
                 if (inputId === 'solicitudFirmada') {
@@ -1718,9 +1731,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     
     // Manejador de eventos para el campo de carga de archivos de identidad
-    document.addEventListener('DOMContentLoaded', function() {
-        const fotocopiaDocumento = document.getElementById('fotocopiaDocumento');
-        const fotocopiaDocumentoFileName = document.querySelector('#fotocopiaDocumento + .file-name');
+    const fotocopiaDocumento = document.getElementById('fotocopiaDocumento');
+    const fotocopiaDocumentoFileName = document.querySelector('#fotocopiaDocumento + .file-name');
         
         if (fotocopiaDocumento) {
             // Actualizar el estado inicial
@@ -1776,7 +1788,117 @@ document.addEventListener('DOMContentLoaded', async function() {
                 validarCampo(this);
         });
     }
-    });
+    
+    // Manejador de eventos para el campo de carga de archivos de cédulas de herederos
+    const cedulasHerederos = document.getElementById('cedulasHerederos');
+    
+    // Depuración: verificar la estructura del DOM
+    console.log('=== DEPURACIÓN HEREDEROS ===');
+    console.log('Elemento cedulasHerederos encontrado:', cedulasHerederos);
+    
+    const cedulasHerederosGroup = document.getElementById('cedulasHerederosGroup');
+    console.log('Elemento cedulasHerederosGroup encontrado:', cedulasHerederosGroup);
+    
+    // Intentar múltiples selectores para encontrar el elemento file-name
+    let cedulasHerederosFileName = document.querySelector('#cedulasHerederosGroup .file-name');
+    console.log('Elemento file-name encontrado con selector #cedulasHerederosGroup .file-name:', cedulasHerederosFileName);
+    
+    if (!cedulasHerederosFileName) {
+        cedulasHerederosFileName = document.querySelector('#cedulasHerederos + label + .file-info .file-name');
+        console.log('Intentando selector alternativo #cedulasHerederos + label + .file-info .file-name:', cedulasHerederosFileName);
+    }
+    
+    if (!cedulasHerederosFileName) {
+        // Buscar dentro del grupo específico
+        const group = document.getElementById('cedulasHerederosGroup');
+        if (group) {
+            cedulasHerederosFileName = group.querySelector('.file-name');
+            console.log('Buscando .file-name dentro del grupo:', cedulasHerederosFileName);
+        }
+    }
+    
+    // Depuración adicional
+    const allFileNames = document.querySelectorAll('.file-name');
+    console.log('Todos los elementos .file-name encontrados:', allFileNames);
+    console.log('Cantidad de elementos .file-name:', allFileNames.length);
+    
+    if (cedulasHerederos) {
+        cedulasHerederos.addEventListener('change', function() {
+            console.log('Evento change disparado para cedulasHerederos');
+            
+            // Buscar el elemento file-name dinámicamente cada vez
+            let fileNameElement = document.querySelector('#cedulasHerederosGroup .file-name');
+            if (!fileNameElement) {
+                const group = document.getElementById('cedulasHerederosGroup');
+                if (group) {
+                    fileNameElement = group.querySelector('.file-name');
+                }
+            }
+            
+            console.log('FileName element encontrado dinámicamente:', fileNameElement);
+            
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                console.log('Archivo seleccionado:', file.name, 'Tamaño:', fileSize, 'MB');
+                
+                // Validar tipo de archivo (PDF, JPG, JPEG, PNG)
+                const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Por favor, seleccione un archivo en formato PDF, JPG, JPEG o PNG.');
+                    this.value = '';
+                    if (fileNameElement) {
+                        fileNameElement.textContent = 'Seleccionar archivo';
+                    }
+                    return;
+                }
+                
+                // Validar tamaño del archivo (máximo 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('El archivo es demasiado grande. El tamaño máximo permitido es 5MB.');
+                    this.value = '';
+                    if (fileNameElement) {
+                        fileNameElement.textContent = 'Seleccionar archivo';
+                    }
+                    return;
+                }
+                
+                // Actualizar el nombre del archivo mostrado
+                if (fileNameElement) {
+                    fileNameElement.textContent = `${file.name} (${fileSize} MB)`;
+                    fileNameElement.style.display = 'block';
+                    console.log('Archivo actualizado:', fileNameElement.textContent);
+                } else {
+                    console.error('No se encontró el elemento fileNameElement');
+                }
+                
+                // Actualizar el objeto de seguimiento
+                documentosSubidos.cedulasHerederos = {
+                    nombre: file.name,
+                    tamano: fileSize + ' MB',
+                    tipo: 'Cédulas de Herederos',
+                    archivo: file
+                };
+                
+                console.log('Archivo de cédulas de herederos subido:', documentosSubidos.cedulasHerederos);
+                
+                // Actualizar el resumen de documentos
+                actualizarResumenDocumentos();
+            } else {
+                console.log('No hay archivos seleccionados');
+                if (fileNameElement) {
+                    fileNameElement.textContent = 'Seleccionar archivo';
+                    fileNameElement.style.display = 'block';
+                }
+                documentosSubidos.cedulasHerederos = null;
+                
+                // Actualizar el resumen de documentos cuando se elimina el archivo
+                actualizarResumenDocumentos();
+            }
+            
+            validarCampo(this);
+        });
+    }
     
     // Función para actualizar el resumen de documentos
     function actualizarResumenDocumentos() {
@@ -1784,12 +1906,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         const identidadContainer = document.getElementById('resumenDocumentoIdentidad');
         if (identidadContainer) {
             if (documentosSubidos.identidad) {
+                const urlDocumento = documentosSubidos.identidad.url || URL.createObjectURL(documentosSubidos.identidad.archivo);
                 identidadContainer.innerHTML = `
                     <div class="documento-item">
                         <div class="documento-info">
                             <i class="fas fa-check-circle"></i>
                             <div class="documento-detalle">
-                                <div class="documento-nombre">${documentosSubidos.identidad.nombre}</div>
+                                <div class="documento-nombre">
+                                    <a href="${urlDocumento}" target="_blank" class="documento-link">
+                                        ${documentosSubidos.identidad.nombre}
+                                    </a>
+                                </div>
                                 <div class="documento-tamano">${documentosSubidos.identidad.tamano}</div>
                             </div>
                         </div>
@@ -1805,28 +1932,98 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         }
 
-        // Documento de Apoderado
+        // Documento de Apoderado (solo mostrar si hay documento subido)
         const apoderadoContainer = document.getElementById('resumenDocumentosApoderado');
-        if (apoderadoContainer) {
+        const contenedorApoderado = document.getElementById('contenedorApoderado');
+        if (apoderadoContainer && contenedorApoderado) {
             if (documentosSubidos.apoderado) {
+                contenedorApoderado.style.display = 'block';
+                const urlDocumento = documentosSubidos.apoderado.url || URL.createObjectURL(documentosSubidos.apoderado.archivo);
                 apoderadoContainer.innerHTML = `
                     <div class="documento-item">
                         <div class="documento-info">
                             <i class="fas fa-check-circle"></i>
                             <div class="documento-detalle">
-                                <div class="documento-nombre">${documentosSubidos.apoderado.nombre}</div>
+                                <div class="documento-nombre">
+                                    <a href="${urlDocumento}" target="_blank" class="documento-link">
+                                        ${documentosSubidos.apoderado.nombre}
+                                    </a>
+                                </div>
                                 <div class="documento-tamano">${documentosSubidos.apoderado.tamano}</div>
                             </div>
                         </div>
                     </div>
                 `;
             } else {
-                apoderadoContainer.innerHTML = `
-                    <div class="sin-documento">
-                        <i class="fas fa-info-circle"></i>
-                        <span>No aplica o no se han cargado documentos de apoderado</span>
+                // Ocultar la sección completa si no hay documento
+                contenedorApoderado.style.display = 'none';
+            }
+        }
+
+        // Cédulas de Herederos (condicional)
+        const cedulasHerederosContainer = document.getElementById('resumenCedulasHerederos');
+        const contenedorCedulasHerederos = document.getElementById('contenedorCedulasHerederos');
+        if (cedulasHerederosContainer && contenedorCedulasHerederos) {
+            const fechaDefuncion = document.getElementById('fechaDefuncion')?.value;
+            if (fechaDefuncion) {
+                // Mostrar la sección si hay fecha de defunción
+                contenedorCedulasHerederos.style.display = 'block';
+                if (documentosSubidos.cedulasHerederos) {
+                    const urlDocumento = documentosSubidos.cedulasHerederos.url || URL.createObjectURL(documentosSubidos.cedulasHerederos.archivo);
+                    cedulasHerederosContainer.innerHTML = `
+                        <div class="documento-item">
+                            <div class="documento-info">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="documento-detalle">
+                                    <div class="documento-nombre">
+                                        <a href="${urlDocumento}" target="_blank" class="documento-link">
+                                            ${documentosSubidos.cedulasHerederos.nombre}
+                                        </a>
+                                    </div>
+                                    <div class="documento-tamano">${documentosSubidos.cedulasHerederos.tamano}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    cedulasHerederosContainer.innerHTML = `
+                        <div class="sin-documento">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>Se requiere cargar las cédulas de los herederos</span>
+                        </div>
+                    `;
+                }
+            } else {
+                // Ocultar la sección si no hay fecha de defunción
+                contenedorCedulasHerederos.style.display = 'none';
+            }
+        }
+
+        // Firma del Postulante
+        const firmaPostulanteContainer = document.getElementById('resumenFirmaPostulante');
+        const contenedorFirmaPostulante = document.getElementById('contenedorFirmaPostulante');
+        if (firmaPostulanteContainer && contenedorFirmaPostulante) {
+            if (documentosSubidos.firmaPostulante) {
+                contenedorFirmaPostulante.style.display = 'block';
+                const urlFirma = documentosSubidos.firmaPostulante.url || URL.createObjectURL(documentosSubidos.firmaPostulante.archivo);
+                firmaPostulanteContainer.innerHTML = `
+                    <div class="documento-item">
+                        <div class="documento-info">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="documento-detalle">
+                                <div class="documento-nombre">
+                                    <a href="${urlFirma}" target="_blank" class="documento-link">
+                                        ${documentosSubidos.firmaPostulante.nombre}
+                                    </a>
+                                </div>
+                                <div class="documento-tamano">${documentosSubidos.firmaPostulante.tamano}</div>
+                            </div>
+                        </div>
                     </div>
                 `;
+            } else {
+                // Ocultar la sección si no hay firma
+                contenedorFirmaPostulante.style.display = 'none';
             }
         }
     }
@@ -2041,11 +2238,51 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (fechaNacimientoInput) {
         const hoy = new Date().toISOString().split('T')[0];
         fechaNacimientoInput.max = hoy;
+        // Configurar formato dd/mm/aaaa
+        fechaNacimientoInput.setAttribute('lang', 'es-ES');
     }
     if (fechaDefuncionInput) {
         const hoy = new Date().toISOString().split('T')[0];
         fechaDefuncionInput.max = hoy;
+        // Configurar formato dd/mm/aaaa
+        fechaDefuncionInput.setAttribute('lang', 'es-ES');
+        
+        // Agregar evento para mostrar/ocultar campo de cédulas de herederos
+        fechaDefuncionInput.addEventListener('change', function() {
+            const cedulasHerederosGroup = document.getElementById('cedulasHerederosGroup');
+            if (this.value) {
+                // Si hay fecha de defunción, mostrar el campo de cédulas
+                cedulasHerederosGroup.style.display = 'block';
+                // Hacer el campo requerido
+                const cedulasInput = document.getElementById('cedulasHerederos');
+                if (cedulasInput) {
+                    cedulasInput.setAttribute('required', 'required');
+                }
+            } else {
+                // Si no hay fecha, ocultar el campo
+                cedulasHerederosGroup.style.display = 'none';
+                // Quitar el requerimiento y limpiar el campo
+                const cedulasInput = document.getElementById('cedulasHerederos');
+                if (cedulasInput) {
+                    cedulasInput.removeAttribute('required');
+                    cedulasInput.value = '';
+                    // Limpiar el nombre del archivo mostrado
+                    const fileName = cedulasInput.closest('.form-group').querySelector('.file-name');
+                    if (fileName) {
+                        fileName.textContent = 'Seleccionar archivo';
+                    }
+                }
+            }
+        });
     }
+
+    // Asegurar formato dd/mm/aaaa para todos los campos de fecha
+    const camposFecha = document.querySelectorAll('input[type="date"]');
+    camposFecha.forEach(campo => {
+        campo.setAttribute('lang', 'es-ES');
+        // Agregar placeholder para indicar el formato esperado
+        campo.setAttribute('title', 'Formato: dd/mm/aaaa');
+    });
 
     // Mostrar/ocultar campo Estado según país de residencia
     const estadoContainer = document.getElementById('estadoContainer');
@@ -2692,6 +2929,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         btnSiguienteRL.addEventListener('click', function(e) {
             const seccionActual = document.querySelector('.form-section.active');
             if (seccionActual && seccionActual.id === 'datosContacto') {
+                // Primero validar los campos obligatorios de la sección
+                if (!validarCamposVisiblesRequeridos(seccionActual)) {
+                    e.preventDefault();
+                    // Desplazar al primer campo con error
+                    const primerError = seccionActual.querySelector('.is-invalid');
+                    if (primerError) primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+                
+                // Si los campos están válidos, entonces mostrar el modal
                 if (!representanteLegalDecision && !modalMostradoRepresentanteLegal) {
                     e.preventDefault();
                     modalMostradoRepresentanteLegal = true;
@@ -2870,7 +3117,14 @@ function inicializarManejadorDeArchivos() {
                 tamano: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
                 tipo: `Documento de ${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
                 archivo: file,
-                fechaSubida: new Date().toLocaleString()
+                fechaSubida: new Date().toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                })
             };
 
             documentosSubidos[tipo] = fileInfoForObject;
@@ -3170,6 +3424,9 @@ function inicializarDatosTecnicos() {
                     console.log('No se encontraron sociedades para el país seleccionado');
                     $selectSociedad.append(new Option('No hay sociedades disponibles', '', true, true));
                 }
+                
+                // Agregar la opción "Otra" siempre al final
+                $selectSociedad.append(new Option('Otra', 'Otra'));
                 
                 // Habilitar y actualizar el select
                 $selectSociedad.prop('disabled', false).trigger('change');
