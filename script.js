@@ -1028,7 +1028,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Agregar el event listener al nuevo elemento
             newSolicitud.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = 'https://atncl.odoo.com/sign/document/mail/37/9c28ec69-bf8a-4939-b06c-007ee18fc252';
+                const url = 'https://na4.documents.adobe.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhB4BbuBdbxaj9BlynKdN9iOwxXDWYx7xyVnh3k6w7RgUqyEXB167VLM0xmbg_YyIt4*';
                 window.open(url, '_blank');
             });
         }
@@ -1041,7 +1041,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Agregar el event listener al nuevo elemento
             newMandato.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = 'https://atncl.odoo.com/sign/document/mail/39/e804bb0b-8cca-4bab-a128-1b9a2587fd35';
+                const url = 'https://na4.documents.adobe.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhDIOsKAQv3DsMHoAtB3Yz9JHpLSfPGsj738jqZFs6bLNicwDB_81k0KM7FVXpBlAH4*';
                 window.open(url, '_blank');
             });
         }
