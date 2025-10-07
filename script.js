@@ -263,7 +263,7 @@ async function cargarNacionalidades() {
         poblarSelect(selectNacionalidad);
         // Inicializar Select2 para nacionalidad
         $(selectNacionalidad).select2({
-            placeholder: 'Seleccione una opción',
+            placeholder: 'Selecciona una opción',
             allowClear: true,
             width: '100%',
             dropdownParent: $('body'),
@@ -272,7 +272,7 @@ async function cargarNacionalidades() {
         poblarSelect(selectPaisResidencia);
         // Inicializar Select2 para país de residencia
         $(selectPaisResidencia).select2({
-            placeholder: 'Seleccione un país',
+            placeholder: 'Selecciona un país',
             allowClear: true,
             width: '100%',
             dropdownParent: $('body'),
@@ -281,7 +281,7 @@ async function cargarNacionalidades() {
         
         // Inicializar Select2 para país de residencia (igual que nacionalidad)
         $(selectPaisResidencia).select2({
-            placeholder: 'Seleccione un país',
+            placeholder: 'Selecciona un país',
             allowClear: true,
             width: '100%',
             dropdownParent: $('body'),
@@ -1318,7 +1318,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Inicializar Select2 para los campos de selección
     $('.select2').select2({
-        placeholder: 'Seleccione una opción',
+        placeholder: 'Selecciona una opción',
         allowClear: true,
         width: '100%',
         dropdownParent: $('body')
@@ -1332,7 +1332,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (selectRegion) {
         // Inicializar Select2 específicamente para región
         $(selectRegion).select2({
-            placeholder: 'Seleccione una región',
+            placeholder: 'Selecciona una región',
             allowClear: true,
             width: '100%',
             dropdownParent: $('body')
@@ -1348,7 +1348,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const selectComuna = document.getElementById('comuna');
     if (selectComuna) {
         $(selectComuna).select2({
-            placeholder: 'Seleccione una comuna',
+            placeholder: 'Selecciona una comuna',
             allowClear: true,
             width: '100%',
             dropdownParent: $('body'),
@@ -2054,7 +2054,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const ambitosSeleccionados = Array.from(btnAmbitos).filter(btn => btn.classList.contains('active'));
                 if (ambitosSeleccionados.length === 0) {
                     e.preventDefault();
-                    document.getElementById('ambitoError').textContent = 'Seleccione al menos un ámbito';
+                    document.getElementById('ambitoError').textContent = 'Selecciona al menos un ámbito';
                     return;
                 }
                 // Validar que se haya seleccionado al menos una clase por cada ámbito
@@ -2220,7 +2220,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const selectNacionalidad = document.getElementById('nacionalidad');
     if (selectNacionalidad) {
         $(selectNacionalidad).select2({
-            placeholder: 'Seleccione una opción',
+            placeholder: 'Selecciona una opción',
             allowClear: true,
             width: '100%',
             dropdownParent: $('body'),
@@ -2385,7 +2385,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 });
                 // Inicializar Select2
                 $(selectBackup).select2({
-                    placeholder: 'Seleccione un país',
+                    placeholder: 'Selecciona un país',
                     allowClear: true,
                     width: '100%',
                     dropdownParent: $('body'),
@@ -2421,7 +2421,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 });
                 // Inicializar Select2
                 $(selectRegionBackup).select2({
-                    placeholder: 'Seleccione una región/estado',
+                    placeholder: 'Selecciona una región',
                     allowClear: true,
                     width: '100%',
                     dropdownParent: $('body'),
@@ -2437,7 +2437,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const selectComunaBackup = document.getElementById('comunaBackup');
     if (selectComunaBackup) {
         $(selectComunaBackup).select2({
-            placeholder: 'Seleccione una comuna',
+            placeholder: 'Selecciona una comuna',
             allowClear: true,
             width: '100%',
             dropdownParent: $('body'),
@@ -2535,7 +2535,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             // Inicializar/actualizar Select2
             $(selectBanco).select2({
-                placeholder: 'Seleccione un banco',
+                placeholder: 'Selecciona un banco',
                 allowClear: true,
                 width: '100%',
                 dropdownParent: $('body'),
@@ -2572,7 +2572,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             // Inicializar/actualizar Select2
             $(selectTipoCuenta).select2({
-                placeholder: 'Seleccione tipo de cuenta',
+                placeholder: 'Selecciona el tipo de cuenta',
                 allowClear: true,
                 width: '100%',
                 dropdownParent: $('body'),
@@ -2609,7 +2609,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             // Inicializar/actualizar Select2
             $(selectTipoBanco).select2({
-                placeholder: 'Seleccione tipo de banco',
+                placeholder: 'Selecciona el tipo de banco',
                 allowClear: true,
                 width: '100%',
                 dropdownParent: $('body'),
@@ -2816,7 +2816,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             // Inicializar/actualizar Select2
             $(selectPaisBanco).select2({
-                placeholder: 'Seleccione un país',
+                placeholder: 'Selecciona país del banco',
                 allowClear: true,
                 width: '100%',
                 dropdownParent: $('body'),
@@ -3229,7 +3229,7 @@ function inicializarDatosTecnicos() {
                 const input = option.querySelector('input');
                 if (input) input.disabled = true;
             });
-            document.getElementById('claseError').textContent = 'Seleccione al menos un ámbito';
+            document.getElementById('claseError').textContent = 'Selecciona al menos un ámbito';
             return;
         }
         
@@ -3280,7 +3280,7 @@ function inicializarDatosTecnicos() {
             });
             
             $(sociedadNombre).select2({
-                placeholder: 'Seleccione una sociedad',
+                placeholder: 'Selecciona una opción',
                 width: '100%',
                 dropdownAutoWidth: true,
                 allowClear: true,
@@ -3298,7 +3298,7 @@ function inicializarDatosTecnicos() {
             
             // Inicializar Select2 para la sociedad
             $(sociedadNombre).select2({
-                placeholder: 'Seleccione una sociedad',
+                placeholder: 'Selecciona una opción',
                 width: '100%',
                 dropdownAutoWidth: true,
                 allowClear: true,
@@ -3324,7 +3324,7 @@ function inicializarDatosTecnicos() {
             
             // Limpiar los valores
             $(sociedadPais).val(null).trigger('change');
-            $(sociedadNombre).empty().append(new Option('Seleccione una sociedad', '')).trigger('change');
+            $(sociedadNombre).empty().append(new Option('Selecciona una opción', '')).trigger('change');
             
             // Actualizar Select2
             if ($(sociedadPais).hasClass('select2-hidden-accessible')) {
@@ -3393,7 +3393,7 @@ function inicializarDatosTecnicos() {
             console.log('No hay país seleccionado, limpiando sociedades');
             // Actualizar Select2 con opción por defecto
             $(sociedadNombre).empty()
-                .append(new Option('Seleccione una sociedad', '', true, true))
+                .append(new Option('Selecciona una opción', '', true, true))
                 .prop('disabled', true)
                 .trigger('change');
             return;
@@ -3413,7 +3413,7 @@ function inicializarDatosTecnicos() {
                 
                 // Limpiar y preparar el select de sociedades
                 const $selectSociedad = $(sociedadNombre);
-                $selectSociedad.empty().append(new Option('Seleccione una sociedad', '', true, true));
+                $selectSociedad.empty().append(new Option('Selecciona una opción', '', true, true));
                 
                 // Agregar las sociedades encontradas
                 if (sociedadesFiltradas.length > 0) {
@@ -3464,7 +3464,7 @@ function inicializarDatosTecnicos() {
                 const ambitosSeleccionados = Array.from(btnAmbitos).filter(btn => btn.classList.contains('active'));
                 if (ambitosSeleccionados.length === 0) {
                     event.preventDefault();
-                    document.getElementById('ambitoError').textContent = 'Seleccione al menos un ámbito';
+                    document.getElementById('ambitoError').textContent = 'Selecciona al menos un ámbito';
                     return;
                 }
                 
@@ -3496,7 +3496,7 @@ function inicializarDatosTecnicos() {
                     
                     if (!sociedadNombre.value) {
                         event.preventDefault();
-                        document.getElementById('sociedadNombreError').textContent = 'Seleccione una sociedad';
+                        document.getElementById('sociedadNombreError').textContent = 'Selecciona una opción';
                         return;
                     }
                 }
@@ -3794,7 +3794,7 @@ function inicializarObrasDinamicas() {
                 <div class="form-group">
                     <div class="floating-label">
                         <select id="ambitoObra${obraId}" name="ambitoObra[]" class="form-control select2" required>
-                            <option value="">Seleccione un ámbito</option>
+                            <option value="">Selecciona un ámbito</option>
                             <option value="Audiovisual">Audiovisual</option>
                             <option value="Dramatico">Dramático</option>
                         </select>
@@ -3820,7 +3820,7 @@ function inicializarObrasDinamicas() {
         const newSelect = newObra.querySelector('select');
         if (newSelect) {
             $(newSelect).select2({
-                placeholder: 'Seleccione un ámbito',
+                placeholder: 'Selecciona un ámbito',
                 width: '100%',
                 dropdownAutoWidth: true,
                 allowClear: true
@@ -3928,7 +3928,7 @@ function inicializarObrasDinamicas() {
         
         if (ambitoSelect) {
             $(ambitoSelect).select2({
-                placeholder: 'Seleccione un ámbito',
+                placeholder: 'Selecciona un ámbito',
                 width: '100%',
                 dropdownAutoWidth: true,
                 allowClear: true
@@ -4156,3 +4156,4 @@ function verDocumentoGenerado(tipo) {
         alert('Documento no disponible.');
     }
 }
+
