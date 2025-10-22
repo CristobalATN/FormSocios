@@ -413,6 +413,7 @@ const documentosSubidos = {
     sucesion: null, // Cambiado para un solo archivo
     apoderado: null,
     cedulasHerederos: null, // Nuevo campo para cédulas de herederos
+    documentosRepresentante: null, // Nuevo campo para documentos adicionales del representante
     firmaPostulante: null, // Firma del postulante
     // firmados: {
     //     solicitud: null,
@@ -431,6 +432,8 @@ const documentosSubidos = {
         // Verificar cédulas de herederos (si aplica)
         const fechaDefuncion = document.getElementById('fechaDefuncion')?.value;
         if (fechaDefuncion && !this.cedulasHerederos) return false;
+        // Verificar documentos adicionales del representante (si aplica)
+        if (fechaDefuncion && !this.documentosRepresentante) return false;
         // // Verificar documentos firmados
         // if (!this.firmados.solicitud || !this.firmados.mandato) return false;
         return true;
@@ -890,6 +893,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     { inputId: 'apoderadoDocumento', campoData: 'fotocopia_documento_representante' },
                     { inputId: 'sucesionDocumento', campoData: 'documento_sucesion' },
                     { inputId: 'cedulasHerederos', campoData: 'cedulas_herederos' }, // Agregado para cédulas de herederos
+                    { inputId: 'documentosRepresentante', campoData: 'documentos_adicionales_representante' }, // Nuevo campo para documentos adicionales del representante
                     { inputId: 'solicitudFirmada', campoData: 'solicitud_incorporacion_firmada' },
                     { inputId: 'mandatoFirmado', campoData: 'mandato_firmado' },
                     { inputId: 'firmaPostulante', campoData: 'firmaElectronica' } // Agregado para la firma electrónica
@@ -1900,6 +1904,87 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
     
+    // Manejador de eventos para el campo de carga de archivos de documentos del representante
+    const documentosRepresentante = document.getElementById('documentosRepresentante');
+    
+    if (documentosRepresentante) {
+        documentosRepresentante.addEventListener('change', function() {
+            console.log('Evento change disparado para documentosRepresentante');
+            
+            // Buscar el elemento file-name dinámicamente cada vez
+            let fileNameElement = document.querySelector('#documentosRepresentanteGroup .file-name');
+            if (!fileNameElement) {
+                const group = document.getElementById('documentosRepresentanteGroup');
+                if (group) {
+                    fileNameElement = group.querySelector('.file-name');
+                }
+            }
+            
+            console.log('FileName element encontrado dinámicamente:', fileNameElement);
+            
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                console.log('Archivo seleccionado:', file.name, 'Tamaño:', fileSize, 'MB');
+                
+                // Validar tipo de archivo (PDF, DOC, DOCX, JPG, JPEG, PNG)
+                const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/jpg', 'image/png'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Por favor, seleccione un archivo en formato PDF, Word, JPG, JPEG o PNG.');
+                    this.value = '';
+                    if (fileNameElement) {
+                        fileNameElement.textContent = 'Seleccionar archivo';
+                    }
+                    return;
+                }
+                
+                // Validar tamaño del archivo (máximo 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('El archivo es demasiado grande. El tamaño máximo permitido es 5MB.');
+                    this.value = '';
+                    if (fileNameElement) {
+                        fileNameElement.textContent = 'Seleccionar archivo';
+                    }
+                    return;
+                }
+                
+                // Actualizar el nombre del archivo mostrado
+                if (fileNameElement) {
+                    fileNameElement.textContent = `${file.name} (${fileSize} MB)`;
+                    fileNameElement.style.display = 'block';
+                    console.log('Archivo actualizado:', fileNameElement.textContent);
+                } else {
+                    console.error('No se encontró el elemento fileNameElement');
+                }
+                
+                // Actualizar el objeto de seguimiento
+                documentosSubidos.documentosRepresentante = {
+                    nombre: file.name,
+                    tamano: fileSize + ' MB',
+                    tipo: 'Posesión efectiva',
+                    archivo: file
+                };
+                
+                console.log('Archivo de posesión efectiva subido:', documentosSubidos.documentosRepresentante);
+                
+                // Actualizar el resumen de documentos
+                actualizarResumenDocumentos();
+            } else {
+                console.log('No hay archivos seleccionados');
+                if (fileNameElement) {
+                    fileNameElement.textContent = 'Seleccionar archivo';
+                    fileNameElement.style.display = 'block';
+                }
+                documentosSubidos.documentosRepresentante = null;
+                
+                // Actualizar el resumen de documentos cuando se elimina el archivo
+                actualizarResumenDocumentos();
+            }
+            
+            validarCampo(this);
+        });
+    }
+    
     // Función para actualizar el resumen de documentos
     function actualizarResumenDocumentos() {
         // Documento de Identidad
@@ -2250,27 +2335,46 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Agregar evento para mostrar/ocultar campo de cédulas de herederos
         fechaDefuncionInput.addEventListener('change', function() {
             const cedulasHerederosGroup = document.getElementById('cedulasHerederosGroup');
+            const documentosRepresentanteGroup = document.getElementById('documentosRepresentanteGroup');
+            
             if (this.value) {
-                // Si hay fecha de defunción, mostrar el campo de cédulas
+                // Si hay fecha de defunción, mostrar ambos campos
                 cedulasHerederosGroup.style.display = 'block';
-                // Hacer el campo requerido
+                documentosRepresentanteGroup.style.display = 'block';
+                
+                // Hacer los campos requeridos
                 const cedulasInput = document.getElementById('cedulasHerederos');
+                const documentosRepresentanteInput = document.getElementById('documentosRepresentante');
+                
                 if (cedulasInput) {
                     cedulasInput.setAttribute('required', 'required');
                 }
+                if (documentosRepresentanteInput) {
+                    documentosRepresentanteInput.setAttribute('required', 'required');
+                }
             } else {
-                // Si no hay fecha, ocultar el campo
+                // Si no hay fecha, ocultar ambos campos
                 cedulasHerederosGroup.style.display = 'none';
-                // Quitar el requerimiento y limpiar el campo
+                documentosRepresentanteGroup.style.display = 'none';
+                
+                // Quitar el requerimiento y limpiar los campos
                 const cedulasInput = document.getElementById('cedulasHerederos');
+                const documentosRepresentanteInput = document.getElementById('documentosRepresentante');
+                
                 if (cedulasInput) {
                     cedulasInput.removeAttribute('required');
                     cedulasInput.value = '';
                     // Limpiar el nombre del archivo mostrado
                     const fileName = cedulasInput.closest('.form-group').querySelector('.file-name');
-                    if (fileName) {
-                        fileName.textContent = 'Seleccionar archivo';
-                    }
+                    if (fileName) fileName.textContent = 'Seleccionar archivo';
+                }
+                
+                if (documentosRepresentanteInput) {
+                    documentosRepresentanteInput.removeAttribute('required');
+                    documentosRepresentanteInput.value = '';
+                    // Limpiar el nombre del archivo mostrado
+                    const fileName = documentosRepresentanteInput.closest('.form-group').querySelector('.file-name');
+                    if (fileName) fileName.textContent = 'Seleccionar archivo';
                 }
             }
         });
