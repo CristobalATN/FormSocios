@@ -1,1354 +1,1286 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postulación de Socio - ATN</title>
-    <link rel="icon" type="image/png" href="assets/solologo.png">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
-        rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">
-                <a href="https://www.atn.cl" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/Logo-Fondo-Transparente@3x(1).png" alt="Logo ATN" class="logo-img">
-                </a>
-                <h1>Postulación de Socio</h1>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Postulación de Socio - ATN</title>
+      <link rel="icon" type="image/png" href="assets/solologo.png">
+      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+      <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+         rel="stylesheet" />
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div class="container">
+      <header class="header">
+         <div class="logo">
+            <a href="https://www.atn.cl" target="_blank" rel="noopener noreferrer">
+            <img src="assets/Logo-Fondo-Transparente@3x(1).png" alt="Logo ATN" class="logo-img">
+            </a>
+            <h1>Postulación de Socio</h1>
+         </div>
+         <div class="progress-container">
+            <div class="progress-container-inner">
+               <button class="nav-arrow prev" aria-label="Anterior">
+               <i class="fas fa-chevron-left"></i>
+               </button>
+               <div class="progress-slider">
+                  <div class="progress-track">
+                     <div class="progress-slide" data-step="1">
+                        <div class="progress-step">1</div>
+                        <span class="step-label">Datos de Autor</span>
+                     </div>
+                     <div class="progress-slide" data-step="2">
+                        <div class="progress-step">2</div>
+                        <span class="step-label">Datos de Contacto</span>
+                     </div>
+                     <div class="progress-slide" data-step="3">
+                        <div class="progress-step">3</div>
+                        <span class="step-label">Representante Legal</span>
+                     </div>
+                     <div class="progress-slide" data-step="4">
+                        <div class="progress-step">4</div>
+                        <span class="step-label">Datos Bancarios</span>
+                     </div>
+                     <div class="progress-slide" data-step="5">
+                        <div class="progress-step">5</div>
+                        <span class="step-label">Datos Técnicos</span>
+                     </div>
+                     <div class="progress-slide" data-step="6">
+                        <div class="progress-step">6</div>
+                        <span class="step-label">Datos Generales</span>
+                     </div>
+                     <div class="progress-slide" data-step="7">
+                        <div class="progress-step">7</div>
+                        <span class="step-label">Obras</span>
+                     </div>
+                     <div class="progress-slide" data-step="8">
+                        <div class="progress-step">8</div>
+                        <span class="step-label">Derechos</span>
+                     </div>
+                     <div class="progress-slide" data-step="9">
+                        <div class="progress-step">9</div>
+                        <span class="step-label">Firmas</span>
+                     </div>
+                     <div class="progress-slide" data-step="10">
+                        <div class="progress-step">10</div>
+                        <span class="step-label">Documentos</span>
+                     </div>
+                  </div>
+               </div>
+               <button class="nav-arrow next" aria-label="Siguiente">
+               <i class="fas fa-chevron-right"></i>
+               </button>
             </div>
-            <div class="progress-container">
-                <div class="progress-container-inner">
-                    <button class="nav-arrow prev" aria-label="Anterior">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="progress-slider">
-                        <div class="progress-track">
-                            <div class="progress-slide" data-step="1">
-                                <div class="progress-step">1</div>
-                                <span class="step-label">Datos de Autor</span>
-                            </div>
-                            <div class="progress-slide" data-step="2">
-                                <div class="progress-step">2</div>
-                                <span class="step-label">Datos de Contacto</span>
-                            </div>
-                            <div class="progress-slide" data-step="3">
-                                <div class="progress-step">3</div>
-                                <span class="step-label">Representante Legal</span>
-                            </div>
-                            <div class="progress-slide" data-step="4">
-                                <div class="progress-step">4</div>
-                                <span class="step-label">Datos Bancarios</span>
-                            </div>
-                            <div class="progress-slide" data-step="5">
-                                <div class="progress-step">5</div>
-                                <span class="step-label">Datos Técnicos</span>
-                            </div>
-                            <div class="progress-slide" data-step="6">
-                                <div class="progress-step">6</div>
-                                <span class="step-label">Datos Generales</span>
-                            </div>
-                            <div class="progress-slide" data-step="7">
-                                <div class="progress-step">7</div>
-                                <span class="step-label">Obras</span>
-                            </div>
-                            <div class="progress-slide" data-step="8">
-                                <div class="progress-step">8</div>
-                                <span class="step-label">Derechos</span>
-                            </div>
-                            <div class="progress-slide" data-step="9">
-                                <div class="progress-step">9</div>
-                                <span class="step-label">Firmas</span>
-                            </div>
-                            <div class="progress-slide" data-step="10">
-                                <div class="progress-step">10</div>
-                                <span class="step-label">Documentos</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="nav-arrow next" aria-label="Siguiente">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+         </div>
+      </header>
+      <form id="socioForm" class="form-container">
+         <!-- Sección 1: Datos de Autor -->
+         <section id="datosAutor" class="form-section" data-section="1">
+            <div class="section-header">
+               <h2><i class="fas fa-user-edit"></i> Datos de Autor</h2>
+               <p class="section-description">Completa los datos personales del autor postulante. Los campos
+                  marcados con <span class="required">*</span> son obligatorios.
+               </p>
             </div>
-        </header>
-
-        <form id="socioForm" class="form-container">
-            <!-- Sección 1: Datos de Autor -->
-            <section id="datosAutor" class="form-section" data-section="1">
-                <div class="section-header">
-                    <h2><i class="fas fa-user-edit"></i> Datos de Autor</h2>
-                    <p class="section-description">Completa los datos personales del autor postulante. Los campos
-                        marcados con <span class="required">*</span> son obligatorios.</p>
-                </div>
-
-                <div class="note-box">
-                    <p class="note-text"><i class="fas fa-info-circle"></i><strong>NOTA IMPORTANTE: Antes de continuar,
-                            asegúrate de lo siguiente:</strong></p>
-                    <ul class="note-list">
-                        <li>Contar con obras audiovisuales y/o dramáticas que ya hayan sido exhibidas.</li>
-                        <li>Tener a mano una fotocopia de tu cédula de identidad por ambos lados (del autor y del
-                            representante legal, si es que aplica).</li>
-                        <li>En caso de postular como representante legal de un autor fallecido, se requerirá
-                            adicionalmente una fotocopia de la cédula de identidad de cada heredero.</li>
-                        <li>Para una mejor experiencia, asegúrate de completar el formulario desde un navegador de
-                            escritorio (Chrome/Edge u otro).</li>
-                    </ul>
-                </div>
-
-                <div class="form-grid">
-                    <!-- Fila 1: Nombres -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="nombres" name="nombres" class="form-control" required>
-                            <label for="nombres">Nombres <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Apellido Paterno -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="apellidoPaterno" name="apellidoPaterno" class="form-control"
-                                required>
-                            <label for="apellidoPaterno">Apellido Paterno <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Apellido Materno -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="apellidoMaterno" name="apellidoMaterno" class="form-control">
-                            <label for="apellidoMaterno">Apellido Materno</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: Nacionalidad -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <select id="nacionalidad" name="nacionalidad" class="form-control select2" required>
-                                <option value="">Selecciona una opción</option>
-                                <option value="Chile">Chile</option>
-                                <!-- El resto de las opciones de país van aquí -->
-                            </select>
-                            <label for="nacionalidad">Nacionalidad <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: Tipo de Documento -->
-                    <div class="form-group conditional-field" id="tipoDocumentoContainer" style="display: none;">
-                        <div class="floating-label">
-                            <select id="tipoDocumento" name="tipoDocumento" class="form-control select2" required>
-                                <option value="">Selecciona una opción</option>
-                                <option value="pasaporte">Pasaporte</option>
-                                <option value="dni">DNI</option>
-                                <option value="run-chileno">RUN Chileno</option>
-                            </select>
-                            <label for="tipoDocumento">Tipo de Identificación <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: N° ID Origen -->
-                    <div class="form-group conditional-field" id="idOrigenContainer" style="display: none;">
-                        <div class="floating-label">
-                            <input type="text" id="idOrigen" name="idOrigen" class="form-control" required>
-                            <label for="idOrigen">Número de Identificación <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: RUN -->
-                    <div class="form-group conditional-field" id="runContainer" style="display: none;">
-                        <div class="floating-label">
-                            <input type="text" id="run" name="run" class="form-control" placeholder="12.345.678-9"
-                                required>
-                            <label for="run">RUN <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Fecha de Nacimiento -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control"
-                                required>
-                            <label for="fechaNacimiento">Fecha de Nacimiento <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Fecha de Defunción -->
-                    <!-- CAMPO MOVIDO A DATOS REPRESENTANTE LEGAL -->
-
-                    <!-- Fila 4: Fotocopia Documento (Opcional) -->
-                    <div class="form-group file-upload">
-                        <div class="floating-label">
-                            <input type="file" id="fotocopiaDocumento" name="fotocopiaDocumento" class="form-control"
-                                accept=".pdf,.jpg,.jpeg,.png" required>
-                            <label for="fotocopiaDocumento">Fotocopia por ambos lados de documento de identificación
-                                (PDF o imagen) <span class="required">*</span></label>
-                            <div class="file-info">
-                                <i class="fas fa-upload"></i>
-                                <span class="file-name">Seleccionar archivo</span>
-                            </div>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 4: Género -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <select id="genero" name="genero" class="form-control select2" required>
-                                <option value="">Selecciona una opción</option>
-                                <option value="masculino">Masculino</option>
-                                <option value="femenino">Femenino</option>
-                                <option value="otro">Otro</option>
-                                <option value="prefiero-no-decir">Prefiero no decir</option>
-                            </select>
-                            <label for="genero">Género <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 4: Seudónimo -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="seudonimo" name="seudonimo" class="form-control">
-                            <label for="seudonimo">Seudónimo</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 2: Datos de Contacto -->
-            <section id="datosContacto" class="form-section" data-section="2">
-                <div class="section-header">
-                    <h2><i class="fas fa-address-book"></i> Datos de Contacto</h2>
-                    <p class="section-description">Completa sus datos de contacto. Los campos marcados con <span
-                            class="required">*</span> son obligatorios.</p>
-                </div>
-
-                <div class="form-grid">
-                    <!-- Fila 1: País de Residencia -->
-                    <div class="form-group" style="display:none;">
-                        <div class="floating-label">
-                            <select id="paisResidencia" name="paisResidencia" class="form-control select2">
-                                <option value="">Selecciona un país</option>
-                                <!-- Las opciones se cargarán dinámicamente desde el JSON -->
-                            </select>
-                            <label for="paisResidencia">País de Residencia <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Estado -->
-                    <div class="form-group" id="estadoContainer" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="estado" name="estado" class="form-control">
-                            <label for="estado">Estado</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Distrito -->
-                    <div class="form-group" id="distritoContainer" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="distrito" name="distrito" class="form-control">
-                            <label for="distrito">Distrito</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Región -->
-                    <div class="form-group" style="display:none;">
-                        <div class="floating-label">
-                            <select id="region" name="region" class="form-control select2" disabled>
-                                <option value="">Selecciona una región</option>
-                                <!-- Las opciones se cargarán dinámicamente -->
-                            </select>
-                            <label for="region">Región / Estado <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Comuna -->
-                    <div class="form-group" style="display:none;">
-                        <div class="floating-label">
-                            <select id="comuna" name="comuna" class="form-control select2" disabled>
-                                <option value="">Selecciona una comuna</option>
-                                <!-- Las opciones se cargarán dinámicamente -->
-                            </select>
-                            <label for="comuna">Comuna <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: País de Residencia Backup -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <select id="paisResidenciaBackup" name="paisResidenciaBackup" class="form-control" required>
-                                <option value="">Seleccione un país</option>
-                            </select>
-                            <label for="paisResidenciaBackup">País de Residencia <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: Región/Estado backup -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <select id="regionBackup" name="regionBackup" class="form-control" disabled required>
-                                <option value="">Seleccione una región/estado</option>
-                            </select>
-                            <label for="regionBackup">Región/Estado <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Comuna backup -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <select id="comunaBackup" name="comunaBackup" class="form-control" disabled required>
-                                <option value="">Seleccione una comuna</option>
-                            </select>
-                            <label for="comunaBackup">Comuna <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 4: Estado backup -->
-                    <div class="form-group" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="estadoBackup" name="estadoBackup" class="form-control" disabled>
-                            <label for="estadoBackup">Estado</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 5: Distrito Backup -->
-                    <div class="form-group" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="distritoBackup" name="distritoBackup" class="form-control" disabled>
-                            <label for="distritoBackup">Distrito</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: Dirección -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="direccion" name="direccion" class="form-control" required>
-                            <label for="direccion">Dirección (Calle y N°) <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: Depto, casa u Oficina -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="detalleDireccion" name="detalleDireccion" class="form-control">
-                            <label for="detalleDireccion">Depto, casa u oficina</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Email -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="email" id="email" name="email" class="form-control" required>
-                            <label for="email">Correo Electrónico <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Teléfono con código de país -->
-                    <div class="form-group">
-                        <div class="phone-input-container">
-                            <div class="phone-code-selector">
-                                <select id="codigoPais" name="codigoPais" class="form-control" required>
-                                    <option value="">Selecciona una opción</option>
-                                    <!-- Las opciones se cargarán dinámicamente -->
-                                </select>
-                            </div>
-                            <div class="floating-label phone-number-input">
-                                <input type="tel" id="telefono" name="telefono" class="form-control" pattern="[0-9]+"
-                                    required>
-                                <label for="telefono">Teléfono <span class="required">*</span></label>
-                                <div class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Estado (solo visible si país de residencia no es Chile) -->
-
-                </div>
-            </section>
-
-            <!-- Sección 3: Datos del Apoderado o Representante Legal -->
-            <section id="datosApoderado" class="form-section" data-section="3">
-                <div class="section-header">
-                    <h2><i class="fas fa-user-tie"></i> Datos del Representante Legal</h2>
-                    <p class="section-description">Completa los datos del representante legal (campos bloqueados en caso
-                        de que hayas marcado "No" en el mensaje anterior).</p>
-                </div>
-
-                <div class="form-grid">
-                    <!-- Fila 1: Nombres -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="apoderadoNombres" name="apoderadoNombres" class="form-control">
-                            <label for="apoderadoNombres">Nombres</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Apellido Paterno -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="apoderadoApellidoPaterno" name="apoderadoApellidoPaterno"
-                                class="form-control">
-                            <label for="apoderadoApellidoPaterno">Apellido Paterno</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 1: Apellido Materno -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="apoderadoApellidoMaterno" name="apoderadoApellidoMaterno"
-                                class="form-control">
-                            <label for="apoderadoApellidoMaterno">Apellido Materno</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-
-                    <!-- Fila 2: RUN -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="text" id="apoderadoRun" name="apoderadoRun" class="form-control">
-                            <label for="apoderadoRun">RUN</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 2: Fotocopia Documento (Opcional) -->
-                    <div class="form-group file-upload">
-                        <div class="floating-label">
-                            <input type="file" id="apoderadoDocumento" name="apoderadoDocumento" class="form-control"
-                                accept=".pdf,.jpg,.jpeg,.png">
-                            <label for="apoderadoDocumento">Fotocopia por ambos lados de cédula de identidad (PDF o
-                                imagen)</label>
-                            <div class="file-info">
-                                <i class="fas fa-upload"></i>
-                                <span class="file-name">Seleccionar archivo</span>
-                            </div>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Email -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="email" id="apoderadoEmail" name="apoderadoEmail" class="form-control">
-                            <label for="apoderadoEmail">Email</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 3: Teléfono con código de país -->
-                    <div class="form-group">
-                        <div class="phone-input-container">
-                            <div class="phone-code-selector">
-                                <select id="apoderadoCodigoPais" name="apoderadoCodigoPais" class="form-control">
-                                    <option value="">Seleccione</option>
-                                    <!-- Las opciones se cargarán dinámicamente -->
-                                </select>
-                            </div>
-                            <div class="floating-label phone-number-input">
-                                <input type="tel" id="apoderadoTelefono" name="apoderadoTelefono" class="form-control"
-                                    pattern="[0-9]+">
-                                <label for="apoderadoTelefono">Teléfono</label>
-                                <div class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fila X: Fecha de Defunción (solo si corresponde) -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <input type="date" id="fechaDefuncion" name="fechaDefuncion" class="form-control">
-                            <label for="fechaDefuncion">Fecha de defunción (en caso de postulación de un <strong>autor
-                                    fallecido</strong>)</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Campo para posesión efectiva (se muestra solo si hay fecha de defunción) -->
-                    <div class="form-group file-upload" id="documentosRepresentanteGroup" style="display: none;">
-                        <div class="floating-label">
-                            <input type="file" id="documentosRepresentante" name="documentosRepresentante" class="form-control"
-                                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-                            <label for="documentosRepresentante">Posesión efectiva (PDF, Word, JPG o PNG) <span class="required">*</span></label>
-                            <div class="file-info">
-                                <i class="fas fa-upload"></i>
-                                <span class="file-name">Seleccionar archivo</span>
-                            </div>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-
-                    <!-- Campo para cédulas de herederos (se muestra solo si hay fecha de defunción) -->
-                    <div class="form-group file-upload" id="cedulasHerederosGroup" style="display: none;">
-                        <div class="floating-label">
-                            <input type="file" id="cedulasHerederos" name="cedulasHerederos" class="form-control"
-                                accept=".pdf,.jpg,.jpeg,.png">
-                            <label for="cedulasHerederos">Fotocopia por ambos lados de cédula de identidad de todos los
-                                herederos (PDF o imagen). <a href="assets/ejemploherederos.jpg" target="_blank"
-                                    title="Ver ejemplo de cómo organizar las cédulas de los herederos">Ejemplo</a></label>
-                            <div class="file-info" style="display: flex;">
-                                <i class="fas fa-upload"></i>
-                                <span class="file-name" style="display: inline-block;">Seleccionar archivo</span>
-                            </div>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 5: Datos Bancarios -->
-            <section id="datosBancarios" class="form-section" data-section="5">
-                <div class="section-header">
-                    <h2><i class="fas fa-university"></i> Datos Bancarios</h2>
-                    <p class="section-description">Completa tus datos bancarios donde, de ser aprobada su solicitud,
-                        recibirás los depósitos de tus importes. Los campos marcados con <span class="required">*</span>
-                        son obligatorios.</p>
-                </div>
-                <div class="form-grid">
-                    <!-- Fila 1: Tipo de banco -->
-                    <div class="form-group">
-                        <div class="floating-label">
-                            <select id="tipoBanco" name="tipoBanco" class="form-control select2" required>
-                                <option value="">Selecciona el tipo de banco</option>
-                                <!-- Las opciones se cargarán dinámicamente -->
-                            </select>
-                            <label for="tipoBanco">Tipo de banco <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                    <!-- Fila 1: Banco -->
-                    <div class="form-group conditional-field" style="display:none;">
-                        <div class="floating-label">
-                            <select id="banco" name="banco" class="form-control select2">
-                                <option value="">Selecciona un banco</option>
-                                <!-- Las opciones se cargarán dinámicamente -->
-                            </select>
-                            <label for="banco">Banco <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                    <!-- Fila 2: Tipo de cuenta -->
-                    <div class="form-group conditional-field" style="display:none;">
-                        <div class="floating-label">
-                            <select id="tipoCuenta" name="tipoCuenta" class="form-control" required>
-                                <option value="">Selecciona el tipo de cuenta</option>
-                                <option value="Corriente">Cuenta Corriente</option>
-                                <option value="Vista">Cuenta Vista</option>
-                                <option value="Ahorro">Cuenta Ahorro</option>
-                                <option value="RUT">Cuenta RUT</option>
-                                <option value="Chequera electronica">Chequera electrónica</option>
-                            </select>
-                            <label for="tipoCuenta">Tipo de cuenta <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                    <!-- Fila 3: N° de cuenta -->
-                    <div class="form-group conditional-field" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="numeroCuenta" name="numeroCuenta" class="form-control"
-                                inputmode="numeric" pattern="[0-9]*" required>
-                            <label for="numeroCuenta">N° de cuenta (solo dígitos) <span
-                                    class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                    <!-- Fila 4: Banco (ingreso libre) -->
-                    <div class="form-group conditional-field" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="bancoLibre" name="bancoLibre" class="form-control">
-                            <label for="bancoLibre">Banco <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                    <!-- Fila 5: País del banco (extranjero, obligatorio) -->
-                    <div class="form-group conditional-field" id="paisBancoGroup" style="display:none;">
-                        <div class="floating-label">
-                            <select id="paisBanco" name="paisBanco" class="form-control select2">
-                                <option value="">Selecciona país del banco</option>
-                                <!-- Las opciones se cargarán dinámicamente -->
-                            </select>
-                            <label for="paisBanco">País <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                    <!-- Fila 6: Dirección del banco (extranjero, opcional) -->
-                    <div class="form-group conditional-field" id="direccionBancoExtranjeroGroup" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="direccionBancoExtranjero" name="direccionBancoExtranjero"
-                                class="form-control">
-                            <label for="direccionBancoExtranjero">Dirección del banco (Sucursal)</label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                    <!-- Fila 7: N° de cuenta extranjero (obligatorio) -->
-                    <div class="form-group conditional-field" id="numeroCuentaExtranjeroGroup" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="numeroCuentaExtranjero" name="numeroCuentaExtranjero"
-                                class="form-control" required>
-                            <label for="numeroCuentaExtranjero">N° de cuenta <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                    <!-- Fila 8: Swift / IBAN (obligatorio) -->
-                    <div class="form-group conditional-field" id="swiftIbanGroup" style="display:none;">
-                        <div class="floating-label">
-                            <input type="text" id="swiftIban" name="swiftIban" class="form-control" required>
-                            <label for="swiftIban">Swift / IBAN <span class="required">*</span></label>
-                            <div class="error-message"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 5: Datos Técnicos -->
-            <section id="datosTecnicos" class="form-section" data-section="5">
-                <div class="section-header">
-                    <h2><i class="fas fa-laptop-code"></i> Datos Técnicos</h2>
-                    <p class="section-description">Completa los datos de autor con los que te deseas inscribir en ATN
-                    </p>
-                </div>
-
-                <div class="form-grid-datos-tecnicos">
-                    <!-- Bloque 1: Ámbito -->
-                    <div class="form-block ambito-block">
-                        <h5 class="block-title">Ámbito <span class="required">*</span></h5>
-                        <div class="button-group">
-                            <button type="button" class="btn-ambito" data-ambito="Audiovisual">
-                                <i class="fas fa-film"></i>
-                                <span>Audiovisual</span>
-                            </button>
-                            <button type="button" class="btn-ambito" data-ambito="Dramatico">
-                                <i class="fas fa-theater-masks"></i>
-                                <span>Dramático</span>
-                            </button>
-                            <input type="hidden" id="ambitoAudiovisual" name="ambito[]" value="">
-                            <input type="hidden" id="ambitoDramatico" name="ambito[]" value="">
-                        </div>
-                        <div class="error-message" id="ambitoError"></div>
-                    </div>
-
-                    <!-- Bloque 2: Clases -->
-                    <div class="form-block clases-block">
-                        <h5 class="block-title">Clase <span class="required">*</span></h5>
-                        <div class="clases-grid">
-                            <!-- Clases Audiovisual -->
-                            <div class="clase-option" data-ambito="Audiovisual">
-                                <input type="checkbox" id="claseDirector" name="clase[]" value="Director">
-                                <label for="claseDirector">
-                                    <i class="fas fa-video"></i>
-                                    <span>Director</span>
-                                </label>
-                            </div>
-                            <div class="clase-option" data-ambito="Audiovisual">
-                                <input type="checkbox" id="claseGuionista" name="clase[]" value="Guionista">
-                                <label for="claseGuionista">
-                                    <i class="fas fa-scroll"></i>
-                                    <span>Guionista</span>
-                                </label>
-                            </div>
-                            <!-- Clases Dramático -->
-                            <div class="clase-option" data-ambito="Dramatico">
-                                <input type="checkbox" id="claseDramaturgo" name="clase[]" value="Dramaturgo">
-                                <label for="claseDramaturgo">
-                                    <i class="fas fa-book"></i>
-                                    <span>Dramaturgo</span>
-                                </label>
-                            </div>
-                            <div class="clase-option" data-ambito="Dramatico">
-                                <input type="checkbox" id="claseCoreografo" name="clase[]" value="Coreógrafo">
-                                <label for="claseCoreografo">
-                                    <i class="fas fa-shoe-prints"></i>
-                                    <span>Coreógrafo</span>
-                                </label>
-                            </div>
-                            <div class="clase-option" data-ambito="Dramatico">
-                                <input type="checkbox" id="claseCompositor" name="clase[]" value="Compositor">
-                                <label for="claseCompositor">
-                                    <i class="fas fa-music"></i>
-                                    <span>Compositor</span>
-                                </label>
-                            </div>
-                            <div class="clase-option" data-ambito="Dramatico">
-                                <input type="checkbox" id="claseTraductor" name="clase[]" value="Traductor">
-                                <label for="claseTraductor">
-                                    <i class="fas fa-language"></i>
-                                    <span>Traductor</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="error-message" id="claseError"></div>
-                    </div>
-
-                    <!-- Bloque 3: Sociedad -->
-                    <div class="form-block sociedad-block">
-                        <h5 class="block-title">Sociedad de Autores</h5>
-                        <div class="sociedad-content">
-                            <div class="form-group">
-                                <label class="form-label">¿Perteneces a otra sociedad de gestión de derechos de autor en
-                                    Chile y/o en el extranjero? <span class="required">*</span></label>
-                                <div class="toggle-group">
-                                    <label class="toggle-option">
-                                        <input type="radio" name="perteneceSociedad" value="si" class="sociedad-radio">
-                                        <span class="toggle-btn">Sí</span>
-                                    </label>
-                                    <label class="toggle-option">
-                                        <input type="radio" name="perteneceSociedad" value="no" class="sociedad-radio"
-                                            checked>
-                                        <span class="toggle-btn">No</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Campos de sociedad (inicialmente deshabilitados) -->
-                            <div id="sociedadFields" class="sociedad-fields">
-                                <div class="form-grid">
-                                    <!-- País -->
-                                    <div class="form-group">
-                                        <div class="floating-label">
-                                            <select id="sociedadPais" name="sociedadPais" class="form-control select2"
-                                                disabled>
-                                                <option value="">Seleccione un país</option>
-                                            </select>
-                                            <label for="sociedadPais">País</label>
-                                            <div class="error-message" id="sociedadPaisError"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Sociedad -->
-                                    <div class="form-group">
-                                        <div class="floating-label">
-                                            <select id="sociedadNombre" name="sociedadNombre"
-                                                class="form-control select2" disabled>
-                                                <option value="">Selecciona una opción</option>
-                                            </select>
-                                            <label for="sociedadNombre">Sociedad</label>
-                                            <div class="error-message" id="sociedadNombreError"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 6: Datos Generales -->
-            <section id="datosGenerales" class="form-section" data-section="6">
-                <div class="section-header">
-                    <h2><i class="fas fa-info-circle"></i> Datos Generales</h2>
-                    <p class="section-description">Completa la información general adicional. Puedes agregar hasta 5
-                        ítems por categoría.</p>
-                </div>
-
-                <!-- Grupo de Estudios -->
-                <div class="form-group dynamic-input-group">
-                    <label class="form-label">Estudios profesionales en el área audiovisual o dramática</label>
-                    <div id="estudiosContainer" class="dynamic-input-container">
-                        <div class="input-with-actions">
-                            <input type="text" name="estudios[]" class="form-control"
-                                placeholder="Ej: Licenciatura en Artes Escénicas, Universidad de Chile">
-                            <button type="button" class="btn-remove-input" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-text-link btn-add-input" data-target="estudiosContainer">
-                        <i class="fas fa-plus"></i> Agregar otro estudio
-                    </button>
-                    <div class="input-counter"><span class="current-count">1</span>/5</div>
-                </div>
-
-                <!-- Grupo de Experiencia Docente -->
-                <div class="form-group dynamic-input-group">
-                    <label class="form-label">Labores docentes en el área audiovisual o dramática</label>
-                    <div id="docenciaContainer" class="dynamic-input-container">
-                        <div class="input-with-actions">
-                            <input type="text" name="docencia[]" class="form-control"
-                                placeholder="Ej: Profesor de Dirección Teatral, Escuela de Teatro UC">
-                            <button type="button" class="btn-remove-input" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-text-link btn-add-input" data-target="docenciaContainer">
-                        <i class="fas fa-plus"></i> Agregar otra experiencia docente
-                    </button>
-                    <div class="input-counter"><span class="current-count">1</span>/5</div>
-                </div>
-
-                <!-- Grupo de Premios -->
-                <div class="form-group dynamic-input-group">
-                    <label class="form-label">Premio o distinción en el área audiovisual o dramática</label>
-                    <div id="premiosContainer" class="dynamic-input-container">
-                        <div class="input-with-actions">
-                            <input type="text" name="premios[]" class="form-control"
-                                placeholder="Ej: Mejor Director, Festival de Cine de Valdivia 2022">
-                            <button type="button" class="btn-remove-input" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-text-link btn-add-input" data-target="premiosContainer">
-                        <i class="fas fa-plus"></i> Agregar otro premio
-                    </button>
-                    <div class="input-counter"><span class="current-count">1</span>/5</div>
-                </div>
-            </section>
-
-            <!-- Sección 7: Obras -->
-            <section id="obras" class="form-section" data-section="7">
-                <div class="section-header">
-                    <h2><i class="fas fa-film"></i> Obras</h2>
-                    <p class="section-description">Incluye las obras más representativas o recientes del o los ámbitos
-                        de postulación. <strong>Este registro no representa una declaración válida para pago de
-                            derechos, es meramente informativo para la identificación y revisión de la
-                            postulación.</strong> Puedes agregar hasta 10 obras.</p>
-                </div>
-
-                <!-- Contador de obras mejorado -->
-                <div class="obras-counter-header">
-                    <div class="obras-counter-badge">
-                        <span class="obras-counter-number">1</span> de hasta 10 obras
-                    </div>
-                </div>
-
-                <!-- Contenedor de obras dinámicas -->
-                <div class="obras-container">
-                    <div class="obras-list" id="obrasList">
-                        <!-- Primera obra (obligatoria) -->
-                        <div class="obra-item" data-obra-id="1">
-                            <div class="obra-header">
-                                <div class="obra-header-left">
-                                    <div class="obra-icon">🎬</div>
-                                    <span class="obra-number">Obra 1</span>
-                                </div>
-                                <button type="button" class="btn-remove-obra" style="display: none;"
-                                    title="Eliminar obra">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            <div class="form-grid">
-                                <!-- Campo Título de obra unificado -->
-                                <div class="form-group">
-                                    <div class="floating-label">
-                                        <input type="text" id="tituloObra1" name="tituloObra[]" class="form-control"
-                                            required>
-                                        <label for="tituloObra1">Título <span class="required">*</span></label>
-                                        <div class="error-message"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="floating-label">
-                                        <input type="number" id="anioEstrenoObra1" name="anioEstrenoObra[]"
-                                            class="form-control" min="1500" max="2100" required>
-                                        <label for="anioEstrenoObra1">Año de estreno <span
-                                                class="required">*</span></label>
-                                        <div class="error-message"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="floating-label">
-                                        <select id="ambitoObra1" name="ambitoObra[]" class="form-control select2">
-                                            <option value="">Selecciona un ámbito</option>
-                                            <option value="Audiovisual">Audiovisual</option>
-                                            <option value="Dramatico">Dramático</option>
-                                        </select>
-                                        <label for="ambitoObra1">Ámbito <span class="required">*</span></label>
-                                        <div class="error-message"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botón para agregar más obras -->
-                    <div class="obras-actions">
-                        <button type="button" class="btn btn-primary btn-add-obra" id="btnAddObra">
-                            <i class="fas fa-plus"></i> Agregar otra obra
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 8: Derechos a administrar -->
-            <section id="derechosAdministrar" class="form-section" data-section="8">
-                <div class="section-header">
-                    <h2><i class="fas fa-balance-scale"></i> Derechos a administrar</h2>
-                    <p class="section-description">Confirma estar de acuerdo con los siguientes requerimientos de
-                        postulación.</p>
-                </div>
-
-                <div class="derechos-container">
-                    <!-- Tarjeta 1: Confirmación de Obras -->
-                    <div class="derecho-card">
-                        <div class="derecho-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="derecho-content">
-                            <div class="form-check">
-                                <input type="checkbox" id="confirmacionObras" name="confirmacionObras"
-                                    class="form-check-input">
-                                <label for="confirmacionObras" class="form-check-label">
-                                    <span class="derecho-title">Confirmación de Obras</span>
-                                    <p class="derecho-text">Confirmo tener obras que ya hayan han sido exhibidas
-                                        anteriormente.</p>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tarjeta 2: Derechos de Comunicación -->
-                    <div class="derecho-card">
-                        <div class="derecho-icon">
-                            <i class="fas fa-file-contract"></i>
-                        </div>
-                        <div class="derecho-content">
-                            <div class="form-check">
-                                <input type="checkbox" id="derechosComunicacion" name="derechosComunicacion"
-                                    class="form-check-input">
-                                <label for="derechosComunicacion" class="form-check-label">
-                                    <span class="derecho-title">Derechos de Comunicación Pública</span>
-                                    <p class="derecho-text">Se refiere a la administración del derecho de comunicación
-                                        pública y adaptación de obras dramáticas, como también la administración del
-                                        Derecho de Remuneración Audiovisual, consagrado por la ley N° 20.959 "Ricardo
-                                        Larraín" y que comprende la comunicación al público, puesta a disposición,
-                                        arrendamiento y utilización directa de soportes audiovisuales de cualquier
-                                        naturaleza en los que se encuentren fijadas tus obras audiovisuales.</p>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tarjeta 3: Autorización de uso de datos personales -->
-                    <div class="derecho-card">
-                        <div class="derecho-icon">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="derecho-content">
-                            <div class="form-check">
-                                <input type="checkbox" id="autorizacionDatos" name="autorizacionDatos"
-                                    class="form-check-input">
-                                <label for="autorizacionDatos" class="form-check-label">
-                                    <span class="derecho-title">Autorización de uso de datos personales</span>
-                                    <p class="derecho-text">
-                                        Autorizo a ATN a usar los datos que entrego en este formulario, incluyendo
-                                        nombre, DNI o pasaporte, correo electrónico, teléfono, datos bancarios y, en los
-                                        casos que corresponda, información relacionada con representación legal o
-                                        situación de fallecimiento del autor.<br>
-                                        <strong>El tratamiento de estos datos tendrá como única finalidad la gestión de
-                                            la solicitud de incorporación como socio/a y, en caso de aprobación, los
-                                            procesos operacionales y administrativos de ATN.</strong><br>
-                                        Podré revisar, corregir o eliminar mis datos escribiendo a info@atn.cl.
-                                    </p>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Área de Observaciones -->
-                    <div class="observaciones-container">
-                        <label for="observacionesDerechos" class="form-label">
-                            <i class="fas fa-comment-alt"></i> Observaciones o alcances (opcional)
+            <div class="note-box">
+               <p class="note-text"><i class="fas fa-info-circle"></i><strong>NOTA IMPORTANTE: Antes de continuar,
+                  asegúrate de lo siguiente:</strong>
+               </p>
+               <ul class="note-list">
+                  <li>Contar con obras audiovisuales y/o dramáticas que ya hayan sido exhibidas.</li>
+                  <li>Tener a mano una fotocopia de tu cédula de identidad por ambos lados (del autor y del
+                     representante legal, si es que aplica).
+                  </li>
+                  <li>En caso de postular como representante legal de un autor fallecido, se requerirá
+                     adicionalmente una fotocopia de la cédula de identidad de cada heredero.
+                  </li>
+                  <li>Para una mejor experiencia, asegúrate de completar el formulario desde un navegador de
+                     escritorio (Chrome/Edge u otro).
+                  </li>
+               </ul>
+            </div>
+            <div class="form-grid">
+               <!-- Fila 1: Nombres -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="nombres" name="nombres" class="form-control" required>
+                     <label for="nombres">Nombres <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Apellido Paterno -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="apellidoPaterno" name="apellidoPaterno" class="form-control"
+                        required>
+                     <label for="apellidoPaterno">Apellido Paterno <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Apellido Materno -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="apellidoMaterno" name="apellidoMaterno" class="form-control">
+                     <label for="apellidoMaterno">Apellido Materno</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: Nacionalidad -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <select id="nacionalidad" name="nacionalidad" class="form-control select2" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="Chile">Chile</option>
+                        <!-- El resto de las opciones de país van aquí -->
+                     </select>
+                     <label for="nacionalidad">Nacionalidad <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: Tipo de Documento -->
+               <div class="form-group conditional-field" id="tipoDocumentoContainer" style="display: none;">
+                  <div class="floating-label">
+                     <select id="tipoDocumento" name="tipoDocumento" class="form-control select2" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="pasaporte">Pasaporte</option>
+                        <option value="dni">DNI</option>
+                        <option value="run-chileno">RUN Chileno</option>
+                     </select>
+                     <label for="tipoDocumento">Tipo de Identificación <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: N° ID Origen -->
+               <div class="form-group conditional-field" id="idOrigenContainer" style="display: none;">
+                  <div class="floating-label">
+                     <input type="text" id="idOrigen" name="idOrigen" class="form-control" required>
+                     <label for="idOrigen">Número de Identificación <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: RUN -->
+               <div class="form-group conditional-field" id="runContainer" style="display: none;">
+                  <div class="floating-label">
+                     <input type="text" id="run" name="run" class="form-control" placeholder="12.345.678-9"
+                        required>
+                     <label for="run">RUN <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: Fecha de Nacimiento -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control"
+                        required>
+                     <label for="fechaNacimiento">Fecha de Nacimiento <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: Fecha de Defunción -->
+               <!-- CAMPO MOVIDO A DATOS REPRESENTANTE LEGAL -->
+               <!-- Fila 4: Fotocopia Documento (Opcional) -->
+               <div class="form-group file-upload">
+                  <div class="floating-label">
+                     <input type="file" id="fotocopiaDocumento" name="fotocopiaDocumento" class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png" required>
+                     <label for="fotocopiaDocumento">Fotocopia por ambos lados de documento de identificación
+                     (PDF o imagen) <span class="required">*</span></label>
+                     <div class="file-info">
+                        <i class="fas fa-upload"></i>
+                        <span class="file-name">Seleccionar archivo</span>
+                     </div>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 4: Género -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <select id="genero" name="genero" class="form-control select2" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="otro">Otro</option>
+                        <option value="prefiero-no-decir">Prefiero no decir</option>
+                     </select>
+                     <label for="genero">Género <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 4: Seudónimo -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="seudonimo" name="seudonimo" class="form-control">
+                     <label for="seudonimo">Seudónimo</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- Sección 2: Datos de Contacto -->
+         <section id="datosContacto" class="form-section" data-section="2">
+            <div class="section-header">
+               <h2><i class="fas fa-address-book"></i> Datos de Contacto</h2>
+               <p class="section-description">Completa sus datos de contacto. Los campos marcados con <span
+                  class="required">*</span> son obligatorios.</p>
+            </div>
+            <div class="form-grid">
+               <!-- Fila 1: País de Residencia -->
+               <div class="form-group" style="display:none;">
+                  <div class="floating-label">
+                     <select id="paisResidencia" name="paisResidencia" class="form-control select2">
+                        <option value="">Selecciona un país</option>
+                        <!-- Las opciones se cargarán dinámicamente desde el JSON -->
+                     </select>
+                     <label for="paisResidencia">País de Residencia <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Estado -->
+               <div class="form-group" id="estadoContainer" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="estado" name="estado" class="form-control">
+                     <label for="estado">Estado</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Distrito -->
+               <div class="form-group" id="distritoContainer" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="distrito" name="distrito" class="form-control">
+                     <label for="distrito">Distrito</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Región -->
+               <div class="form-group" style="display:none;">
+                  <div class="floating-label">
+                     <select id="region" name="region" class="form-control select2" disabled>
+                        <option value="">Selecciona una región</option>
+                        <!-- Las opciones se cargarán dinámicamente -->
+                     </select>
+                     <label for="region">Región / Estado <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Comuna -->
+               <div class="form-group" style="display:none;">
+                  <div class="floating-label">
+                     <select id="comuna" name="comuna" class="form-control select2" disabled>
+                        <option value="">Selecciona una comuna</option>
+                        <!-- Las opciones se cargarán dinámicamente -->
+                     </select>
+                     <label for="comuna">Comuna <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: País de Residencia Backup -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <select id="paisResidenciaBackup" name="paisResidenciaBackup" class="form-control" required>
+                        <option value="">Seleccione un país</option>
+                     </select>
+                     <label for="paisResidenciaBackup">País de Residencia <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: Región/Estado backup -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <select id="regionBackup" name="regionBackup" class="form-control" disabled required>
+                        <option value="">Seleccione una región/estado</option>
+                     </select>
+                     <label for="regionBackup">Región/Estado <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: Comuna backup -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <select id="comunaBackup" name="comunaBackup" class="form-control" disabled required>
+                        <option value="">Seleccione una comuna</option>
+                     </select>
+                     <label for="comunaBackup">Comuna <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 4: Estado backup -->
+               <div class="form-group" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="estadoBackup" name="estadoBackup" class="form-control" disabled>
+                     <label for="estadoBackup">Estado</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 5: Distrito Backup -->
+               <div class="form-group" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="distritoBackup" name="distritoBackup" class="form-control" disabled>
+                     <label for="distritoBackup">Distrito</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: Dirección -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="direccion" name="direccion" class="form-control" required>
+                     <label for="direccion">Dirección (Calle y N°) <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: Depto, casa u Oficina -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="detalleDireccion" name="detalleDireccion" class="form-control">
+                     <label for="detalleDireccion">Depto, casa u oficina</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: Email -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="email" id="email" name="email" class="form-control" required>
+                     <label for="email">Correo Electrónico <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: Teléfono con código de país -->
+               <div class="form-group">
+                  <div class="phone-input-container">
+                     <div class="phone-code-selector">
+                        <select id="codigoPais" name="codigoPais" class="form-control" required>
+                           <option value="">Selecciona una opción</option>
+                           <!-- Las opciones se cargarán dinámicamente -->
+                        </select>
+                     </div>
+                     <div class="floating-label phone-number-input">
+                        <input type="tel" id="telefono" name="telefono" class="form-control" pattern="[0-9]+"
+                           required>
+                        <label for="telefono">Teléfono <span class="required">*</span></label>
+                        <div class="error-message"></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Fila 1: Estado (solo visible si país de residencia no es Chile) -->
+            </div>
+         </section>
+         <!-- Sección 3: Datos del Apoderado o Representante Legal -->
+         <section id="datosApoderado" class="form-section" data-section="3">
+            <div class="section-header">
+               <h2><i class="fas fa-user-tie"></i> Datos del Representante Legal</h2>
+               <p class="section-description">Completa los datos del representante legal (campos bloqueados en caso
+                  de que hayas marcado "No" en el mensaje anterior).
+               </p>
+            </div>
+            <div class="form-grid">
+               <!-- Fila 1: Nombres -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="apoderadoNombres" name="apoderadoNombres" class="form-control">
+                     <label for="apoderadoNombres">Nombres</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Apellido Paterno -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="apoderadoApellidoPaterno" name="apoderadoApellidoPaterno"
+                        class="form-control">
+                     <label for="apoderadoApellidoPaterno">Apellido Paterno</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Apellido Materno -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="apoderadoApellidoMaterno" name="apoderadoApellidoMaterno"
+                        class="form-control">
+                     <label for="apoderadoApellidoMaterno">Apellido Materno</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: RUN -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="text" id="apoderadoRun" name="apoderadoRun" class="form-control">
+                     <label for="apoderadoRun">RUN</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: Fotocopia Documento (Opcional) -->
+               <div class="form-group file-upload">
+                  <div class="floating-label">
+                     <input type="file" id="apoderadoDocumento" name="apoderadoDocumento" class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png">
+                     <label for="apoderadoDocumento">Fotocopia por ambos lados de cédula de identidad (PDF o
+                     imagen)</label>
+                     <div class="file-info">
+                        <i class="fas fa-upload"></i>
+                        <span class="file-name">Seleccionar archivo</span>
+                     </div>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: Email -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="email" id="apoderadoEmail" name="apoderadoEmail" class="form-control">
+                     <label for="apoderadoEmail">Email</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: Teléfono con código de país -->
+               <div class="form-group">
+                  <div class="phone-input-container">
+                     <div class="phone-code-selector">
+                        <select id="apoderadoCodigoPais" name="apoderadoCodigoPais" class="form-control">
+                           <option value="">Seleccione</option>
+                           <!-- Las opciones se cargarán dinámicamente -->
+                        </select>
+                     </div>
+                     <div class="floating-label phone-number-input">
+                        <input type="tel" id="apoderadoTelefono" name="apoderadoTelefono" class="form-control"
+                           pattern="[0-9]+">
+                        <label for="apoderadoTelefono">Teléfono</label>
+                        <div class="error-message"></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Fila X: Fecha de Defunción (solo si corresponde) -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <input type="date" id="fechaDefuncion" name="fechaDefuncion" class="form-control">
+                     <label for="fechaDefuncion">Fecha de defunción (en caso de postulación de un <strong>autor
+                     fallecido</strong>)</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Campo para posesión efectiva (se muestra solo si hay fecha de defunción) -->
+               <div class="form-group file-upload" id="documentosRepresentanteGroup" style="display: none;">
+                  <div class="floating-label">
+                     <input type="file" id="documentosRepresentante" name="documentosRepresentante" class="form-control"
+                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                     <label for="documentosRepresentante">Posesión efectiva (PDF, Word, JPG o PNG) <span class="required">*</span></label>
+                     <div class="file-info">
+                        <i class="fas fa-upload"></i>
+                        <span class="file-name">Seleccionar archivo</span>
+                     </div>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Campo para cédulas de herederos (se muestra solo si hay fecha de defunción) -->
+               <div class="form-group file-upload" id="cedulasHerederosGroup" style="display: none;">
+                  <div class="floating-label">
+                     <input type="file" id="cedulasHerederos" name="cedulasHerederos" class="form-control"
+                        accept=".pdf,.jpg,.jpeg,.png">
+                     <label for="cedulasHerederos">Fotocopia por ambos lados de cédula de identidad de todos los
+                     herederos (PDF o imagen). <a href="assets/ejemploherederos.jpg" target="_blank"
+                        title="Ver ejemplo de cómo organizar las cédulas de los herederos">Ejemplo</a></label>
+                     <div class="file-info" style="display: flex;">
+                        <i class="fas fa-upload"></i>
+                        <span class="file-name" style="display: inline-block;">Seleccionar archivo</span>
+                     </div>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- Sección 5: Datos Bancarios -->
+         <section id="datosBancarios" class="form-section" data-section="5">
+            <div class="section-header">
+               <h2><i class="fas fa-university"></i> Datos Bancarios</h2>
+               <p class="section-description">Completa tus datos bancarios donde, de ser aprobada su solicitud,
+                  recibirás los depósitos de tus importes. Los campos marcados con <span class="required">*</span>
+                  son obligatorios.
+               </p>
+            </div>
+            <div class="form-grid">
+               <!-- Fila 1: Tipo de banco -->
+               <div class="form-group">
+                  <div class="floating-label">
+                     <select id="tipoBanco" name="tipoBanco" class="form-control select2" required>
+                        <option value="">Selecciona el tipo de banco</option>
+                        <!-- Las opciones se cargarán dinámicamente -->
+                     </select>
+                     <label for="tipoBanco">Tipo de banco <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 1: Banco -->
+               <div class="form-group conditional-field" style="display:none;">
+                  <div class="floating-label">
+                     <select id="banco" name="banco" class="form-control select2">
+                        <option value="">Selecciona un banco</option>
+                        <!-- Las opciones se cargarán dinámicamente -->
+                     </select>
+                     <label for="banco">Banco <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 2: Tipo de cuenta -->
+               <div class="form-group conditional-field" style="display:none;">
+                  <div class="floating-label">
+                     <select id="tipoCuenta" name="tipoCuenta" class="form-control" required>
+                        <option value="">Selecciona el tipo de cuenta</option>
+                        <option value="Corriente">Cuenta Corriente</option>
+                        <option value="Vista">Cuenta Vista</option>
+                        <option value="Ahorro">Cuenta Ahorro</option>
+                        <option value="RUT">Cuenta RUT</option>
+                        <option value="Chequera electronica">Chequera electrónica</option>
+                     </select>
+                     <label for="tipoCuenta">Tipo de cuenta <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 3: N° de cuenta -->
+               <div class="form-group conditional-field" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="numeroCuenta" name="numeroCuenta" class="form-control"
+                        inputmode="numeric" pattern="[0-9]*" required>
+                     <label for="numeroCuenta">N° de cuenta (solo dígitos) <span
+                        class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 4: Banco (ingreso libre) -->
+               <div class="form-group conditional-field" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="bancoLibre" name="bancoLibre" class="form-control">
+                     <label for="bancoLibre">Banco <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 5: País del banco (extranjero, obligatorio) -->
+               <div class="form-group conditional-field" id="paisBancoGroup" style="display:none;">
+                  <div class="floating-label">
+                     <select id="paisBanco" name="paisBanco" class="form-control select2">
+                        <option value="">Selecciona país del banco</option>
+                        <!-- Las opciones se cargarán dinámicamente -->
+                     </select>
+                     <label for="paisBanco">País <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 6: Dirección del banco (extranjero, opcional) -->
+               <div class="form-group conditional-field" id="direccionBancoExtranjeroGroup" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="direccionBancoExtranjero" name="direccionBancoExtranjero"
+                        class="form-control">
+                     <label for="direccionBancoExtranjero">Dirección del banco (Sucursal)</label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 7: N° de cuenta extranjero (obligatorio) -->
+               <div class="form-group conditional-field" id="numeroCuentaExtranjeroGroup" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="numeroCuentaExtranjero" name="numeroCuentaExtranjero"
+                        class="form-control" required>
+                     <label for="numeroCuentaExtranjero">N° de cuenta <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+               <!-- Fila 8: Swift / IBAN (obligatorio) -->
+               <div class="form-group conditional-field" id="swiftIbanGroup" style="display:none;">
+                  <div class="floating-label">
+                     <input type="text" id="swiftIban" name="swiftIban" class="form-control" required>
+                     <label for="swiftIban">Swift / IBAN <span class="required">*</span></label>
+                     <div class="error-message"></div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- Sección 5: Datos Técnicos -->
+         <section id="datosTecnicos" class="form-section" data-section="5">
+            <div class="section-header">
+               <h2><i class="fas fa-laptop-code"></i> Datos Técnicos</h2>
+               <p class="section-description">Completa los datos de autor con los que te deseas inscribir en ATN
+               </p>
+            </div>
+            <div class="form-grid-datos-tecnicos">
+               <!-- Bloque 1: Ámbito -->
+               <div class="form-block ambito-block">
+                  <h5 class="block-title">Ámbito <span class="required">*</span></h5>
+                  <div class="button-group">
+                     <button type="button" class="btn-ambito" data-ambito="Audiovisual">
+                     <i class="fas fa-film"></i>
+                     <span>Audiovisual</span>
+                     </button>
+                     <button type="button" class="btn-ambito" data-ambito="Dramatico">
+                     <i class="fas fa-theater-masks"></i>
+                     <span>Dramático</span>
+                     </button>
+                     <input type="hidden" id="ambitoAudiovisual" name="ambito[]" value="">
+                     <input type="hidden" id="ambitoDramatico" name="ambito[]" value="">
+                  </div>
+                  <div class="error-message" id="ambitoError"></div>
+               </div>
+               <!-- Bloque 2: Clases -->
+               <div class="form-block clases-block">
+                  <h5 class="block-title">Clase <span class="required">*</span></h5>
+                  <div class="clases-grid">
+                     <!-- Clases Audiovisual -->
+                     <div class="clase-option" data-ambito="Audiovisual">
+                        <input type="checkbox" id="claseDirector" name="clase[]" value="Director">
+                        <label for="claseDirector">
+                        <i class="fas fa-video"></i>
+                        <span>Director</span>
                         </label>
-                        <div class="textarea-container">
-                            <textarea id="observacionesDerechos" name="observacionesDerechos" class="form-control"
-                                maxlength="500" rows="4"
-                                placeholder="Si tienes alguna observación, alcance o comentario sobre tu postulación, por favor indícala en este espacio."></textarea>
-                            <div class="char-counter"><span id="contadorDerechos">0</span>/500 caracteres</div>
+                     </div>
+                     <div class="clase-option" data-ambito="Audiovisual">
+                        <input type="checkbox" id="claseGuionista" name="clase[]" value="Guionista">
+                        <label for="claseGuionista">
+                        <i class="fas fa-scroll"></i>
+                        <span>Guionista</span>
+                        </label>
+                     </div>
+                     <!-- Clases Dramático -->
+                     <div class="clase-option" data-ambito="Dramatico">
+                        <input type="checkbox" id="claseDramaturgo" name="clase[]" value="Dramaturgo">
+                        <label for="claseDramaturgo">
+                        <i class="fas fa-book"></i>
+                        <span>Dramaturgo</span>
+                        </label>
+                     </div>
+                     <div class="clase-option" data-ambito="Dramatico">
+                        <input type="checkbox" id="claseCoreografo" name="clase[]" value="Coreógrafo">
+                        <label for="claseCoreografo">
+                        <i class="fas fa-shoe-prints"></i>
+                        <span>Coreógrafo</span>
+                        </label>
+                     </div>
+                     <div class="clase-option" data-ambito="Dramatico">
+                        <input type="checkbox" id="claseCompositor" name="clase[]" value="Compositor">
+                        <label for="claseCompositor">
+                        <i class="fas fa-music"></i>
+                        <span>Compositor</span>
+                        </label>
+                     </div>
+                     <div class="clase-option" data-ambito="Dramatico">
+                        <input type="checkbox" id="claseTraductor" name="clase[]" value="Traductor">
+                        <label for="claseTraductor">
+                        <i class="fas fa-language"></i>
+                        <span>Traductor</span>
+                        </label>
+                     </div>
+                  </div>
+                  <div class="error-message" id="claseError"></div>
+               </div>
+               <!-- Bloque 3: Sociedad -->
+               <div class="form-block sociedad-block">
+                  <h5 class="block-title">Sociedad de Autores</h5>
+                  <div class="sociedad-content">
+                     <div class="form-group">
+                        <label class="form-label">¿Perteneces a otra sociedad de gestión de derechos de autor en
+                        Chile y/o en el extranjero? <span class="required">*</span></label>
+                        <div class="toggle-group">
+                           <label class="toggle-option">
+                           <input type="radio" name="perteneceSociedad" value="si" class="sociedad-radio">
+                           <span class="toggle-btn">Sí</span>
+                           </label>
+                           <label class="toggle-option">
+                           <input type="radio" name="perteneceSociedad" value="no" class="sociedad-radio"
+                              checked>
+                           <span class="toggle-btn">No</span>
+                           </label>
                         </div>
-                    </div>
-
-                    <!-- Mensaje de Validación -->
-                    <div class="validation-message" id="derechosValidationMessage">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span>Debes aceptar todos los acuerdos antes de continuar.</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección 9: Documentos a firmar -->
-            <section id="documentosFirmar" class="form-section" data-section="9">
-                <div class="section-header">
-                    <h2><i class="fas fa-file-signature"></i> Documentos a Firmar</h2>
-                    <p class="section-description">Sigue los pasos a continuación para completar la documentación
-                        requerida.</p>
-                </div>
-
-                <!-- Panel de instrucciones desplegable -->
-                <div class="instruction-panel">
-                    <button type="button" class="instruction-header" aria-expanded="false"
-                        aria-controls="instruccionesDetalladas">
-                        <i class="fas fa-question-circle"></i>
-                        <span style="font-size: 1.2rem; font-weight: bold;">¿Cómo completar los documentos?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div id="instruccionesDetalladas" class="instruction-content show">
-                        <div class="instruction-steps">
-                            <div class="instruction-step">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h4>Abrir los documentos</h4>
-                                    <p>Haz clic en los botones de abajo para abrir los documentos en una nueva pestaña.
-                                        Los documentos se
-                                        abrirán en el visor de Adobe para que puedas completarlos en línea. En la
-                                        esquina inferior izquierda
-                                        encontrarás un cuadro donde podrás cambiar el idioma de la herramienta, si lo
-                                        deseas.</p>
-                                </div>
-                            </div>
-                            <div class="instruction-step">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h4>Completar y firmar en línea</h4>
-                                    <p class="documentos-instruccion">Dentro del visor de Adobe, completatodos los
-                                        campos requeridos. Al final del documento, encontrarás
-                                        un espacio para agregar tu firma electrónica. Tras hacer clic en el cuadro
-                                        podrás elegir una de las
-                                        siguientes opciones para firmar:</p>
-                                    <ul class="file-names">
-                                        <li><strong>Type/Escribir:</strong> Se firmará el documento con tu nombre.
-                                        </li>
-                                        <li><strong>Draw/Dibujar:</strong> Podrá dibujar tu firma usando el cursor y
-                                            validarla con tu nombre</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="instruction-step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h4>Confirmación</h4>
-                                    <p>Una vez finalices y envíes firmado el documento, el sistema realizará una
-                                        validación final enviando un
-                                        mail al correo ingresado para que lo confirmes. Tras esto, recibirás un nuevo
-                                        correo con una copia del
-                                        documento firmado. No deberás subir nada en este formulario
-                                    </p>
-                                </div>
-                            </div>
+                     </div>
+                     <!-- Campos de sociedad (inicialmente deshabilitados) -->
+                     <div id="sociedadFields" class="sociedad-fields">
+                        <div class="form-grid">
+                           <!-- País -->
+                           <div class="form-group">
+                              <div class="floating-label">
+                                 <select id="sociedadPais" name="sociedadPais" class="form-control select2"
+                                    disabled>
+                                    <option value="">Seleccione un país</option>
+                                 </select>
+                                 <label for="sociedadPais">País</label>
+                                 <div class="error-message" id="sociedadPaisError"></div>
+                              </div>
+                           </div>
+                           <!-- Sociedad -->
+                           <div class="form-group">
+                              <div class="floating-label">
+                                 <select id="sociedadNombre" name="sociedadNombre"
+                                    class="form-control select2" disabled>
+                                    <option value="">Selecciona una opción</option>
+                                 </select>
+                                 <label for="sociedadNombre">Sociedad</label>
+                                 <div class="error-message" id="sociedadNombreError"></div>
+                              </div>
+                           </div>
                         </div>
-                    </div>
-
-                    <!-- Parte 1: Enlaces de descarga -->
-                    <div class="documentos-descarga">
-                        <h3><i class="fas fa-download"></i> Documentos para firmar</h3>
-                        <div class="documentos-lista">
-                            <a href="#" class="documento-descarga" id="descargarSolicitud"
-                                download="Solicitud-de-incorporacion-ATN.pdf">
-                                <i class="far fa-file-pdf"></i>
-                                <span>Solicitud de incorporación</span>
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                            <a href="#" class="documento-descarga" id="descargarMandato"
-                                download="Mandato-especial-ATN.pdf">
-                                <i class="far fa-file-pdf"></i>
-                                <span>Mandato especial</span>
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                            <a href="https://atncl.odoo.com/sign/document/mail/107/405d2380-26bc-4228-99cb-1d8cee10cd0f"
-                                class="documento-descarga" id="documentoAdicional" target="_blank">
-                                <i class="far fa-file-pdf"></i>
-                                <span>Consentimiento para uso de datos</span>
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </div>
-                        <div
-                            style="margin-top: 0.75rem; padding: 0.75rem; background: #f8f9fa; border-left: 4px solid #097137; border-radius: 4px;">
-                            <p style="margin: 0; font-size: 0.95rem; color: #495057;"><strong>Nota importante:</strong>
-                                De aprobarse tu incorporación, recibirás el documento "Mandato especial" firmado por el
-                                Director General de ATN.</p>
-                        </div>
-                    </div>
-
-                    <hr class="documentos-separador">
-
-                    <!-- Parte 2: Subida de documentos -->
-
-
-                    <!-- Subtítulo explicativo antes del campo de firma -->
-
-
-                    <!-- NUEVO BLOQUE DE FIRMA Y DOCUMENTO GENERADO -->
-                    <div class="firma-electronica-block" style="margin-bottom:2rem;">
-                        <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="fas fa-pen-nib"></i> Firma
-                            electrónica del postulante</h3>
-                        <div class="firma-intro" style="margin-bottom:1rem;color:#495057;font-size:1rem;">
-                            <span style="font-size:1.1rem;">Para hacer válido el documento de Antecedentes Generales que
-                                reúne toda la información registrada
-                                en este formulario requerimos oficializarlo con tu firma. A continuación, puedes elegir
-                                si deseas subir
-                                ahora tu firma o hacerlo manualmente más adelante. Cargar una imagen de tu firma es
-                                opcional, y
-                                depende completamente de tu comodidad con este proceso.</span>
-                        </div>
-                        <div class="firma-privacidad"
-                            style="background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;padding:0.75rem 1.25rem;margin-bottom:1.2rem;display:flex;align-items:flex-start;gap:0.8rem;">
-                            <i class="fas fa-thumbtack" style="color:#097137;font-size:1.2rem;margin-top:0.2rem;"></i>
-                            <div style="font-size:1rem;color:#495057;">
-                                <strong>Importante:</strong> Tu firma solo será utilizada para incluirla en el documento
-                                de Antecedentes Generales y <strong>no se almacenará ni usará para ningún otro
-                                    fin</strong>. Esto permitirá simplificar y finalizar el proceso de postulación ya
-                                que no se requerirá ninguna otra acción por parte tuya.<br><br>
-                                <strong>¿Qué ocurre si no sube su firma?</strong><br>
-                                Si decides <strong>no subir tu firma</strong>, igualmente se generará automáticamente el
-                                documento de Antecedentes Generales con todos tus datos ingresados en el formulario
-                                <strong>excepto la firma</strong>.<br>
-                                Lo recibirás por correo electrónico una vez finalizada la postulación pero para hacerla
-                                efectiva <strong>deberás firmarlo manualmente</strong> y responder al correo adjuntando
-                                el documento firmado.
-                            </div>
-                        </div>
-                        <div class="firma-upload-block" style="margin-bottom:1.5rem;">
-                            <div
-                                style="font-weight:600;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;">
-                                <i class="fas fa-image"></i> Imagen de la firma <span
-                                    style="font-weight:400;font-size:0.98rem;color:#888;">(opcional)</span>
-                            </div>
-                            <div style="margin-bottom:0.3rem;color:#495057;font-size:0.97rem;">Suba una imagen de su
-                                firma manuscrita (JPG o PNG, máximo 2MB).</div>
-                            <div class="documento-upload-group">
-                                <label class="documento-upload-label">
-                                    <span class="sr-only">Imagen de la firma</span>
-                                    <input type="file" id="firmaPostulante" name="firmaPostulante"
-                                        accept=".jpg,.jpeg,.png" class="documento-upload-input">
-                                    <span class="documento-upload-button">
-                                        <i class="fas fa-cloud-upload-alt"></i> Seleccionar imagen
-                                    </span>
-                                </label>
-                                <div class="documento-info" id="infoFirmaPostulante">
-                                    <span class="documento-nombre">Ningún archivo seleccionado</span>
-                                    <button type="button" class="btn-eliminar-doc" data-target="firmaPostulante"
-                                        style="display: none;">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                                <div class="error-message" id="errorFirmaPostulante"></div>
-                                <div class="file-preview" id="firmaPreview" style="display:none;margin-top:1rem;">
-                                    <div style="font-size:0.95rem;color:#6c757d;margin-bottom:0.5rem;">Previsualización
-                                        de la firma:</div>
-                                    <img id="firmaImgPreview" src="" alt="Previsualización de la firma"
-                                        style="max-width:220px;max-height:120px;border:1px solid #e9ecef;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="documentos-generados-block">
-                        <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="far fa-file-pdf"></i>
-                            Documento generado automáticamente</h3>
-                        <div class="doc-gen-desc" style="color:#495057;font-size:1rem;margin-bottom:0.7rem;">
-                            El documento de <strong>Antecedentes Generales</strong> se generará automáticamente con los
-                            datos ingresados en el formulario.<br>
-                            <i class="fas fa-envelope" style="color:#097137;"></i> Se enviará a tu correo <strong>con o
-                                sin firma</strong>, según tu decisión anterior. A continuación se muestra una plantilla
-                            del documento, pero recuerda, este llegará completado con tus datos a tu email.
-                        </div>
-                        <div class="documentos-lista">
-                            <a href="./docs/ANTECEDENTES_GENERALES-1.pdf" class="documento-descarga" target="_blank"
-                                onclick="verDocumentoGenerado('antecedentes'); return false;">
-                                <i class="far fa-file-pdf"></i>
-                                <span>Antecedentes Generales (plantilla)</span>
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- FIN NUEVO BLOQUE DE FIRMA Y DOCUMENTO GENERADO -->
-
-                    <!-- Mensaje de validación general de documentos -->
-            </section>
-
-            <!-- Sección 10: Documentos subidos -->
-            <section id="documentosSubidos" class="form-section" data-section="10">
-                <div class="section-header">
-                    <h2><i class="fas fa-file-upload"></i> Resumen de Documentos</h2>
-                    <p class="section-description">Revisa todos los documentos cargados en tu postulación.</p>
-                </div>
-
-                <div class="documentos-resumen">
-                    <!-- Documento de Identidad -->
-                    <div class="documento-categoria">
-                        <h3><i class="fas fa-id-card"></i> Copia de documento de identidad</h3>
-                        <div id="resumenDocumentoIdentidad" class="documento-lista">
-                            <div class="sin-documento">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <span>Copia de documento de identidad</span>
-                                <p class="sin-documento-texto">No se ha cargado la copia del documento de identidad
-                                    nacional (cédula o pasaporte/DNI). Por favor hacerlo en el paso 1</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Documentos de Apoderado (condicional) -->
-                    <div class="documento-categoria" id="contenedorApoderado">
-                        <h3><i class="fas fa-user-tie"></i> Copia de cédula de identidad de Apoderado o Representante
-                            Legal</h3>
-                        <div id="resumenDocumentosApoderado" class="documento-lista">
-                            <div class="sin-documento">
-                                <i class="fas fa-info-circle"></i>
-                                <span>No aplica o no se han cargado documentos de apoderado</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cédulas de Herederos (condicional) -->
-                    <div class="documento-categoria" id="contenedorCedulasHerederos">
-                        <h3><i class="fas fa-users"></i> Cédulas de Herederos</h3>
-                        <div id="resumenCedulasHerederos" class="documento-lista">
-                            <div class="sin-documento">
-                                <i class="fas fa-info-circle"></i>
-                                <span>No aplica (no hay fecha de defunción registrada)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Firma del Postulante -->
-                    <div class="documento-categoria" id="contenedorFirmaPostulante">
-                        <h3><i class="fas fa-signature"></i> Firma del Postulante</h3>
-                        <div id="resumenFirmaPostulante" class="documento-lista">
-                            <div class="sin-documento">
-                                <i class="fas fa-info-circle"></i>
-                                <span>No se ha cargado la firma</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resumen de Validación -->
-                    <div class="documento-validacion" id="resumenValidacion">
-                        <div class="validacion-icono">
-                            <i class="fas fa-exclamation-circle"></i>
-                        </div>
-                        <div class="validacion-contenido">
-                            <h4>Revisión de Documentos</h4>
-                            <p>Por favor, asegúrate de haber cargado todos los documentos requeridos y haber firmado en
-                                línea la
-                                carta de solicitud, el mandato especial y el consentimiento de uso de datos antes de
-                                enviar tu
-                                postulación, para que esta pueda ser cursada por el equipo interno.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="form-navigation">
-                <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline" id="btnAtras" style="display:none;"
-                        disabled>Atrás</button>
-                    <button type="button" class="btn btn-primary" id="btnSiguiente">Siguiente</button>
-                    <button type="submit" class="btn btn-success" id="btnEnviar" style="display: none;">Enviar
-                        Solicitud</button>
-                </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </form>
-    </div>
-
-    <button id="btnDescargarPDF" class="btn btn-info hidden-for-video" style="display:none;margin:20px auto;">Descargar
-        PDF del formulario</button>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="script.js"></script>
-
-    <!-- Modal de confirmación personalizada para cancelar -->
-    <div id="modalCancelar" class="modal-atn" style="display:none;">
-        <div class="modal-atn-content">
+         </section>
+         <!-- Sección 6: Datos Generales -->
+         <section id="datosGenerales" class="form-section" data-section="6">
+            <div class="section-header">
+               <h2><i class="fas fa-info-circle"></i> Datos Generales</h2>
+               <p class="section-description">Completa la información general adicional. Puedes agregar hasta 5
+                  ítems por categoría.
+               </p>
+            </div>
+            <!-- Grupo de Estudios -->
+            <div class="form-group dynamic-input-group">
+               <label class="form-label">Estudios profesionales en el área audiovisual o dramática</label>
+               <div id="estudiosContainer" class="dynamic-input-container">
+                  <div class="input-with-actions">
+                     <input type="text" name="estudios[]" class="form-control"
+                        placeholder="Ej: Licenciatura en Artes Escénicas, Universidad de Chile">
+                     <button type="button" class="btn-remove-input" style="display: none;">
+                     <i class="fas fa-times"></i>
+                     </button>
+                  </div>
+               </div>
+               <button type="button" class="btn-text-link btn-add-input" data-target="estudiosContainer">
+               <i class="fas fa-plus"></i> Agregar otro estudio
+               </button>
+               <div class="input-counter"><span class="current-count">1</span>/5</div>
+            </div>
+            <!-- Grupo de Experiencia Docente -->
+            <div class="form-group dynamic-input-group">
+               <label class="form-label">Labores docentes en el área audiovisual o dramática</label>
+               <div id="docenciaContainer" class="dynamic-input-container">
+                  <div class="input-with-actions">
+                     <input type="text" name="docencia[]" class="form-control"
+                        placeholder="Ej: Profesor de Dirección Teatral, Escuela de Teatro UC">
+                     <button type="button" class="btn-remove-input" style="display: none;">
+                     <i class="fas fa-times"></i>
+                     </button>
+                  </div>
+               </div>
+               <button type="button" class="btn-text-link btn-add-input" data-target="docenciaContainer">
+               <i class="fas fa-plus"></i> Agregar otra experiencia docente
+               </button>
+               <div class="input-counter"><span class="current-count">1</span>/5</div>
+            </div>
+            <!-- Grupo de Premios -->
+            <div class="form-group dynamic-input-group">
+               <label class="form-label">Premio o distinción en el área audiovisual o dramática</label>
+               <div id="premiosContainer" class="dynamic-input-container">
+                  <div class="input-with-actions">
+                     <input type="text" name="premios[]" class="form-control"
+                        placeholder="Ej: Mejor Director, Festival de Cine de Valdivia 2022">
+                     <button type="button" class="btn-remove-input" style="display: none;">
+                     <i class="fas fa-times"></i>
+                     </button>
+                  </div>
+               </div>
+               <button type="button" class="btn-text-link btn-add-input" data-target="premiosContainer">
+               <i class="fas fa-plus"></i> Agregar otro premio
+               </button>
+               <div class="input-counter"><span class="current-count">1</span>/5</div>
+            </div>
+         </section>
+         <!-- Sección 7: Obras -->
+         <section id="obras" class="form-section" data-section="7">
+            <div class="section-header">
+               <h2><i class="fas fa-film"></i> Obras</h2>
+               <p class="section-description">Incluye las obras más representativas o recientes del o los ámbitos
+                  de postulación. <strong>Este registro no representa una declaración válida para pago de
+                  derechos, es meramente informativo para la identificación y revisión de la
+                  postulación.</strong> Puedes agregar hasta 10 obras.
+               </p>
+            </div>
+            <!-- Contador de obras mejorado -->
+            <div class="obras-counter-header">
+               <div class="obras-counter-badge">
+                  <span class="obras-counter-number">1</span> de hasta 10 obras
+               </div>
+            </div>
+            <!-- Contenedor de obras dinámicas -->
+            <div class="obras-container">
+               <div class="obras-list" id="obrasList">
+                  <!-- Primera obra (obligatoria) -->
+                  <div class="obra-item" data-obra-id="1">
+                     <div class="obra-header">
+                        <div class="obra-header-left">
+                           <div class="obra-icon">🎬</div>
+                           <span class="obra-number">Obra 1</span>
+                        </div>
+                        <button type="button" class="btn-remove-obra" style="display: none;"
+                           title="Eliminar obra">
+                        <i class="fas fa-times"></i>
+                        </button>
+                     </div>
+                     <div class="form-grid">
+                        <!-- Campo Título de obra unificado -->
+                        <div class="form-group">
+                           <div class="floating-label">
+                              <input type="text" id="tituloObra1" name="tituloObra[]" class="form-control"
+                                 required>
+                              <label for="tituloObra1">Título <span class="required">*</span></label>
+                              <div class="error-message"></div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="floating-label">
+                              <input type="number" id="anioEstrenoObra1" name="anioEstrenoObra[]"
+                                 class="form-control" min="1500" max="2100" required>
+                              <label for="anioEstrenoObra1">Año de estreno <span
+                                 class="required">*</span></label>
+                              <div class="error-message"></div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="floating-label">
+                              <select id="ambitoObra1" name="ambitoObra[]" class="form-control select2">
+                                 <option value="">Selecciona un ámbito</option>
+                                 <option value="Audiovisual">Audiovisual</option>
+                                 <option value="Dramatico">Dramático</option>
+                              </select>
+                              <label for="ambitoObra1">Ámbito <span class="required">*</span></label>
+                              <div class="error-message"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Botón para agregar más obras -->
+               <div class="obras-actions">
+                  <button type="button" class="btn btn-primary btn-add-obra" id="btnAddObra">
+                  <i class="fas fa-plus"></i> Agregar otra obra
+                  </button>
+               </div>
+            </div>
+         </section>
+         <!-- Sección 8: Derechos a administrar -->
+         <section id="derechosAdministrar" class="form-section" data-section="8">
+            <div class="section-header">
+               <h2><i class="fas fa-balance-scale"></i> Derechos a administrar</h2>
+               <p class="section-description">Confirma estar de acuerdo con los siguientes requerimientos de
+                  postulación.
+               </p>
+            </div>
+            <div class="derechos-container">
+               <!-- Tarjeta 1: Confirmación de Obras -->
+               <div class="derecho-card">
+                  <div class="derecho-icon">
+                     <i class="fas fa-check-circle"></i>
+                  </div>
+                  <div class="derecho-content">
+                     <div class="form-check">
+                        <input type="checkbox" id="confirmacionObras" name="confirmacionObras"
+                           class="form-check-input">
+                        <label for="confirmacionObras" class="form-check-label">
+                           <span class="derecho-title">Confirmación de Obras</span>
+                           <p class="derecho-text">Confirmo tener obras que ya hayan han sido exhibidas
+                              anteriormente.
+                           </p>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+               <!-- Tarjeta 2: Derechos de Comunicación -->
+               <div class="derecho-card">
+                  <div class="derecho-icon">
+                     <i class="fas fa-file-contract"></i>
+                  </div>
+                  <div class="derecho-content">
+                     <div class="form-check">
+                        <input type="checkbox" id="derechosComunicacion" name="derechosComunicacion"
+                           class="form-check-input">
+                        <label for="derechosComunicacion" class="form-check-label">
+                           <span class="derecho-title">Derechos de Comunicación Pública</span>
+                           <p class="derecho-text">Se refiere a la administración del derecho de comunicación
+                              pública y adaptación de obras dramáticas, como también la administración del
+                              Derecho de Remuneración Audiovisual, consagrado por la ley N° 20.959 "Ricardo
+                              Larraín" y que comprende la comunicación al público, puesta a disposición,
+                              arrendamiento y utilización directa de soportes audiovisuales de cualquier
+                              naturaleza en los que se encuentren fijadas tus obras audiovisuales.
+                           </p>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+               <!-- Tarjeta 3: Autorización de uso de datos personales -->
+               <div class="derecho-card">
+                  <div class="derecho-icon">
+                     <i class="fas fa-user-shield"></i>
+                  </div>
+                  <div class="derecho-content">
+                     <div class="form-check">
+                        <input type="checkbox" id="autorizacionDatos" name="autorizacionDatos"
+                           class="form-check-input">
+                        <label for="autorizacionDatos" class="form-check-label">
+                           <span class="derecho-title">Autorización de uso de datos personales</span>
+                           <p class="derecho-text">
+                              Autorizo a ATN a usar los datos que entrego en este formulario, incluyendo
+                              nombre, DNI o pasaporte, correo electrónico, teléfono, datos bancarios y, en los
+                              casos que corresponda, información relacionada con representación legal o
+                              situación de fallecimiento del autor.<br>
+                              <u><i>El tratamiento de estos datos tendrá como única finalidad la gestión de la solicitud de incorporación como socio/a,
+                              <b>procesos operacionales y administrativos de ATN y entrega a Instituciones de Salud para hacer efectivos los beneficios que dichas entidades ponen a disposición de los socios de ATN</b></i>.</u><br>
+                              Podré revisar, corregir o eliminar mis datos escribiendo a <i><a href="mailto:info@atn.cl">info@atn.cl</a></i>.
+                           </p>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+               <!-- Área de Observaciones -->
+               <div class="observaciones-container">
+                  <label for="observacionesDerechos" class="form-label">
+                  <i class="fas fa-comment-alt"></i> Observaciones o alcances (opcional)
+                  </label>
+                  <div class="textarea-container">
+                     <textarea id="observacionesDerechos" name="observacionesDerechos" class="form-control"
+                        maxlength="500" rows="4"
+                        placeholder="Si tienes alguna observación, alcance o comentario sobre tu postulación, por favor indícala en este espacio."></textarea>
+                     <div class="char-counter"><span id="contadorDerechos">0</span>/500 caracteres</div>
+                  </div>
+               </div>
+               <!-- Mensaje de Validación -->
+               <div class="validation-message" id="derechosValidationMessage">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>Debes aceptar todos los acuerdos antes de continuar.</span>
+               </div>
+            </div>
+         </section>
+         <!-- Sección 9: Documentos a firmar -->
+         <section id="documentosFirmar" class="form-section" data-section="9">
+            <div class="section-header">
+               <h2><i class="fas fa-file-signature"></i> Documentos a Firmar</h2>
+               <p class="section-description">Sigue los pasos a continuación para completar la documentación
+                  requerida.
+               </p>
+            </div>
+            <!-- Panel de instrucciones desplegable -->
+            <div class="instruction-panel">
+               <button type="button" class="instruction-header" aria-expanded="false"
+                  aria-controls="instruccionesDetalladas">
+               <i class="fas fa-question-circle"></i>
+               <span style="font-size: 1.2rem; font-weight: bold;">¿Cómo completar los documentos?</span>
+               <i class="fas fa-chevron-down"></i>
+               </button>
+               <div id="instruccionesDetalladas" class="instruction-content show">
+                  <div class="instruction-steps">
+                     <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                           <h4>Abrir los documentos</h4>
+                           <p>Haz clic en los botones de abajo para abrir los documentos en una nueva pestaña.
+                              Los documentos se
+                              abrirán en el visor de Adobe para que puedas completarlos en línea. En la
+                              esquina inferior izquierda
+                              encontrarás un cuadro donde podrás cambiar el idioma de la herramienta, si lo
+                              deseas.
+                           </p>
+                        </div>
+                     </div>
+                     <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                           <h4>Completar y firmar en línea</h4>
+                           <p class="documentos-instruccion">Dentro del visor de Adobe, completatodos los
+                              campos requeridos. Al final del documento, encontrarás
+                              un espacio para agregar tu firma electrónica. Tras hacer clic en el cuadro
+                              podrás elegir una de las
+                              siguientes opciones para firmar:
+                           </p>
+                           <ul class="file-names">
+                              <li><strong>Type/Escribir:</strong> Se firmará el documento con tu nombre.
+                              </li>
+                              <li><strong>Draw/Dibujar:</strong> Podrá dibujar tu firma usando el cursor y
+                                 validarla con tu nombre
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                           <h4>Confirmación</h4>
+                           <p>Una vez finalices y envíes firmado el documento, el sistema realizará una
+                              validación final enviando un
+                              mail al correo ingresado para que lo confirmes. Tras esto, recibirás un nuevo
+                              correo con una copia del
+                              documento firmado. No deberás subir nada en este formulario
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Parte 1: Enlaces de descarga -->
+               <div class="documentos-descarga">
+                  <h3><i class="fas fa-download"></i> Documentos para firmar</h3>
+                  <div class="documentos-lista">
+                     <a href="#" class="documento-descarga" id="descargarSolicitud"
+                        download="Solicitud-de-incorporacion-ATN.pdf">
+                     <i class="far fa-file-pdf"></i>
+                     <span>Solicitud de incorporación</span>
+                     <i class="fas fa-chevron-right"></i>
+                     </a>
+                     <a href="#" class="documento-descarga" id="descargarMandato"
+                        download="Mandato-especial-ATN.pdf">
+                     <i class="far fa-file-pdf"></i>
+                     <span>Mandato especial</span>
+                     <i class="fas fa-chevron-right"></i>
+                     </a>
+                     <a href="https://atncl.odoo.com/sign/document/mail/107/405d2380-26bc-4228-99cb-1d8cee10cd0f"
+                        class="documento-descarga" id="documentoAdicional" target="_blank">
+                     <i class="far fa-file-pdf"></i>
+                     <span>Consentimiento para uso de datos</span>
+                     <i class="fas fa-chevron-right"></i>
+                     </a>
+                  </div>
+                  <div
+                     style="margin-top: 0.75rem; padding: 0.75rem; background: #f8f9fa; border-left: 4px solid #097137; border-radius: 4px;">
+                     <p style="margin: 0; font-size: 0.95rem; color: #495057;"><strong>Nota importante:</strong>
+                        De aprobarse tu incorporación, recibirás el documento "Mandato especial" firmado por el
+                        Director General de ATN.
+                     </p>
+                  </div>
+               </div>
+               <hr class="documentos-separador">
+               <!-- Parte 2: Subida de documentos -->
+               <!-- Subtítulo explicativo antes del campo de firma -->
+               <!-- NUEVO BLOQUE DE FIRMA Y DOCUMENTO GENERADO -->
+               <div class="firma-electronica-block" style="margin-bottom:2rem;">
+                  <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="fas fa-pen-nib"></i> Firma
+                     electrónica del postulante
+                  </h3>
+                  <div class="firma-intro" style="margin-bottom:1rem;color:#495057;font-size:1rem;">
+                     <span style="font-size:1.1rem;">Para hacer válido el documento de Antecedentes Generales que
+                     reúne toda la información registrada
+                     en este formulario requerimos oficializarlo con tu firma. A continuación, puedes elegir
+                     si deseas subir
+                     ahora tu firma o hacerlo manualmente más adelante. Cargar una imagen de tu firma es
+                     opcional, y
+                     depende completamente de tu comodidad con este proceso.</span>
+                  </div>
+                  <div class="firma-privacidad"
+                     style="background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;padding:0.75rem 1.25rem;margin-bottom:1.2rem;display:flex;align-items:flex-start;gap:0.8rem;">
+                     <i class="fas fa-thumbtack" style="color:#097137;font-size:1.2rem;margin-top:0.2rem;"></i>
+                     <div style="font-size:1rem;color:#495057;">
+                        <strong>Importante:</strong> Tu firma solo será utilizada para incluirla en el documento
+                        de Antecedentes Generales y <strong>no se almacenará ni usará para ningún otro
+                        fin</strong>. Esto permitirá simplificar y finalizar el proceso de postulación ya
+                        que no se requerirá ninguna otra acción por parte tuya.<br><br>
+                        <strong>¿Qué ocurre si no sube su firma?</strong><br>
+                        Si decides <strong>no subir tu firma</strong>, igualmente se generará automáticamente el
+                        documento de Antecedentes Generales con todos tus datos ingresados en el formulario
+                        <strong>excepto la firma</strong>.<br>
+                        Lo recibirás por correo electrónico una vez finalizada la postulación pero para hacerla
+                        efectiva <strong>deberás firmarlo manualmente</strong> y responder al correo adjuntando
+                        el documento firmado.
+                     </div>
+                  </div>
+                  <div class="firma-upload-block" style="margin-bottom:1.5rem;">
+                     <div
+                        style="font-weight:600;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;">
+                        <i class="fas fa-image"></i> Imagen de la firma <span
+                           style="font-weight:400;font-size:0.98rem;color:#888;">(opcional)</span>
+                     </div>
+                     <div style="margin-bottom:0.3rem;color:#495057;font-size:0.97rem;">Suba una imagen de su
+                        firma manuscrita (JPG o PNG, máximo 2MB).
+                     </div>
+                     <div class="documento-upload-group">
+                        <label class="documento-upload-label">
+                        <span class="sr-only">Imagen de la firma</span>
+                        <input type="file" id="firmaPostulante" name="firmaPostulante"
+                           accept=".jpg,.jpeg,.png" class="documento-upload-input">
+                        <span class="documento-upload-button">
+                        <i class="fas fa-cloud-upload-alt"></i> Seleccionar imagen
+                        </span>
+                        </label>
+                        <div class="documento-info" id="infoFirmaPostulante">
+                           <span class="documento-nombre">Ningún archivo seleccionado</span>
+                           <button type="button" class="btn-eliminar-doc" data-target="firmaPostulante"
+                              style="display: none;">
+                           <i class="fas fa-times"></i>
+                           </button>
+                        </div>
+                        <div class="error-message" id="errorFirmaPostulante"></div>
+                        <div class="file-preview" id="firmaPreview" style="display:none;margin-top:1rem;">
+                           <div style="font-size:0.95rem;color:#6c757d;margin-bottom:0.5rem;">Previsualización
+                              de la firma:
+                           </div>
+                           <img id="firmaImgPreview" src="" alt="Previsualización de la firma"
+                              style="max-width:220px;max-height:120px;border:1px solid #e9ecef;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="documentos-generados-block">
+                  <h3 style="display:flex;align-items:center;gap:0.5rem;"><i class="far fa-file-pdf"></i>
+                     Documento generado automáticamente
+                  </h3>
+                  <div class="doc-gen-desc" style="color:#495057;font-size:1rem;margin-bottom:0.7rem;">
+                     El documento de <strong>Antecedentes Generales</strong> se generará automáticamente con los
+                     datos ingresados en el formulario.<br>
+                     <i class="fas fa-envelope" style="color:#097137;"></i> Se enviará a tu correo <strong>con o
+                     sin firma</strong>, según tu decisión anterior. A continuación se muestra una plantilla
+                     del documento, pero recuerda, este llegará completado con tus datos a tu email.
+                  </div>
+                  <div class="documentos-lista">
+                     <a href="./docs/ANTECEDENTES_GENERALES-1.pdf" class="documento-descarga" target="_blank"
+                        onclick="verDocumentoGenerado('antecedentes'); return false;">
+                     <i class="far fa-file-pdf"></i>
+                     <span>Antecedentes Generales (plantilla)</span>
+                     <i class="fas fa-chevron-right"></i>
+                     </a>
+                  </div>
+               </div>
+               <!-- FIN NUEVO BLOQUE DE FIRMA Y DOCUMENTO GENERADO -->
+               <!-- Mensaje de validación general de documentos -->
+         </section>
+         <!-- Sección 10: Documentos subidos -->
+         <section id="documentosSubidos" class="form-section" data-section="10">
+         <div class="section-header">
+         <h2><i class="fas fa-file-upload"></i> Resumen de Documentos</h2>
+         <p class="section-description">Revisa todos los documentos cargados en tu postulación.</p>
+         </div>
+         <div class="documentos-resumen">
+         <!-- Documento de Identidad -->
+         <div class="documento-categoria">
+         <h3><i class="fas fa-id-card"></i> Copia de documento de identidad</h3>
+         <div id="resumenDocumentoIdentidad" class="documento-lista">
+         <div class="sin-documento">
+         <i class="fas fa-exclamation-circle"></i>
+         <span>Copia de documento de identidad</span>
+         <p class="sin-documento-texto">No se ha cargado la copia del documento de identidad
+         nacional (cédula o pasaporte/DNI). Por favor hacerlo en el paso 1</p>
+         </div>
+         </div>
+         </div>
+         <!-- Documentos de Apoderado (condicional) -->
+         <div class="documento-categoria" id="contenedorApoderado">
+         <h3><i class="fas fa-user-tie"></i> Copia de cédula de identidad de Apoderado o Representante
+         Legal</h3>
+         <div id="resumenDocumentosApoderado" class="documento-lista">
+         <div class="sin-documento">
+         <i class="fas fa-info-circle"></i>
+         <span>No aplica o no se han cargado documentos de apoderado</span>
+         </div>
+         </div>
+         </div>
+         <!-- Cédulas de Herederos (condicional) -->
+         <div class="documento-categoria" id="contenedorCedulasHerederos">
+         <h3><i class="fas fa-users"></i> Cédulas de Herederos</h3>
+         <div id="resumenCedulasHerederos" class="documento-lista">
+         <div class="sin-documento">
+         <i class="fas fa-info-circle"></i>
+         <span>No aplica (no hay fecha de defunción registrada)</span>
+         </div>
+         </div>
+         </div>
+         <!-- Firma del Postulante -->
+         <div class="documento-categoria" id="contenedorFirmaPostulante">
+         <h3><i class="fas fa-signature"></i> Firma del Postulante</h3>
+         <div id="resumenFirmaPostulante" class="documento-lista">
+         <div class="sin-documento">
+         <i class="fas fa-info-circle"></i>
+         <span>No se ha cargado la firma</span>
+         </div>
+         </div>
+         </div>
+         <!-- Resumen de Validación -->
+         <div class="documento-validacion" id="resumenValidacion">
+         <div class="validacion-icono">
+         <i class="fas fa-exclamation-circle"></i>
+         </div>
+         <div class="validacion-contenido">
+         <h4>Revisión de Documentos</h4>
+         <p>Por favor, asegúrate de haber cargado todos los documentos requeridos y haber firmado en
+         línea la
+         carta de solicitud, el mandato especial y el consentimiento de uso de datos antes de
+         enviar tu
+         postulación, para que esta pueda ser cursada por el equipo interno.</p>
+         </div>
+         </div>
+         </div>
+         </section>
+         <div class="form-navigation">
+         <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+         <div class="btn-group">
+         <button type="button" class="btn btn-outline" id="btnAtras" style="display:none;"
+            disabled>Atrás</button>
+         <button type="button" class="btn btn-primary" id="btnSiguiente">Siguiente</button>
+         <button type="submit" class="btn btn-success" id="btnEnviar" style="display: none;">Enviar
+         Solicitud</button>
+         </div>
+         </div>
+      </form>
+      </div>
+      <button id="btnDescargarPDF" class="btn btn-info hidden-for-video" style="display:none;margin:20px auto;">Descargar
+      PDF del formulario</button>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+      <script src="script.js"></script>
+      <!-- Modal de confirmación personalizada para cancelar -->
+      <div id="modalCancelar" class="modal-atn" style="display:none;">
+         <div class="modal-atn-content">
             <div class="modal-atn-header">
-                <span class="modal-atn-title">¡Cuidado!</span>
+               <span class="modal-atn-title">¡Cuidado!</span>
             </div>
             <div class="modal-atn-body">
-                <p>¿Estás seguro de que desea cancelar el registro? Se perderán todos los datos ingresados.</p>
+               <p>¿Estás seguro de que desea cancelar el registro? Se perderán todos los datos ingresados.</p>
             </div>
             <div class="modal-atn-footer">
-                <button id="modalCancelarSi" class="btn btn-success">Sí</button>
-                <button id="modalCancelarNo" class="btn btn-secondary">No</button>
+               <button id="modalCancelarSi" class="btn btn-success">Sí</button>
+               <button id="modalCancelarNo" class="btn btn-secondary">No</button>
             </div>
-        </div>
-    </div>
-    <div id="loadingOverlay"
-        style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);z-index:9999;align-items:center;justify-content:center;">
-        <div style="text-align:center;">
+         </div>
+      </div>
+      <div id="loadingOverlay"
+         style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);z-index:9999;align-items:center;justify-content:center;">
+         <div style="text-align:center;">
             <i class="fas fa-spinner fa-spin" style="font-size:3rem;color:#097137;"></i>
             <div style="margin-top:1rem;font-size:1.2rem;color:#097137;">Cancelando y limpiando datos...</div>
-        </div>
-    </div>
-    <script>
-        // Solo permitir números en numeroCuenta
-        $(document).on('input', '#numeroCuenta', function () {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-    </script>
-    <div id="modalRepresentanteLegal" class="modal-atn" style="display:none;">
-        <div class="modal-atn-content">
+         </div>
+      </div>
+      <script>
+         // Solo permitir números en numeroCuenta
+         $(document).on('input', '#numeroCuenta', function () {
+             this.value = this.value.replace(/[^0-9]/g, '');
+         });
+      </script>
+      <div id="modalRepresentanteLegal" class="modal-atn" style="display:none;">
+         <div class="modal-atn-content">
             <div class="modal-atn-header">
-                <h3 class="modal-atn-title"><i class="fas fa-user-tie"></i> ¿Deseas registrar un representante legal?
-                    (solo se admite uno por autor)</h3>
+               <h3 class="modal-atn-title"><i class="fas fa-user-tie"></i> ¿Deseas registrar un representante legal?
+                  (solo se admite uno por autor)
+               </h3>
             </div>
             <div class="modal-atn-body modal-justificado">
-                <p>Este apartado aplica <strong>solo si el autor postulante se encuentra en una de las siguientes
-                        situaciones</strong>:<br></p>
-                <ul style="margin-bottom:1em;">
-                    <li><strong>Es menor de edad</strong>.</li>
-                    <li><strong>Reside en el extranjero</strong> y requiere representación legal en Chile.</li>
-                    <li><strong>Ha fallecido</strong>, en cuyo caso el representante legal corresponde a la
-                        <strong>sucesión hereditaria</strong>.
-                    </li>
-                </ul>
-                <div style="margin-bottom:1em;">
-                    <label style="display:block;margin-bottom:0.5em;">
-                        <input type="radio" name="opcionRepresentanteLegal" value="si"> <strong>Sí</strong>, deseo
-                        registrar un representante legal.
-                    </label>
-                    <label style="display:block;">
-                        <input type="radio" name="opcionRepresentanteLegal" value="no"> <strong>No</strong>, no necesito
-                        registrar un representante legal.
-                    </label>
-                </div>
-                <div class="note-box" style="margin-top:1em;">
-                    <p style="margin:0;"><i class="fas fa-info-circle"></i> <strong>Nota:</strong> Si seleccionas "Sí"
-                        se desplegarán los campos correspondientes para ingresar los datos del representante legal. En
-                        caso contrario, pasarás directamente al paso siguiente.</p>
-                </div>
+               <p>Este apartado aplica <strong>solo si el autor postulante se encuentra en una de las siguientes
+                  situaciones</strong>:<br>
+               </p>
+               <ul style="margin-bottom:1em;">
+                  <li><strong>Es menor de edad</strong>.</li>
+                  <li><strong>Reside en el extranjero</strong> y requiere representación legal en Chile.</li>
+                  <li><strong>Ha fallecido</strong>, en cuyo caso el representante legal corresponde a la
+                     <strong>sucesión hereditaria</strong>.
+                  </li>
+               </ul>
+               <div style="margin-bottom:1em;">
+                  <label style="display:block;margin-bottom:0.5em;">
+                  <input type="radio" name="opcionRepresentanteLegal" value="si"> <strong>Sí</strong>, deseo
+                  registrar un representante legal.
+                  </label>
+                  <label style="display:block;">
+                  <input type="radio" name="opcionRepresentanteLegal" value="no"> <strong>No</strong>, no necesito
+                  registrar un representante legal.
+                  </label>
+               </div>
+               <div class="note-box" style="margin-top:1em;">
+                  <p style="margin:0;"><i class="fas fa-info-circle"></i> <strong>Nota:</strong> Si seleccionas "Sí"
+                     se desplegarán los campos correspondientes para ingresar los datos del representante legal. En
+                     caso contrario, pasarás directamente al paso siguiente.
+                  </p>
+               </div>
             </div>
             <div class="modal-atn-footer" style="display:flex;justify-content:flex-end;gap:10px;">
-                <button id="modalRepresentanteLegalConfirmar" class="btn btn-primary" type="button"
-                    disabled>Confirmar</button>
+               <button id="modalRepresentanteLegalConfirmar" class="btn btn-primary" type="button"
+                  disabled>Confirmar</button>
             </div>
-        </div>
-    </div>
-</body>
-
+         </div>
+      </div>
+   </body>
 </html>
-
-
